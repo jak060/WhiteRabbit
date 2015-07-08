@@ -2,30 +2,28 @@ package com.example.whiterabbit;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
-
 public class MainActivity extends AppCompatActivity {
+
+    FragmentPageAdapter fragmentPageAdapter;
+    ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_fragment_container);
 
-        Button createEventBtn = (Button) findViewById(R.id.createEventButton);
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(fragmentPageAdapter);
 
-        // When user clicks "Create Event" button, start that event
-        createEventBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), CreateEvent.class);
-                startActivity(intent);
-            }
-        });
     }
 
     @Override
@@ -44,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
+            startActivity(intent);
             return true;
         }
 

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +19,7 @@ import android.widget.TimePicker;
 
 import java.util.Calendar;
 
-public class CreateEvent extends AppCompatActivity {
+public class CreateEventActivity extends AppCompatActivity {
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
@@ -39,7 +38,6 @@ public class CreateEvent extends AppCompatActivity {
         Button timeBtn = (Button) findViewById(R.id.chooseTimeBtn);
         Button dateBtn = (Button) findViewById(R.id.chooseDateBtn);
         Button mapBtn = (Button) findViewById(R.id.showMapBtn);
-
         showTime = (TextView) findViewById(R.id.showTime);
         showDate = (TextView) findViewById(R.id.showDate);
         title = (EditText) findViewById(R.id.title);
@@ -63,16 +61,18 @@ public class CreateEvent extends AppCompatActivity {
             }
         });
 
+        // When user clicks "Choose Location" button, show the map
         mapBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ActivityMap.class);
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
                 startActivityForResult(intent, 1);
             }
         });
 
     }
 
+    // This method brings a user-typed address and displays that address
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
@@ -130,6 +130,7 @@ public class CreateEvent extends AppCompatActivity {
 
             String state = "AM";
 
+            // To make time more easy to understand
             if(hour == 0) {
                 hour = 12;
             }
