@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true"
+    android:focusable="true"
+    android:transitionGroup="false"
+    android:background="#848484">
+
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:id="@+id/createAccountBtn"
+        android:textColor="#d9d9d9"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="#065751"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/firstName"
+        android:hint="First Name"
+        android:textColorHint="#d9d9d9"
+        android:inputType="textImeMultiLine"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="210dp"
+        android:textColor="#d9d9d9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:textColor="#E74343"
+        android:id="@+id/reqField1"
+        android:layout_marginTop="210dp"
+        android:layout_marginLeft="200dp"
+        android:textSize="20dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lastName"
+        android:hint="Last Name"
+        android:textColorHint="#d9d9d9"
+        android:inputType="textImeMultiLine"
+        android:layout_below="@+id/firstName"
+        android:textColor="#d9d9d9"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:textColor="#E74343"
+        android:id="@+id/reqField2"
+        android:layout_below="@+id/reqField1"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="200dp"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:hint="Email"
+        android:inputType="textImeMultiLine"
+        android:textColorHint="#d9d9d9"
+        android:layout_below="@+id/lastName"
+        android:textColor="#d9d9d9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:textColor="#E74343"
+        android:id="@+id/reqField3"
+        android:layout_below="@+id/reqField2"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="200dp"
+        android:textSize="20dp"/>
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password"
+        android:hint="Password"
+        android:textColorHint="#d9d9d9"
+        android:layout_below="@+id/email"
+        android:textColor="#d9d9d9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:textColor="#E74343"
+        android:id="@+id/reqField4"
+        android:layout_below="@+id/reqField3"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="200dp"
+        android:textSize="20dp"/>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/password"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="31dp">
+
+        <CheckBox
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="I agree to White Rabbit&apos;s terms"
+            android:textColor="#ffffff"
+            android:id="@+id/agreeBox"
+            android:checked="false" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/reqField5"
+            android:textColor="#E74343"
+            android:textSize="20dp"/>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

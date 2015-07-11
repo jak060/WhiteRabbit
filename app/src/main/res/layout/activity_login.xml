@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Welcome to White Rabbit!"
+        android:id="@+id/welcomeText3"
+        android:layout_marginTop="37dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/email"
+        android:inputType="textImeMultiLine"
+        android:layout_below="@+id/welcomeText3"
+        android:layout_alignStart="@+id/welcomeText3"
+        android:layout_marginTop="99dp"
+        android:hint="Email"
+        />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+        android:ems="10"
+        android:id="@+id/password"
+        android:layout_below="@+id/email"
+        android:layout_alignStart="@+id/email"
+        android:hint="Password" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Log in"
+        android:id="@+id/loginBtn2"
+        android:layout_below="@+id/password"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="117dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Create an Account"
+        android:id="@+id/textView"
+        android:layout_marginTop="51dp"
+        android:layout_below="@+id/loginBtn2"
+        android:layout_alignStart="@+id/loginBtn2"
+        android:layout_marginStart="36dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Forgot Password?"
+        android:id="@+id/textView2"
+        android:layout_alignBottom="@+id/passwordBtn"
+        android:layout_toStartOf="@+id/passwordBtn" />
+
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/createAccountBtn"
+        android:src="@drawable/abc_btn_check_to_on_mtrl_000"
+        android:layout_above="@+id/passwordBtn"
+        android:layout_toEndOf="@+id/textView" />
+    <ImageButton
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:id="@+id/passwordBtn"
+        android:src="@drawable/abc_btn_check_to_on_mtrl_000"
+        android:layout_toEndOf="@+id/textView"
+        android:layout_below="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:textColor="#FF0000"
+        android:id="@+id/reqField1"
+        android:layout_alignTop="@+id/email"
+        android:layout_alignStart="@+id/textView"
+        android:layout_alignBottom="@+id/email" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""
+        android:textColor="#FF0000"
+        android:id="@+id/reqField2"
+        android:layout_alignTop="@+id/password"
+        android:layout_alignStart="@+id/reqField1" />
+</RelativeLayout>
