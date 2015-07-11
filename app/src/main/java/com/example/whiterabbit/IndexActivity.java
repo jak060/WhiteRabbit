@@ -2,15 +2,18 @@ package com.example.whiterabbit;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import com.parse.Parse;
-import com.parse.ParseObject;
+import com.parse.ParseInstallation;
+import com.parse.ParsePush;
+import com.parse.SaveCallback;
+import com.parse.ParseException;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -22,6 +25,7 @@ public class IndexActivity extends AppCompatActivity {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "jkDPPMT3HKgNoIEqdxC0B75X4mts3sLl5aAUHfQu", "n5g1cmRCcy1whnp6TxmJXa4I4Y84D7SfUnHrkqgU");
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         /* For the test purposes */
         ////ParseObject testObject = new ParseObject("TestObject");
@@ -53,8 +57,19 @@ public class IndexActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        ParsePush.subscribeInBackground("", new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                if (e == null) {
+                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
+                } else {
+                    Log.e("com.parse.push", "failed to subscribe for push", e);
+                }
+            }
+        });
     }
-    
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
