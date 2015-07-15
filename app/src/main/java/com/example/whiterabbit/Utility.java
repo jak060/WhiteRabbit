@@ -1,8 +1,12 @@
 package com.example.whiterabbit;
 
 import android.app.Activity;
+import android.database.Cursor;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+
+import java.util.ArrayList;
 
 public class Utility {
 
@@ -21,5 +25,22 @@ public class Utility {
                 }
             }
         });
+    }
+    public static void createContactList(Activity activity, ArrayList<String> myList)
+    {
+        Cursor cursor = activity.getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null, null,
+                null, null);
+        // Save all of contact info into the arrays
+        while (cursor.moveToNext()) {
+            String name = cursor
+                    .getString(cursor
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phoneNumber = cursor
+                    .getString(cursor
+                            .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+
+            myList.add(name + ": " + phoneNumber);
+        }
     }
 }

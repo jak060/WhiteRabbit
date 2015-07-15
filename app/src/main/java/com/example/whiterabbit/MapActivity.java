@@ -6,9 +6,11 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -17,6 +19,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -35,6 +38,34 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
     EditText locationText; // To search the location
     ImageButton locationBtn; // To search the location
+    LocationManager mlocationManager;
+    Location globalLocation;
+    // For the debugging purpose
+    public final String TAG = this.getClass().getSimpleName();
+
+    private final LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(final Location location) {
+
+            globalLocation = location;
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            // TODO locationListenerGPS onStatusChanged
+            // Log.d(TAG, "Provedor trocado");
+        }
+
+        // @Override
+        public void onProviderEnabled(String provider) {
+            // Log.w(TAG, "PROVEDOR " + provider + " HABILITADO!");
+        }
+
+        // @Override
+        public void onProviderDisabled(String provider) {
+            // Log.w(TAG, "PROVEDOR " + provider + " DESABILITADO!");
+        }
+
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +76,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         locationText = (EditText) findViewById(R.id.locationText);
         locationBtn = (ImageButton) findViewById(R.id.locationBtn);
 
-        // Display the map
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+        MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
     }
@@ -57,18 +87,24 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         final GoogleMap tempMap = map;
 
         // When the user starts the map, start at the current position of the user
-        LocationManager locationManager = (LocationManager)
+         mlocationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
 
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
         Criteria criteria = new Criteria();
-        Location location = locationManager.getLastKnownLocation(locationManager
-                .getBestProvider(criteria, false));
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
-        LatLng startLocation = new LatLng(latitude, longitude);
-        map.setMyLocationEnabled(true); // This makes the button when the user clicks, brings the
-                                        // map to the current position
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        Log.v(TAG, "Best proviver: " + bestProvider);
+        globalLocation = getLastKnownLocation();
+
+        if(globalLocation != null) {
+            double latitude = globalLocation.getLatitude();
+            double longitude = globalLocation.getLongitude();
+            LatLng startLocation = new LatLng(latitude, longitude);
+            map.setMyLocationEnabled(true); // This makes the button when the user clicks, brings the
+            // map to the current position
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
+        }
 
         // When user clicks the button, call the method which locates the address that user has typed
         locationBtn.setOnClickListener(new View.OnClickListener() {
@@ -78,6 +114,25 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
+    }
+
+    // A method that returns the last known location
+    private Location getLastKnownLocation() {
+        mlocationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
+        List<String> providers = mlocationManager.getProviders(true);
+        Location bestLocation = null;
+        for (String provider : providers) {
+            Log.v(TAG, "Location Providers: " + provider);
+            Location l = mlocationManager.getLastKnownLocation(provider);
+            if (l == null) {
+                continue;
+            }
+            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
+                // Found best last known location: %s", l);
+                bestLocation = l;
+            }
+        }
+        return bestLocation;
     }
 
     public void locate(GoogleMap map) {

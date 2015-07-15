@@ -37,12 +37,14 @@ public class CreateAccountActivity extends AppCompatActivity {
     public String textField2 = "";
     public String textField3 = "";
     public String textField4 = "";
+    public String textField5 = "";
 
     // To check whether textFields(user inputs) are empty
     public boolean isEmpty1 = true;
     public boolean isEmpty2 = true;
     public boolean isEmpty3 = true;
     public boolean isEmpty4 = true;
+    public boolean isEmpty5 = true;
 
     // To check whether the user has checked the checkbox for the agreeing terms
     public boolean isChecked = false;
@@ -51,6 +53,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     public EditText lastName;
     public EditText email;
     public EditText password;
+    public EditText phoneNumber;
 
     // To let user know that they have to meet minimum requirements to create an account
     public TextView req1;
@@ -58,6 +61,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     public TextView req3;
     public TextView req4;
     public TextView req5;
+    public TextView req6;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,12 +76,14 @@ public class CreateAccountActivity extends AppCompatActivity {
         lastName = (EditText) findViewById(R.id.lastName);
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
+        phoneNumber = (EditText) findViewById(R.id.phoneNumber);
 
         req1 = (TextView) findViewById(R.id.reqField1);
         req2 = (TextView) findViewById(R.id.reqField2);
         req3 = (TextView) findViewById(R.id.reqField3);
         req4 = (TextView) findViewById(R.id.reqField4);
         req5 = (TextView) findViewById(R.id.reqField5);
+        req6 = (TextView) findViewById(R.id.reqField6);
 
         final CheckBox agreeTerm = (CheckBox) findViewById(R.id.agreeBox);
 
@@ -86,6 +92,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         Utility.hideKeyboard(this, lastName);
         Utility.hideKeyboard(this, email);
         Utility.hideKeyboard(this, password);
+        Utility.hideKeyboard(this, phoneNumber);
 
         // TODO: When the user clicks the Create Account Button, we need to make sure that the info goes into the database
         // When the user clicks it, go to the main page
@@ -98,6 +105,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                 textField2 = lastName.getText().toString();
                 textField3 = email.getText().toString();
                 textField4 = password.getText().toString();
+                textField5 = phoneNumber.getText().toString();
 
                 // To check whether each input is empty or not
                 if(textField1.length() > 0) {
@@ -131,25 +139,34 @@ public class CreateAccountActivity extends AppCompatActivity {
                     req4.setText("Required Field!");
                 }
 
+                if(textField5.length() > 0) {
+                    isEmpty5 = false;
+                    req5.setText("");
+                } else {
+                    isEmpty5 = true;
+                    req5.setText("Required Field!");
+                }
+
                 // If the return value is false, then it indicates that the user hasn't checked
                 // the checkbox
                 if(agreeTerm.isChecked() == false) {
                     isChecked = false;
-                    req5.setText("Required Field!");
+                    req6.setText("Required Field!");
                 } else {
                     isChecked = true;
-                    req5.setText("");
+                    req6.setText("");
                 }
 
                 Log.v(TAG, "isEmpty1:" + isEmpty1);
                 Log.v(TAG, "isEmpty2:" + isEmpty2);
                 Log.v(TAG, "isEmpty3:" + isEmpty3);
                 Log.v(TAG, "isEmpty4:" + isEmpty4);
+                Log.v(TAG, "isEmpty5:" + isEmpty5);
                 Log.v(TAG, "isChecked:" + isChecked);
 
                 // Makes sure that the user has filled each text field & checkbox & radio button
                 if(isEmpty1 == false && isEmpty2 == false && isEmpty3 == false && isEmpty4 == false
-                        && isChecked == true) {
+                        && isEmpty5 == false && isChecked == true) {
 
                     final ProgressDialog dialog = new ProgressDialog(CreateAccountActivity.this);
                     dialog.setTitle("Thank You For Your Patience");
@@ -164,6 +181,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                     user.setPassword(textField4);
                     user.put("firstName", textField1);
                     user.put("lastName", textField2);
+                    user.put("phoneNumber", textField5);
 
                     // Sign up in the background
                     user.signUpInBackground(new SignUpCallback() {

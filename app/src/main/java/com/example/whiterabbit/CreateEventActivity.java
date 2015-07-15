@@ -3,6 +3,7 @@ package com.example.whiterabbit;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,37 +12,55 @@ import android.text.format.DateFormat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.SaveCallback;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
+    ArrayList<String> friendList = new ArrayList<String>();
+
     static TextView showTime;
     static TextView showDate;
     TextView showLocation;
     EditText title;
+    TextView showInvitees;
+    public ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.create_event);
+        setContentView(R.layout.activity_create_event);
 
         // Initialization of variables
         Button timeBtn = (Button) findViewById(R.id.chooseTimeBtn);
         Button dateBtn = (Button) findViewById(R.id.chooseDateBtn);
         Button mapBtn = (Button) findViewById(R.id.showMapBtn);
+        Button inviteBtn = (Button) findViewById(R.id.inviteBtn);
+        Button sendBtn = (Button) findViewById(R.id.sendBtn);
         showTime = (TextView) findViewById(R.id.showTime);
         showDate = (TextView) findViewById(R.id.showDate);
         title = (EditText) findViewById(R.id.title);
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
+
+        showInvitees = (TextView) findViewById(R.id.inviteesTextView);
 
         // When user clicks "Choose Time" button, show the time picker
         timeBtn.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +89,55 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        // When user clicks "Choose Location" button, show the map
+        inviteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), SelectInviteeActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
+        sendBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                dialog = new ProgressDialog(CreateEventActivity.this);
+                dialog.setTitle("Thank You For Your Patience :)");
+                dialog.setMessage("Sending This Invitation. . .");
+                dialog.show();
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+
+
+                ParseObject invitationInfo = new ParseObject("invitationInfo");
+                invitationInfo.put("title", title.getText().toString());
+                invitationInfo.put("time", showTime.getText().toString());
+                invitationInfo.put("data", showDate.getText().toString());
+                invitationInfo.put("Location", showLocation.getText().toString());
+                invitationInfo.put("invitees", friendList);
+
+                invitationInfo.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        dialog.dismiss();
+
+                        if (e != null) {
+                            Toast.makeText(getApplicationContext(), "Error saving: " + e.getMessage(),
+                                    Toast.LENGTH_SHORT).show();
+
+                        } else {
+
+                            // Start the new activity
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            //intent.putExtra("image", filePath);
+                            startActivity(intent);
+                        }
+                    }
+                });
+            }
+        });
+
     }
 
     // This method brings a user-typed address and displays that address
@@ -78,6 +146,17 @@ public class CreateEventActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 showLocation.setText(data.getStringExtra("address"));
+            }
+        } else if(requestCode == 2) {
+            if(resultCode == RESULT_OK) {
+
+                StringBuilder temp = new StringBuilder();
+                friendList = data.getStringArrayListExtra("invitees");
+
+                for(int i = 0; i < friendList.size(); i++) {
+                    temp = temp.append(friendList.get(i) + "\n");
+                }
+                showInvitees.setText(temp);
             }
         }
     }
