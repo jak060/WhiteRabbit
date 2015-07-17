@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.SparseBooleanArray;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,6 +24,8 @@ public class SelectInviteeActivity extends AppCompatActivity {
     ListView invitees;
     private static ArrayList<String> contacts = new ArrayList<String>();
     private static ArrayList<String> phoneNums = new ArrayList<String>();
+    // For the debugging purpose
+    public final String TAG = this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,13 +40,32 @@ public class SelectInviteeActivity extends AppCompatActivity {
 
         Utility.createContactList(this, contacts);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_checked, contacts);
+        final SparseBooleanArray selectedItem = new SparseBooleanArray();
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, contacts);
+        invitees.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         invitees.setAdapter(arrayAdapter);
         invitees.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                CheckedTextView checkedTextView = (CheckedTextView) view;
-                String selected = ((TextView) view).getText().toString();
+
+                String selected = (String) adapterView.getItemAtPosition(i);
+
+                if (!selectedItem.get(i)) {
+                    invitees.setItemChecked(i, true);
+                    selectedItem.put(i, true);
+
+                    if (phoneNums.contains(selected) == false)
+                        phoneNums.add(selected);
+                    //Log.v(TAG, "hello");
+                } else {
+                    selectedItem.delete(i);
+                    invitees.setItemChecked(i, false);
+                    phoneNums.remove(selected);
+                    //Log.v(TAG, "world");
+                }
+/*
+                String selected = (String) adapterView.getItemAtPosition(i);
 
                 if (((CheckedTextView) view).isChecked() == false) {
                     if (phoneNums.contains(selected) == false)
@@ -53,7 +76,7 @@ public class SelectInviteeActivity extends AppCompatActivity {
                     phoneNums.remove(selected);
                 }
 
-                checkedTextView.setChecked(!checkedTextView.isChecked());
+                checkedTextView.setChecked(!checkedTextView.isChecked());*/
             }
         });
 
