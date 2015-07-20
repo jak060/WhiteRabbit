@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -23,7 +24,10 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
+import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import java.util.ArrayList;
@@ -36,6 +40,7 @@ public class CreateEventActivity extends AppCompatActivity {
     public final String TAG = this.getClass().getSimpleName();
 
     ArrayList<String> friendList = new ArrayList<String>();
+    ArrayList<String> phoneNumbers = new ArrayList<String>();
 
     static TextView showTime;
     static TextView showDate;
@@ -48,6 +53,9 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        friendList.clear();
+        phoneNumbers.clear();
 
         // Initialization of variables
         Button timeBtn = (Button) findViewById(R.id.chooseTimeBtn);
@@ -135,6 +143,24 @@ public class CreateEventActivity extends AppCompatActivity {
                         }
                     }
                 });
+
+                Utility.saveOnlyNumbers(friendList, phoneNumbers);
+                // Create our Installation query
+                Log.v(TAG, phoneNumbers.get(0));
+                if(phoneNumbers.isEmpty() == false) {
+                    // Send push notifications to users
+                    for(int i = 0; i < phoneNumbers.size(); i ++) {
+                        ParseQuery pushQuery = ParseInstallation.getQuery();
+                        pushQuery.whereEqualTo("user", phoneNumbers.get(i));
+
+                        // Send push notification to query
+                        ParsePush push = new ParsePush();
+                        push.setQuery(pushQuery); // Set our Installation query
+                        push.setMessage("Hello World!");
+                        push.sendInBackground();
+                    }
+                }
+
             }
         });
 

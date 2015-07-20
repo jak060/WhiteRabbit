@@ -12,10 +12,14 @@ import android.widget.Button;
 import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParsePush;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.ParseException;
 
 public class IndexActivity extends AppCompatActivity {
+
+    // For the debugging purpose
+    public final String TAG = this.getClass().getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +41,12 @@ public class IndexActivity extends AppCompatActivity {
 
         // Button initialization for Logging in
         Button loginBtn = (Button) findViewById(R.id.loginBtn);
+
+        if(ParseUser.getCurrentUser() != null) {
+            Log.v(TAG, "I'm already logged in!");
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
 
         // When the user clicks it, go to the Create Account page
         createBtn.setOnClickListener(new View.OnClickListener() {

@@ -1,10 +1,13 @@
 package com.example.whiterabbit;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Set;
 
 public class SelectInviteeActivity extends AppCompatActivity {
 
@@ -38,7 +42,12 @@ public class SelectInviteeActivity extends AppCompatActivity {
         invitees = (ListView) findViewById(R.id.invitees);
         Button submit = (Button) findViewById(R.id.submit);
 
-        Utility.createContactList(this, contacts);
+        //Utility.createContactList(this, contacts);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        Set<String> set = prefs.getStringSet("friendList", null);
+
+        contacts = new ArrayList<String>(set);
 
         final SparseBooleanArray selectedItem = new SparseBooleanArray();
 

@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -203,6 +204,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                             }
 
                             else {
+
+                                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                                installation.put("user", textField5);
+                                // TODO: REMOVE ALL SPECIAL CHARS FROM THE PHONE NUMBER
+                                String testPhoneNumber = (String) ParseUser.getCurrentUser().get("phoneNumber");
+                                Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + textField5);
+                                Log.v(TAG, "Phone Number At CREATE_ACCOUNT_TEST: " + testPhoneNumber);
+                                installation.saveInBackground();
+
                                 // User created the account successfully, so go to the next activity
                                 Toast.makeText(CreateAccountActivity.this, "Registered Successfully :)",
                                         Toast.LENGTH_LONG).show();

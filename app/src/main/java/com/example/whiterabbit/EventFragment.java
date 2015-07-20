@@ -8,6 +8,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+
+import com.parse.ParseUser;
+
+import org.w3c.dom.Text;
 
 public class EventFragment extends Fragment {
     private String title;
@@ -36,6 +41,9 @@ public class EventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_main, viewGroup, false);
+
+        TextView test = (TextView) view.findViewById(R.id.textView);
+        test.setText("I'm logged in as " + ParseUser.getCurrentUser().getUsername());
 
         return view;
     }
