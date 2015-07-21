@@ -1,11 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Here is My invitation!"
+        android:textColor="#ffffff"
         android:id="@+id/textView2" />
-</LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true">
+
+        <Button
+            android:layout_width="fill_parent"
+            android:layout_height="144px"
+            android:layout_weight="1"
+            android:text="Accept"
+            android:id="@+id/acceptBtn"
+            android:textColor="#ffffff"
+            android:background="#F78181" />
+
+        <Button
+            android:layout_marginLeft="3dp"
+            android:layout_width="fill_parent"
+            android:layout_height="144px"
+            android:layout_weight="1"
+            android:text="Decline"
+            android:id="@+id/declineBtn"
+            android:textColor="#ffffff"
+            android:background="#F78181"/>
+    </LinearLayout>
+</RelativeLayout>

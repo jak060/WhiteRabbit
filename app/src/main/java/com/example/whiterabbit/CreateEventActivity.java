@@ -28,7 +28,11 @@ import com.parse.ParseInstallation;
 import com.parse.ParseObject;
 import com.parse.ParsePush;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,6 +52,7 @@ public class CreateEventActivity extends AppCompatActivity {
     EditText title;
     TextView showInvitees;
     public ProgressDialog dialog;
+    String objectID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,12 +123,13 @@ public class CreateEventActivity extends AppCompatActivity {
                 dialog.setCanceledOnTouchOutside(false);
 
 
-                ParseObject invitationInfo = new ParseObject("invitationInfo");
+                final ParseObject invitationInfo = new ParseObject("invitationInfo");
                 invitationInfo.put("title", title.getText().toString());
                 invitationInfo.put("time", showTime.getText().toString());
-                invitationInfo.put("data", showDate.getText().toString());
-                invitationInfo.put("Location", showLocation.getText().toString());
+                invitationInfo.put("date", showDate.getText().toString());
+                invitationInfo.put("location", showLocation.getText().toString());
                 invitationInfo.put("invitees", friendList);
+                invitationInfo.put("owner", ParseUser.getCurrentUser());
 
                 invitationInfo.saveInBackground(new SaveCallback() {
                     @Override
@@ -136,30 +142,49 @@ public class CreateEventActivity extends AppCompatActivity {
 
                         } else {
 
+
+                            Utility.saveOnlyNumbers(friendList, phoneNumbers);
+                            // Create our Installation query
+                            Log.v(TAG, phoneNumbers.get(0));
+                            if (phoneNumbers.isEmpty() == false) {
+                                // Send push notifications to users
+                                for (int i = 0; i < phoneNumbers.size(); i++) {
+                                    ParseQuery pushQuery = ParseInstallation.getQuery();
+                                    pushQuery.whereEqualTo("user", phoneNumbers.get(i));
+
+                                    // Send push notification to query
+                                    ParsePush push = new ParsePush();
+                                    JSONObject data = new JSONObject();
+                                    try {
+                                        data.put("alert", "You have an invitation!!!");
+                                        data.put("title", title.getText().toString());
+                                        data.put("time", showTime.getText().toString());
+                                        data.put("date", showDate.getText().toString());
+                                        data.put("location", showLocation.getText().toString());
+                                        data.put("fromName", ParseUser.getCurrentUser().get("firstName"));
+                                        data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
+                                        Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
+                                        data.put("objectId", invitationInfo.getObjectId());
+
+                                    } catch (JSONException e1) {
+                                        e1.printStackTrace();
+                                    }
+                                    push.setQuery(pushQuery); // Set our Installation query
+                                    push.setData(data);
+                                    //push.setMessage("Hello World!");
+                                    push.sendInBackground();
+                                }
+                            }
+                           // objectID = invitationInfo.getObjectId();
                             // Start the new activity
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            //intent.putExtra("image", filePath);
+                            intent.putExtra("objectId", invitationInfo.getObjectId());
                             startActivity(intent);
                         }
                     }
                 });
 
-                Utility.saveOnlyNumbers(friendList, phoneNumbers);
-                // Create our Installation query
-                Log.v(TAG, phoneNumbers.get(0));
-                if(phoneNumbers.isEmpty() == false) {
-                    // Send push notifications to users
-                    for(int i = 0; i < phoneNumbers.size(); i ++) {
-                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                        pushQuery.whereEqualTo("user", phoneNumbers.get(i));
 
-                        // Send push notification to query
-                        ParsePush push = new ParsePush();
-                        push.setQuery(pushQuery); // Set our Installation query
-                        push.setMessage("Hello World!");
-                        push.sendInBackground();
-                    }
-                }
 
             }
         });

@@ -6,6 +6,9 @@ import android.util.Log;
 
 import com.parse.ParsePushBroadcastReceiver;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 // This class handles
 public class PushReceiveActivity extends ParsePushBroadcastReceiver {
 
@@ -15,10 +18,38 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
     @Override
     public void onPushOpen(Context context, Intent intent) {
         Log.v(TAG, "Push Notification Clicked!");
-        Intent myIntent = new Intent(context, RespondInvitationActivity.class);
-        myIntent.putExtras(intent.getExtras());
-        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(myIntent);
+        Intent myIntent;
+
+        try {
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+
+            if(json.getString("alert").equals("You have an invitation!!!")) {
+                myIntent = new Intent(context, RespondInvitationActivity.class);
+            } else {
+                myIntent = new Intent(context, MainActivity.class);
+            }
+
+            String test = json.getString("alert");
+            Log.v(TAG, "DO I HAVE AN: " + test);
+
+            if(json.getString("alert").equals("You have an invitation!!!")) {
+                String invitationInfo = "Title: " + json.getString("title") + "\n" + "Time: " + json.getString("time") + "\n" + "Date: " +
+                        json.getString("date") + "\n" + "Location: " + json.getString("location") + "\n" + "From - " + json.getString("fromName") +
+                        ": " + json.getString("fromNumber");
+                myIntent.putExtra("phoneNumber", json.getString("fromNumber"));
+                myIntent.putExtra("name", json.getString("fromName"));
+                myIntent.putExtra("info", invitationInfo);
+                myIntent.putExtra("objectId", json.getString("objectId"));
+            } else {
+                myIntent.putExtra("light", json.getString("indicator"));
+            }
+
+            myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(myIntent);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
 }

@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
@@ -27,8 +28,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_container);
 
+        Intent intent = getIntent();
+
+        String indicator = "hi";
+        if(intent != null) {
+            indicator = intent.getStringExtra("indicator");
+        }
+
         viewPager = (ViewPager) findViewById(R.id.pager);
-        fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager());
+        fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager(), indicator);
         viewPager.setAdapter(fragmentPageAdapter);
 
     }

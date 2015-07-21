@@ -5,15 +5,18 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class FragmentPageAdapter extends FragmentPagerAdapter{
-    public FragmentPageAdapter(FragmentManager fragmentManager) {
+    private String indicator;
+
+    public FragmentPageAdapter(FragmentManager fragmentManager, String indicator) {
         super(fragmentManager);
+        this.indicator = indicator;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch(position) {
             case 0:
-                return EventFragment.newInstance("Page # 1", 0);
+                return EventFragment.newInstance("Page # 1", 0, indicator);
             case 1:
                 return ContactListFragment.newInstance("Page # 2", 1);
             case 2:
