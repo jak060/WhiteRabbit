@@ -27,7 +27,7 @@ public class EventFragment extends Fragment {
     private String title;
     private int pageNum;
 
-    private static String indicator;
+    private String indicator;
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
@@ -44,6 +44,7 @@ public class EventFragment extends Fragment {
         bundle.putString("indicator", indicator);
 
         eventFragment.setArguments(bundle);
+
         return eventFragment;
     }
 
@@ -62,10 +63,13 @@ public class EventFragment extends Fragment {
 
         final ListView eventList = (ListView) view.findViewById(R.id.listView);
 
+        TextView loggedInAs = (TextView) view.findViewById(R.id.textView);
+        loggedInAs.setText("I'm logged in as " + ParseUser.getCurrentUser().getUsername());
+
         infoList.clear();
 
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("invitationInfo");
-        query.whereEqualTo("owner", ParseUser.getCurrentUser());
+        query.whereContains("ownerID", ParseUser.getCurrentUser().getObjectId());
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {
@@ -77,11 +81,13 @@ public class EventFragment extends Fragment {
                         invitationInfoActivity.setTime((String) list.get(i).get("time"));
                         invitationInfoActivity.setDate((String) list.get(i).get("date"));
                         invitationInfoActivity.setLocation((String) list.get(i).get("location"));
-                        invitationInfoActivity.setWith((ArrayList)list.get(i).get("invitees"));
+                        invitationInfoActivity.setWith((ArrayList) list.get(i).get("invitees"));
+                        invitationInfoActivity.setState((Integer) list.get(i).get("stateNum"));
+                        Log.v(TAG, "Current State: " + invitationInfoActivity.getState());
                         infoList.add(invitationInfoActivity);
                     }
 
-                    eventList.setAdapter(new CustomListViewAdapter(view.getContext(), infoList, indicator));
+                    eventList.setAdapter(new CustomListViewAdapter(view.getContext(), infoList));
 
                 } else {
                     Log.d(TAG, "Error: " + e.getMessage());

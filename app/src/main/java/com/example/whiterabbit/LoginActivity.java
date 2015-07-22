@@ -24,6 +24,8 @@ import android.widget.Toast;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 public class LoginActivity extends AppCompatActivity {
@@ -143,6 +145,11 @@ public class LoginActivity extends AppCompatActivity {
                             else {
                                 Toast.makeText(LoginActivity.this, "Logged In Successfully :)",
                                         Toast.LENGTH_LONG).show();
+
+                                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                                installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
+                                installation.put("userName", ParseUser.getCurrentUser());
+
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);
                             }

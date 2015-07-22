@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseObject;
@@ -66,6 +67,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 ParsePush push = new ParsePush();
                 JSONObject data = new JSONObject();
                 try {
+                    data.put("title", "From: " + ParseUser.getCurrentUser().get("firstName"));
                     data.put("alert", "Accepted!");
                     data.put("indicator", "Accept");
 
@@ -77,33 +79,12 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 push.sendInBackground();
 
                 ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
-                invitationInfo.whereEqualTo("objectId", objectId);
-                invitationInfo.findInBackground(new FindCallback<ParseObject>() {
+                invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
-                    public void done(List<ParseObject> list, ParseException e) {
-                        //InvitationInfoActivity invitationInfoActivity = new InvitationInfoActivity();
-                        invitationInfoActivity.setTitle((String) list.get(0).get("title"));
-                        invitationInfoActivity.setTime((String) list.get(0).get("time"));
-                        invitationInfoActivity.setDate((String) list.get(0).get("date"));
-                        invitationInfoActivity.setLocation((String) list.get(0).get("location"));
-                        invitationInfoActivity.setWith((ArrayList) list.get(0).get("invitees"));
-                        newList = (ArrayList) list.get(0).get("invitees");
-
-                        for(int i = 0; i < newList.size(); i++) {
-                            newList.remove(0);
-                        }
-
-                        newList.add(combined);
-                        ParseObject invitationInfomation = new ParseObject("invitationInfo");
-                        invitationInfomation.put("title", invitationInfoActivity.getTitle());
-                        invitationInfomation.put("time", invitationInfoActivity.getTime());
-                        invitationInfomation.put("date", invitationInfoActivity.getDate());
-                        invitationInfomation.put("location", invitationInfoActivity.getLocation());
-                        invitationInfomation.put("invitees", newList);
-                        invitationInfomation.put("owner", ParseUser.getCurrentUser());
-
-                        invitationInfomation.saveInBackground();
-
+                    public void done(ParseObject parseObject, ParseException e) {
+                        parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) - 1);
+                        parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
+                        parseObject.saveInBackground();
                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                         startActivity(intent);
                     }

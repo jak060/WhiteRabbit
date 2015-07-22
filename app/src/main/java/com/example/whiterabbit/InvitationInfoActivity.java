@@ -3,12 +3,15 @@ package com.example.whiterabbit;
 
 import java.util.ArrayList;
 
+// This class temporarily saves the information of the invitation
 public class InvitationInfoActivity {
-    private String title;
-    private String time;
-    private String date;
-    private String location;
-    private ArrayList<String> with;
+    private String title; // To hold the title
+    private String time; // To hold the time
+    private String date; // To hold the date
+    private String location; // To hold the location
+    private ArrayList<String> with; // To hold the invitees
+    private int state; // To hold the state of the invitation.
+                          // It can be accepted, declined, or inProgress
 
     public void setTitle(String title) {
         this.title = title;
@@ -30,6 +33,8 @@ public class InvitationInfoActivity {
         this.with = with;
     }
 
+    public void setState(int state) { this.state = state; }
+
     public String getTitle() {
         return title;
     }
@@ -49,4 +54,6 @@ public class InvitationInfoActivity {
     public ArrayList<String> getWith() {
         return with;
     }
+
+    public int getState() { return state; }
 }

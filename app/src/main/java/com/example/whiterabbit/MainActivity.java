@@ -30,10 +30,15 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String indicator = "hi";
+        String indicator = "inProgress";
         if(intent != null) {
             indicator = intent.getStringExtra("indicator");
+            if(indicator == null) {
+                indicator = "inProgress";
+            }
         }
+
+        Log.v(TAG, "WHAT'S THE INDICATION? " + indicator);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
         fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager(), indicator);

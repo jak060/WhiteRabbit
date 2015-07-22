@@ -128,8 +128,11 @@ public class CreateEventActivity extends AppCompatActivity {
                 invitationInfo.put("time", showTime.getText().toString());
                 invitationInfo.put("date", showDate.getText().toString());
                 invitationInfo.put("location", showLocation.getText().toString());
+                String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));
+                friendList.add(myself);
                 invitationInfo.put("invitees", friendList);
-                invitationInfo.put("owner", ParseUser.getCurrentUser());
+                invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
+                invitationInfo.put("stateNum", friendList.size() - 1);
 
                 invitationInfo.saveInBackground(new SaveCallback() {
                     @Override
@@ -149,36 +152,38 @@ public class CreateEventActivity extends AppCompatActivity {
                             if (phoneNumbers.isEmpty() == false) {
                                 // Send push notifications to users
                                 for (int i = 0; i < phoneNumbers.size(); i++) {
-                                    ParseQuery pushQuery = ParseInstallation.getQuery();
-                                    pushQuery.whereEqualTo("user", phoneNumbers.get(i));
+                                    if(!phoneNumbers.get(i).equals(ParseUser.getCurrentUser().get("phoneNumber"))) {
+                                        ParseQuery pushQuery = ParseInstallation.getQuery();
+                                        pushQuery.whereEqualTo("user", phoneNumbers.get(i));
 
-                                    // Send push notification to query
-                                    ParsePush push = new ParsePush();
-                                    JSONObject data = new JSONObject();
-                                    try {
-                                        data.put("alert", "You have an invitation!!!");
-                                        data.put("title", title.getText().toString());
-                                        data.put("time", showTime.getText().toString());
-                                        data.put("date", showDate.getText().toString());
-                                        data.put("location", showLocation.getText().toString());
-                                        data.put("fromName", ParseUser.getCurrentUser().get("firstName"));
-                                        data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
-                                        Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
-                                        data.put("objectId", invitationInfo.getObjectId());
+                                        // Send push notification to query
+                                        ParsePush push = new ParsePush();
+                                        JSONObject data = new JSONObject();
+                                        try {
+                                            data.put("alert", "You have an invitation!!!");
+                                            data.put("title", title.getText().toString());
+                                            data.put("time", showTime.getText().toString());
+                                            data.put("date", showDate.getText().toString());
+                                            data.put("location", showLocation.getText().toString());
+                                            data.put("fromName", ParseUser.getCurrentUser().get("firstName"));
+                                            data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
+                                            Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
+                                            data.put("objectId", invitationInfo.getObjectId());
 
-                                    } catch (JSONException e1) {
-                                        e1.printStackTrace();
+                                        } catch (JSONException e1) {
+                                            e1.printStackTrace();
+                                        }
+                                        push.setQuery(pushQuery); // Set our Installation query
+                                        push.setData(data);
+                                        //push.setMessage("Hello World!");
+                                        push.sendInBackground();
                                     }
-                                    push.setQuery(pushQuery); // Set our Installation query
-                                    push.setData(data);
-                                    //push.setMessage("Hello World!");
-                                    push.sendInBackground();
+
                                 }
                             }
                            // objectID = invitationInfo.getObjectId();
                             // Start the new activity
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            intent.putExtra("objectId", invitationInfo.getObjectId());
                             startActivity(intent);
                         }
                     }

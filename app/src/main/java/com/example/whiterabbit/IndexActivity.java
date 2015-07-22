@@ -29,7 +29,7 @@ public class IndexActivity extends AppCompatActivity {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, "jkDPPMT3HKgNoIEqdxC0B75X4mts3sLl5aAUHfQu", "n5g1cmRCcy1whnp6TxmJXa4I4Y84D7SfUnHrkqgU");
-        //ParseInstallation.getCurrentInstallation().saveInBackground();
+        ParseInstallation.getCurrentInstallation().saveInBackground();
 
         /* For the test purposes */
         ////ParseObject testObject = new ParseObject("TestObject");
@@ -44,6 +44,8 @@ public class IndexActivity extends AppCompatActivity {
 
         if(ParseUser.getCurrentUser() != null) {
             Log.v(TAG, "I'm already logged in!");
+            ParseInstallation.getCurrentInstallation().put("userName", ParseUser.getCurrentUser());
+            ParseInstallation.getCurrentInstallation().put("user", ParseUser.getCurrentUser().get("phoneNumber"));
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }

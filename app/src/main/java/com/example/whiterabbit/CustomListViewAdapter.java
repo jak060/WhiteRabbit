@@ -15,12 +15,10 @@ public class CustomListViewAdapter extends BaseAdapter{
 
     private LayoutInflater layoutInflater;
     private ArrayList<InvitationInfoActivity> infoList;
-    private String indicator = "";
 
-    public CustomListViewAdapter(Context context, ArrayList<InvitationInfoActivity> infoList, String indicator) {
+    public CustomListViewAdapter(Context context, ArrayList<InvitationInfoActivity> infoList) {
         this.infoList = infoList;
         layoutInflater = LayoutInflater.from(context);
-        this.indicator = indicator;
     }
 
     public int getCount() {
@@ -60,10 +58,18 @@ public class CustomListViewAdapter extends BaseAdapter{
         }
 
         String temp = "Title: " + infoList.get(position).getTitle() + "\n" + "When: " + infoList.get(position).getTime() + ", " +
-                infoList.get(position).getDate() + "\n" + "Where: " + infoList.get(position).getLocation() + "W/ " + finalString;
+                infoList.get(position).getDate() + "\n" + "Where: " + infoList.get(position).getLocation() + "Participants:\n" + finalString;
         holder.information.setText(temp);
 
-        holder.light.setBackgroundColor(Color.parseColor("#F7D358"));
+        if(infoList.get(position).getState() == 0) {
+            holder.light.setBackgroundColor(Color.parseColor("#00FF00")); // Green light
+        } else if(infoList.get(position).getState() > 0 || infoList.get(position).getState() <= infoList.get(position).getWith().size()) {
+            holder.light.setBackgroundColor(Color.parseColor("#F7D358")); // Yellow light
+        } else {
+            holder.light.setBackgroundColor(Color.parseColor("#FF0000")); // Red light
+
+        }
+
         return convertView;
 
     }

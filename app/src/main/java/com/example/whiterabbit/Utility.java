@@ -60,4 +60,12 @@ public class Utility {
             dest.add(temp);
         }
     }
+
+    public static String phoneNumberFormat(String phoneNumber) {
+        String temp = phoneNumber.substring(0, 3);
+        String temp2 = phoneNumber.substring(3, 6);
+        String temp3 = phoneNumber.substring(6);
+        String finalFormat = "(" + temp + ")" + temp2 + "-" + temp3;
+        return finalFormat;
+    }
 }

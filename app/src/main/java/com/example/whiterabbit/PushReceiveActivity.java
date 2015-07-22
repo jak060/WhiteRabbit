@@ -35,7 +35,7 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
             if(json.getString("alert").equals("You have an invitation!!!")) {
                 String invitationInfo = "Title: " + json.getString("title") + "\n" + "Time: " + json.getString("time") + "\n" + "Date: " +
                         json.getString("date") + "\n" + "Location: " + json.getString("location") + "\n" + "From - " + json.getString("fromName") +
-                        ": " + json.getString("fromNumber");
+                        ": " + Utility.phoneNumberFormat(json.getString("fromNumber"));
                 myIntent.putExtra("phoneNumber", json.getString("fromNumber"));
                 myIntent.putExtra("name", json.getString("fromName"));
                 myIntent.putExtra("info", invitationInfo);

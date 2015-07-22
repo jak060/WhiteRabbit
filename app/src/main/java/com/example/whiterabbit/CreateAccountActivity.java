@@ -207,6 +207,7 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                                 installation.put("user", textField5);
+                                installation.put("userName", ParseUser.getCurrentUser());
                                 // TODO: REMOVE ALL SPECIAL CHARS FROM THE PHONE NUMBER
                                 String testPhoneNumber = (String) ParseUser.getCurrentUser().get("phoneNumber");
                                 Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + textField5);
