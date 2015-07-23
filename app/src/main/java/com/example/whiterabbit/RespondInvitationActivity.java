@@ -62,14 +62,13 @@ public class RespondInvitationActivity  extends AppCompatActivity{
             public void onClick(View view) {
                 ParseQuery pushQuery = ParseInstallation.getQuery();
                 pushQuery.whereEqualTo("user", phoneNumber);
-                final InvitationInfoActivity invitationInfoActivity = new InvitationInfoActivity();
+
                 // Send push notification to query
                 ParsePush push = new ParsePush();
                 JSONObject data = new JSONObject();
                 try {
                     data.put("title", "From: " + ParseUser.getCurrentUser().get("firstName"));
-                    data.put("alert", "Accepted!");
-                    data.put("indicator", "Accept");
+                    data.put("alert", "Accepted :)");
 
                 } catch(JSONException e) {
                     e.printStackTrace();
@@ -97,7 +96,34 @@ public class RespondInvitationActivity  extends AppCompatActivity{
         declineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                ParseQuery pushQuery = ParseInstallation.getQuery();
+                pushQuery.whereEqualTo("user", phoneNumber);
 
+                // Send push notification to query
+                ParsePush push = new ParsePush();
+                JSONObject data = new JSONObject();
+                try {
+                    data.put("title", "From: " + ParseUser.getCurrentUser().get("firstName"));
+                    data.put("alert", "Declined :(");
+
+                } catch(JSONException e) {
+                    e.printStackTrace();
+                }
+                push.setQuery(pushQuery); // Set our Installation query
+                push.setData(data);
+                push.sendInBackground();
+
+                ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
+                invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) + ((ArrayList)parseObject.get("invitees")).size());
+
+                        parseObject.saveInBackground();
+                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                        startActivity(intent);
+                    }
+                });
             }
         });
     }

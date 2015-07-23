@@ -27,21 +27,18 @@ public class EventFragment extends Fragment {
     private String title;
     private int pageNum;
 
-    private String indicator;
-
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
     private ArrayList <InvitationInfoActivity> infoList = new ArrayList<InvitationInfoActivity>();
 
-    public static EventFragment newInstance(String title, int pageNum, String indicator) {
+    public static EventFragment newInstance(String title, int pageNum) {
 
         EventFragment eventFragment = new EventFragment();
 
         Bundle bundle = new Bundle();
         bundle.putInt("pageNumber", pageNum);
         bundle.putString("pageTitle", title);
-        bundle.putString("indicator", indicator);
 
         eventFragment.setArguments(bundle);
 
@@ -53,8 +50,6 @@ public class EventFragment extends Fragment {
         super.onCreate(savedInstanceState);
         pageNum = getArguments().getInt("pageNumber", 0);
         title = getArguments().getString("pageTitle");
-        indicator = getArguments().getString("indicator");
-
     }
 
     @Override

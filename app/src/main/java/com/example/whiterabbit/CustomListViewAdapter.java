@@ -41,6 +41,7 @@ public class CustomListViewAdapter extends BaseAdapter{
             holder = new Holder();
             holder.information = (TextView) convertView.findViewById(R.id.event);
             holder.light = (Button) convertView.findViewById((R.id.signalLight));
+            holder.status = (TextView) convertView.findViewById(R.id.status);
             convertView.setTag(holder);
 
         } else {
@@ -63,11 +64,13 @@ public class CustomListViewAdapter extends BaseAdapter{
 
         if(infoList.get(position).getState() == 0) {
             holder.light.setBackgroundColor(Color.parseColor("#00FF00")); // Green light
-        } else if(infoList.get(position).getState() > 0 || infoList.get(position).getState() <= infoList.get(position).getWith().size()) {
+            holder.status.setText("Accepted");
+        } else if((infoList.get(position).getState() > 0) && (infoList.get(position).getState() < infoList.get(position).getWith().size())) {
             holder.light.setBackgroundColor(Color.parseColor("#F7D358")); // Yellow light
+            holder.status.setText("Pending");
         } else {
             holder.light.setBackgroundColor(Color.parseColor("#FF0000")); // Red light
-
+            holder.status.setText("Declined");
         }
 
         return convertView;
@@ -77,6 +80,7 @@ public class CustomListViewAdapter extends BaseAdapter{
     static class Holder {
         TextView information;
         Button light;
+        TextView status;
     }
 
 }

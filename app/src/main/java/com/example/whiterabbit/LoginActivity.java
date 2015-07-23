@@ -149,6 +149,7 @@ public class LoginActivity extends AppCompatActivity {
                                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                                 installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
                                 installation.put("userName", ParseUser.getCurrentUser());
+                                installation.saveInBackground();
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);

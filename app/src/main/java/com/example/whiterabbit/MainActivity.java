@@ -28,20 +28,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_container);
 
-        Intent intent = getIntent();
-
-        String indicator = "inProgress";
-        if(intent != null) {
-            indicator = intent.getStringExtra("indicator");
-            if(indicator == null) {
-                indicator = "inProgress";
-            }
-        }
-
-        Log.v(TAG, "WHAT'S THE INDICATION? " + indicator);
-
         viewPager = (ViewPager) findViewById(R.id.pager);
-        fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager(), indicator);
+        fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPageAdapter);
 
     }

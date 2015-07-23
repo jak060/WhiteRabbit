@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
 public class CreateAccountActivity extends AppCompatActivity {
@@ -212,7 +213,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                                 String testPhoneNumber = (String) ParseUser.getCurrentUser().get("phoneNumber");
                                 Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + textField5);
                                 Log.v(TAG, "Phone Number At CREATE_ACCOUNT_TEST: " + testPhoneNumber);
-                                installation.saveInBackground();
+                                installation.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        Log.v(TAG, "REGISTERED SUCCESSFULLY !!!!!");
+                                    }
+                                });
 
                                 // User created the account successfully, so go to the next activity
                                 Toast.makeText(CreateAccountActivity.this, "Registered Successfully :)",
