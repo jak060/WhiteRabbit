@@ -26,9 +26,6 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-        // Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "jkDPPMT3HKgNoIEqdxC0B75X4mts3sLl5aAUHfQu", "n5g1cmRCcy1whnp6TxmJXa4I4Y84D7SfUnHrkqgU");
         //ParseInstallation.getCurrentInstallation().saveInBackground();
 
         /* For the test purposes */

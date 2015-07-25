@@ -16,7 +16,7 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
     public final String TAG = this.getClass().getSimpleName();
 
     @Override
-    public void onPushOpen(Context context, Intent intent) {
+    public void onPushReceive(Context context, Intent intent) {
         Log.v(TAG, "Push Notification Clicked!");
         Intent myIntent;
 
