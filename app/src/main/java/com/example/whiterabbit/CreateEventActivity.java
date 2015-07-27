@@ -46,12 +46,19 @@ public class CreateEventActivity extends AppCompatActivity {
     ArrayList<String> friendList = new ArrayList<String>();
     ArrayList<String> phoneNumbers = new ArrayList<String>();
 
+    EditText title;
+
     static TextView showTime;
     static TextView showDate;
     TextView showLocation;
-    EditText title;
     TextView showInvitees;
+    TextView timeLabel;
+    TextView dateLabel;
+    TextView locationLabel;
+    TextView peopleLabel;
+
     public ProgressDialog dialog;
+
     String objectID = "";
 
     @Override
@@ -63,20 +70,21 @@ public class CreateEventActivity extends AppCompatActivity {
         phoneNumbers.clear();
 
         // Initialization of variables
-        Button timeBtn = (Button) findViewById(R.id.chooseTimeBtn);
-        Button dateBtn = (Button) findViewById(R.id.chooseDateBtn);
-        Button mapBtn = (Button) findViewById(R.id.showMapBtn);
-        Button inviteBtn = (Button) findViewById(R.id.inviteBtn);
-        Button sendBtn = (Button) findViewById(R.id.sendBtn);
+        title = (EditText) findViewById(R.id.title);
+
+        timeLabel = (TextView) findViewById(R.id.time_label);
+        dateLabel = (TextView) findViewById(R.id.date_label);
+        locationLabel = (TextView) findViewById(R.id.location_label);
+        peopleLabel = (TextView) findViewById(R.id.people_label);
+
         showTime = (TextView) findViewById(R.id.showTime);
         showDate = (TextView) findViewById(R.id.showDate);
-        title = (EditText) findViewById(R.id.title);
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
-
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
 
-        // When user clicks "Choose Time" button, show the time picker
-        timeBtn.setOnClickListener(new View.OnClickListener() {
+        Button sendBtn = (Button) findViewById(R.id.sendBtn);
+
+        timeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment dialogFragment = new TimePickerFragment();
@@ -84,8 +92,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        // When user clicks "Choose Date" button, show the date picker
-        dateBtn.setOnClickListener(new View.OnClickListener() {
+        dateLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment dialogFragment = new DatePickerFragment();
@@ -93,8 +100,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        // When user clicks "Choose Location" button, show the map
-        mapBtn.setOnClickListener(new View.OnClickListener() {
+        locationLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
@@ -102,8 +108,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        // When user clicks "Choose Location" button, show the map
-        inviteBtn.setOnClickListener(new View.OnClickListener() {
+        peopleLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SelectInviteeActivity.class);
