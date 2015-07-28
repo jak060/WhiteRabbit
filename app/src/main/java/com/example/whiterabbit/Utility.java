@@ -61,6 +61,8 @@ public class Utility {
         }
     }
 
+    // This method changes 0001112222 to (000)111-2222
+    // Only to have a better readability
     public static String phoneNumberFormat(String phoneNumber) {
         String temp = phoneNumber.substring(0, 3);
         String temp2 = phoneNumber.substring(3, 6);

@@ -75,6 +75,7 @@ public class ContactListFragment extends Fragment {
 
         friends = (ListView) view.findViewById(R.id.friends);
 
+        // Clear all the lists
         contacts.clear();
         phoneNums.clear();
         finalFriendList.clear();
@@ -91,11 +92,10 @@ public class ContactListFragment extends Fragment {
         // Check whether those phone numbers are in the database
         checkPhoneNumbersFromDB();
 
-//        Log.v(TAG, lookUpTable.get(phoneNums.get(5))
-       // friends.setAdapter(arrayAdapter);
         return view;
     }
 
+    // This method checks database to see whether certain phone numbers are in there
     public void checkPhoneNumbersFromDB() {
         // A parse query which brings users from the database
         ParseQuery<ParseUser> query = ParseUser.getQuery();
@@ -125,8 +125,10 @@ public class ContactListFragment extends Fragment {
                         }
                     }
 
+                    // This is to share this friends list with other activities
                     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
                     SharedPreferences.Editor editor = prefs.edit();
+
                     //Set the values
                     Set<String> set = new HashSet<String>();
                     set.addAll(finalFriendList);

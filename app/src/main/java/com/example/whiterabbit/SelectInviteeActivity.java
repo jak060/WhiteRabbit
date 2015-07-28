@@ -23,11 +23,17 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Set;
 
+// This class handles the case when user select invitees in CreateEventActivity page
 public class SelectInviteeActivity extends AppCompatActivity {
 
     ListView invitees;
+
+    // To hold contacts
     private static ArrayList<String> contacts = new ArrayList<String>();
+
+    // To hold only phone numbers
     private static ArrayList<String> phoneNums = new ArrayList<String>();
+
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
@@ -36,6 +42,7 @@ public class SelectInviteeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_invitee);
 
+        // Make sure to clear lists before using them
         contacts.clear();
         phoneNums.clear();
 
@@ -44,13 +51,18 @@ public class SelectInviteeActivity extends AppCompatActivity {
 
         //Utility.createContactList(this, contacts);
 
+        // Use this shared friendList from ContactListFragment
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         Set<String> set = prefs.getStringSet("friendList", null);
 
+        // And copy it to the ArrayList
         contacts = new ArrayList<String>(set);
 
         final SparseBooleanArray selectedItem = new SparseBooleanArray();
 
+        // These lines of code handles the case with checkbox
+        // If checkbox is selected => put that phone number into the ArrayList
+        // Else => remove it or do nothing if that phone number hasn't been selected before
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, contacts);
         invitees.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         invitees.setAdapter(arrayAdapter);
@@ -66,29 +78,18 @@ public class SelectInviteeActivity extends AppCompatActivity {
 
                     if (phoneNums.contains(selected) == false)
                         phoneNums.add(selected);
-                    //Log.v(TAG, "hello");
+
                 } else {
                     selectedItem.delete(i);
                     invitees.setItemChecked(i, false);
                     phoneNums.remove(selected);
-                    //Log.v(TAG, "world");
-                }
-/*
-                String selected = (String) adapterView.getItemAtPosition(i);
 
-                if (((CheckedTextView) view).isChecked() == false) {
-                    if (phoneNums.contains(selected) == false)
-                        phoneNums.add(selected);
-                    //phoneNums.remove(selected);
-
-                } else {
-                    phoneNums.remove(selected);
                 }
 
-                checkedTextView.setChecked(!checkedTextView.isChecked());*/
             }
         });
 
+        // Put this result back to the CreateEventActivity
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

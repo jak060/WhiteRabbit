@@ -92,11 +92,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
+        // If we can find any location provider that meets our criteria,
+        // then set it up
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
         Log.v(TAG, "Best proviver: " + bestProvider);
         globalLocation = getLastKnownLocation();
 
+        // If we found one, use it as the current location
         if(globalLocation != null) {
             double latitude = globalLocation.getLatitude();
             double longitude = globalLocation.getLongitude();

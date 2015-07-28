@@ -36,6 +36,8 @@ public class CustomListViewAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
         String finalString = "";
+
+        // If we haven't initialized this convertView, set it up
         if(convertView == null) {
             convertView = layoutInflater.inflate(R.layout.activity_custom_event_row, null);
             holder = new Holder();
@@ -44,24 +46,33 @@ public class CustomListViewAdapter extends BaseAdapter{
             holder.status = (TextView) convertView.findViewById(R.id.status);
             convertView.setTag(holder);
 
-        } else {
+        }
+
+        // Otherwise, user the existing ones
+        else {
             holder = (Holder) convertView.getTag();
         }
 
+
+        // To hold the final string of invitees
         StringBuilder tempStringBuilder = new StringBuilder();
 
         for(int i = 0; i < infoList.get(position).getWith().size(); i++) {
             tempStringBuilder = tempStringBuilder.append(infoList.get(position).getWith().get(i) + ", ");
 
         }
+
+        // final string of all invitees without the last comma
         if(tempStringBuilder.length() > 0) {
             finalString = tempStringBuilder.substring(0, tempStringBuilder.lastIndexOf(","));
         }
 
+        // Set up the string of all the invitation information
         String temp = "Title: " + infoList.get(position).getTitle() + "\n" + "When: " + infoList.get(position).getTime() + ", " +
                 infoList.get(position).getDate() + "\n" + "Where: " + infoList.get(position).getLocation() + "Participants:\n" + finalString;
         holder.information.setText(temp);
 
+        // This is to show indication light for events
         if(infoList.get(position).getState() == 0) {
             holder.light.setBackgroundColor(Color.parseColor("#00FF00")); // Green light
             holder.status.setText("Accepted");

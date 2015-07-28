@@ -72,8 +72,9 @@ public class CreateEventActivity extends AppCompatActivity {
         showDate = (TextView) findViewById(R.id.showDate);
         title = (EditText) findViewById(R.id.title);
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
-
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
+
+        //showTime.setText(Calendar.getInstance().getTime().toString());
 
         // When user clicks "Choose Time" button, show the time picker
         timeBtn.setOnClickListener(new View.OnClickListener() {
@@ -115,6 +116,7 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                // Set up the progress dialog
                 dialog = new ProgressDialog(CreateEventActivity.this);
                 dialog.setTitle("Thank You For Your Patience :)");
                 dialog.setMessage("Sending This Invitation. . .");
@@ -123,6 +125,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 dialog.setCanceledOnTouchOutside(false);
 
 
+                // Put every invitation info into the database
                 final ParseObject invitationInfo = new ParseObject("invitationInfo");
                 invitationInfo.put("title", title.getText().toString());
                 invitationInfo.put("time", showTime.getText().toString());
@@ -134,6 +137,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
                 invitationInfo.put("stateNum", friendList.size() - 1);
 
+                // Save in the database
                 invitationInfo.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -146,7 +150,9 @@ public class CreateEventActivity extends AppCompatActivity {
                         } else {
 
 
+                            // Make sure we save only numbers from the phone number (W/o "(", ")", "-")
                             Utility.saveOnlyNumbers(friendList, phoneNumbers);
+
                             // Create our Installation query
                             Log.v(TAG, phoneNumbers.get(0));
                             if (phoneNumbers.isEmpty() == false) {
@@ -175,14 +181,12 @@ public class CreateEventActivity extends AppCompatActivity {
                                         }
                                         push.setQuery(pushQuery); // Set our Installation query
                                         push.setData(data);
-                                        //push.setMessage("Hello World!");
                                         push.sendInBackground();
                                     }
 
                                 }
                             }
-                           // objectID = invitationInfo.getObjectId();
-                            // Start the new activity
+
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }
@@ -199,11 +203,16 @@ public class CreateEventActivity extends AppCompatActivity {
     // This method brings a user-typed address and displays that address
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        // This case gets the result address from MapActivity
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 showLocation.setText(data.getStringExtra("address"));
             }
-        } else if(requestCode == 2) {
+        }
+
+        // This case gets the result invitees from SelectInviteeActivity
+        else if(requestCode == 2) {
             if(resultCode == RESULT_OK) {
 
                 StringBuilder temp = new StringBuilder();

@@ -39,9 +39,9 @@ public class RespondInvitationActivity  extends AppCompatActivity{
         final String phoneNumber;
         final String objectId;
         final String name;
-        String temp = "";
-        String temp2 = "";
-        String temp3 = "";
+        String temp = ""; // To hold the phoneNumber
+        String temp2 = ""; // To hold the objectId
+        String temp3 = ""; // To hold the name
 
 
         if(intent != null) {
@@ -59,15 +59,19 @@ public class RespondInvitationActivity  extends AppCompatActivity{
         objectId = temp2;
         name = temp3;
 
+        // Combine name with the phone number
         combined = name + ": " + phoneNumber;
 
+        // Handle the case when the user accepts the invitation
         acceptBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Use this query to get the sender's information
                 ParseQuery pushQuery = ParseInstallation.getQuery();
                 pushQuery.whereEqualTo("user", phoneNumber);
 
-                // Send push notification to query
+                // Send push notification back to the sender, who has sent the invitation
                 ParsePush push = new ParsePush();
                 JSONObject data = new JSONObject();
                 try {
@@ -81,12 +85,16 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 push.setData(data);
                 push.sendInBackground();
 
+                // This is to change the invitation information
                 ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
                 invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         if (e == null) {
+                            // stateNum - 1 is to change the indicator light in the main event page
                             parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) - 1);
+
+                            // This is to subscribe this user the the invitation so that this user can display the received invitation on his main event page
                             parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
@@ -113,13 +121,16 @@ public class RespondInvitationActivity  extends AppCompatActivity{
             }
         });
 
+        // Handle the case when the user declines the invitation
         declineBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                // Use this query to get the sender's information
                 ParseQuery pushQuery = ParseInstallation.getQuery();
                 pushQuery.whereEqualTo("user", phoneNumber);
 
-                // Send push notification to query
+                // Send push notification back to the sender, who has sent the invitation
                 ParsePush push = new ParsePush();
                 JSONObject data = new JSONObject();
                 try {
@@ -133,11 +144,13 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 push.setData(data);
                 push.sendInBackground();
 
+                // This is to change the invitation information
                 ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
                 invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         if(e == null) {
+                            // stateNum is to change the indicator light to the red light in the main event page
                             parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) + ((ArrayList) parseObject.get("invitees")).size());
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
