@@ -59,13 +59,12 @@ public class CreateEventActivity extends AppCompatActivity {
 
     public ProgressDialog dialog;
 
-    String objectID = "";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
 
+        // Clearing these lists before using them
         friendList.clear();
         phoneNumbers.clear();
 
@@ -84,6 +83,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         Button sendBtn = (Button) findViewById(R.id.sendBtn);
 
+        // When the Time TextView is clicked, show the time picker
         timeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,6 +92,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        // When the Date TextView is clicked, show the date picker
         dateLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -100,6 +101,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        // When the Location TextView is clicked, show the google map v2
         locationLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -108,6 +110,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        // When the People TextView is clicked, show the friends list
         peopleLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -116,10 +119,12 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
+        // If the user clicks send button. . .
         sendBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                // First of all show the progress dialog to make the user wait
                 dialog = new ProgressDialog(CreateEventActivity.this);
                 dialog.setTitle("Thank You For Your Patience :)");
                 dialog.setMessage("Sending This Invitation. . .");
@@ -127,42 +132,50 @@ public class CreateEventActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.setCanceledOnTouchOutside(false);
 
-
+                // Put these invitation information into Parse
                 final ParseObject invitationInfo = new ParseObject("invitationInfo");
                 invitationInfo.put("title", title.getText().toString());
                 invitationInfo.put("time", showTime.getText().toString());
                 invitationInfo.put("date", showDate.getText().toString());
                 invitationInfo.put("location", showLocation.getText().toString());
+                // This format looks like Jacob Kim: (111) 222-3333
                 String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));
                 friendList.add(myself);
                 invitationInfo.put("invitees", friendList);
                 invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
                 invitationInfo.put("stateNum", friendList.size() - 1);
 
+                // Save those info into the Parse
                 invitationInfo.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
                         dialog.dismiss();
 
+                        // Error case
                         if (e != null) {
                             Toast.makeText(getApplicationContext(), "Error saving: " + e.getMessage(),
                                     Toast.LENGTH_SHORT).show();
 
                         } else {
-
-
+                            // Format looks like (123)456-7890 => 1234567890 saving only numbers
                             Utility.saveOnlyNumbers(friendList, phoneNumbers);
-                            // Create our Installation query
+
+                            // For the testing purposes
                             Log.v(TAG, phoneNumbers.get(0));
+
+                            // Create our Installation query
                             if (phoneNumbers.isEmpty() == false) {
                                 // Send push notifications to users
                                 for (int i = 0; i < phoneNumbers.size(); i++) {
+                                    // If that user exists, send the push notification
                                     if(!phoneNumbers.get(i).equals(ParseUser.getCurrentUser().get("phoneNumber"))) {
                                         ParseQuery pushQuery = ParseInstallation.getQuery();
                                         pushQuery.whereEqualTo("user", phoneNumbers.get(i));
 
                                         // Send push notification to query
                                         ParsePush push = new ParsePush();
+
+                                        // Using JSON to send more information along with the push notification
                                         JSONObject data = new JSONObject();
                                         try {
                                             data.put("alert", "You have an invitation!!!");
@@ -180,13 +193,12 @@ public class CreateEventActivity extends AppCompatActivity {
                                         }
                                         push.setQuery(pushQuery); // Set our Installation query
                                         push.setData(data);
-                                        //push.setMessage("Hello World!");
                                         push.sendInBackground();
                                     }
 
                                 }
                             }
-                           // objectID = invitationInfo.getObjectId();
+
                             // Start the new activity
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);

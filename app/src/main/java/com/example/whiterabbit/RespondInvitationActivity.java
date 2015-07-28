@@ -1,5 +1,6 @@
 package com.example.whiterabbit;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -27,9 +28,12 @@ import java.util.List;
 // This class shows when user opens the app from the notification
 public class RespondInvitationActivity  extends AppCompatActivity{
 
-    String combined;
+    String combined; // To combine Strings
+
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
+
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +71,14 @@ public class RespondInvitationActivity  extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
+                // First of all show the progress dialog to make the user wait
+                dialog = new ProgressDialog(RespondInvitationActivity.this);
+                dialog.setTitle("Thank You For Your Patience :)");
+                dialog.setMessage("Sending Back Your Response.");
+                dialog.show();
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+
                 // Use this query to get the sender's information
                 ParseQuery pushQuery = ParseInstallation.getQuery();
                 pushQuery.whereEqualTo("user", phoneNumber);
@@ -90,6 +102,9 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
+
+                        dialog.dismiss();
+
                         if (e == null) {
                             // stateNum - 1 is to change the indicator light in the main event page
                             parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) - 1);
@@ -126,6 +141,14 @@ public class RespondInvitationActivity  extends AppCompatActivity{
             @Override
             public void onClick(View view) {
 
+                // First of all show the progress dialog to make the user wait
+                dialog = new ProgressDialog(RespondInvitationActivity.this);
+                dialog.setTitle("Thank You For Your Patience :)");
+                dialog.setMessage("Sending Back Your Response.");
+                dialog.show();
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+
                 // Use this query to get the sender's information
                 ParseQuery pushQuery = ParseInstallation.getQuery();
                 pushQuery.whereEqualTo("user", phoneNumber);
@@ -149,6 +172,9 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
+
+                        dialog.dismiss();
+
                         if(e == null) {
                             // stateNum is to change the indicator light to the red light in the main event page
                             parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) + ((ArrayList) parseObject.get("invitees")).size());
