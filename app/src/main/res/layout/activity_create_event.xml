@@ -1,82 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:padding="16dp">
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/title"
-        android:hint="Title" />
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <EditText android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:hint="Title"
+        android:paddingBottom="16dp"
+        android:textSize="18sp"
+        android:background="@android:color/transparent" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="00:00 AM"
-            android:id="@+id/showTime" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Time"
-            android:id="@+id/chooseTimeBtn" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:orientation="horizontal"
+    <View android:id="@+id/divider1"
+        android:layout_below="@id/title"
+        android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:background="#cccccc" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="00/00/0000"
-            android:id="@+id/showDate" />
+    <TextView android:id="@+id/time_label"
+        android:layout_below="@id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Time" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Date"
-            android:id="@+id/chooseDateBtn" />
-    </LinearLayout>
-
-    <Button
-        style="?android:attr/buttonStyleSmall"
+    <TextView android:id="@+id/showTime"
+        android:layout_below="@id/divider1"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Map"
-        android:id="@+id/showMapBtn" />
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="00:00 AM" />
 
-    <TextView
+    <View android:id="@+id/divider2"
+        android:layout_below="@id/showTime"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#cccccc" />
+
+    <TextView android:id="@+id/date_label"
+        android:layout_below="@id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Date" />
+
+    <TextView android:id="@+id/showDate"
+        android:layout_below="@id/divider2"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="My Location"
-        android:id="@+id/chosenLocationText" />
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="00/00/0000" />
 
-    <Button
+    <View android:id="@+id/divider3"
+        android:layout_below="@id/showDate"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#cccccc" />
+
+    <TextView android:id="@+id/location_label"
+        android:layout_below="@id/divider3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Location" />
+
+    <TextView android:id="@+id/chosenLocationText"
+        android:layout_below="@id/divider3"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Invite Friends"
-        android:id="@+id/inviteBtn" />
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="" />
 
-    <TextView
+    <View android:id="@+id/divider4"
+        android:layout_below="@id/chosenLocationText"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#cccccc" />
+
+    <TextView android:id="@+id/people_label"
+        android:layout_below="@id/divider4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="People" />
+
+    <TextView android:id="@+id/inviteesTextView"
+        android:layout_below="@id/divider4"
+        android:layout_alignParentEnd="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Invitees"
-        android:id="@+id/inviteesTextView" />
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="" />
 
-    <Button
+    <View
+        android:layout_below="@id/inviteesTextView"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#cccccc" />
+
+    <Button android:id="@+id/sendBtn"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send"
-        android:id="@+id/sendBtn" />
+        android:text="Send" />
 
-</LinearLayout>
+</RelativeLayout>

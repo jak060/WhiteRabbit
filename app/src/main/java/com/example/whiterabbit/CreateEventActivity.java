@@ -46,12 +46,19 @@ public class CreateEventActivity extends AppCompatActivity {
     ArrayList<String> friendList = new ArrayList<String>();
     ArrayList<String> phoneNumbers = new ArrayList<String>();
 
+    EditText title;
+
     static TextView showTime;
     static TextView showDate;
     TextView showLocation;
-    EditText title;
     TextView showInvitees;
+    TextView timeLabel;
+    TextView dateLabel;
+    TextView locationLabel;
+    TextView peopleLabel;
+
     public ProgressDialog dialog;
+
     String objectID = "";
 
     @Override
@@ -63,21 +70,21 @@ public class CreateEventActivity extends AppCompatActivity {
         phoneNumbers.clear();
 
         // Initialization of variables
-        Button timeBtn = (Button) findViewById(R.id.chooseTimeBtn);
-        Button dateBtn = (Button) findViewById(R.id.chooseDateBtn);
-        Button mapBtn = (Button) findViewById(R.id.showMapBtn);
-        Button inviteBtn = (Button) findViewById(R.id.inviteBtn);
-        Button sendBtn = (Button) findViewById(R.id.sendBtn);
+        title = (EditText) findViewById(R.id.title);
+
+        timeLabel = (TextView) findViewById(R.id.time_label);
+        dateLabel = (TextView) findViewById(R.id.date_label);
+        locationLabel = (TextView) findViewById(R.id.location_label);
+        peopleLabel = (TextView) findViewById(R.id.people_label);
+
         showTime = (TextView) findViewById(R.id.showTime);
         showDate = (TextView) findViewById(R.id.showDate);
-        title = (EditText) findViewById(R.id.title);
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
 
-        //showTime.setText(Calendar.getInstance().getTime().toString());
+        Button sendBtn = (Button) findViewById(R.id.sendBtn);
 
-        // When user clicks "Choose Time" button, show the time picker
-        timeBtn.setOnClickListener(new View.OnClickListener() {
+        timeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment dialogFragment = new TimePickerFragment();
@@ -85,8 +92,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        // When user clicks "Choose Date" button, show the date picker
-        dateBtn.setOnClickListener(new View.OnClickListener() {
+        dateLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 DialogFragment dialogFragment = new DatePickerFragment();
@@ -94,8 +100,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        // When user clicks "Choose Location" button, show the map
-        mapBtn.setOnClickListener(new View.OnClickListener() {
+        locationLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MapActivity.class);
@@ -103,8 +108,7 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        // When user clicks "Choose Location" button, show the map
-        inviteBtn.setOnClickListener(new View.OnClickListener() {
+        peopleLabel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SelectInviteeActivity.class);
@@ -116,7 +120,6 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                // Set up the progress dialog
                 dialog = new ProgressDialog(CreateEventActivity.this);
                 dialog.setTitle("Thank You For Your Patience :)");
                 dialog.setMessage("Sending This Invitation. . .");
@@ -125,7 +128,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 dialog.setCanceledOnTouchOutside(false);
 
 
-                // Put every invitation info into the database
                 final ParseObject invitationInfo = new ParseObject("invitationInfo");
                 invitationInfo.put("title", title.getText().toString());
                 invitationInfo.put("time", showTime.getText().toString());
@@ -137,7 +139,6 @@ public class CreateEventActivity extends AppCompatActivity {
                 invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
                 invitationInfo.put("stateNum", friendList.size() - 1);
 
-                // Save in the database
                 invitationInfo.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -150,9 +151,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         } else {
 
 
-                            // Make sure we save only numbers from the phone number (W/o "(", ")", "-")
                             Utility.saveOnlyNumbers(friendList, phoneNumbers);
-
                             // Create our Installation query
                             Log.v(TAG, phoneNumbers.get(0));
                             if (phoneNumbers.isEmpty() == false) {
@@ -181,12 +180,14 @@ public class CreateEventActivity extends AppCompatActivity {
                                         }
                                         push.setQuery(pushQuery); // Set our Installation query
                                         push.setData(data);
+                                        //push.setMessage("Hello World!");
                                         push.sendInBackground();
                                     }
 
                                 }
                             }
-
+                           // objectID = invitationInfo.getObjectId();
+                            // Start the new activity
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }
@@ -203,16 +204,11 @@ public class CreateEventActivity extends AppCompatActivity {
     // This method brings a user-typed address and displays that address
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        // This case gets the result address from MapActivity
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 showLocation.setText(data.getStringExtra("address"));
             }
-        }
-
-        // This case gets the result invitees from SelectInviteeActivity
-        else if(requestCode == 2) {
+        } else if(requestCode == 2) {
             if(resultCode == RESULT_OK) {
 
                 StringBuilder temp = new StringBuilder();
