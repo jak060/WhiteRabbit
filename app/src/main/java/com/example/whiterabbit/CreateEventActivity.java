@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
@@ -79,7 +80,10 @@ public class CreateEventActivity extends AppCompatActivity {
         peopleLabel = (TextView) findViewById(R.id.people_label);
 
         showTime = (TextView) findViewById(R.id.showTime);
+
         showDate = (TextView) findViewById(R.id.showDate);
+        showDate.setText(java.text.DateFormat.getDateInstance().format(new Date()));
+
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
 
@@ -312,7 +316,11 @@ public class CreateEventActivity extends AppCompatActivity {
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
-            showDate.setText(month + "/" + day + "/" + year);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(year, month, day);
+            Date date = calendar.getTime();
+
+            showDate.setText(java.text.DateFormat.getDateInstance().format(date));
         }
     }
 }
