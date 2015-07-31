@@ -80,6 +80,7 @@ public class CreateEventActivity extends AppCompatActivity {
         peopleLabel = (TextView) findViewById(R.id.people_label);
 
         showTime = (TextView) findViewById(R.id.showTime);
+        showTime.setText(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(new Date()));
 
         showDate = (TextView) findViewById(R.id.showDate);
         showDate.setText(java.text.DateFormat.getDateInstance().format(new Date()));
@@ -279,19 +280,12 @@ public class CreateEventActivity extends AppCompatActivity {
 
         public void onTimeSet(TimePicker view, int hour, int min) {
 
-            String state = "AM";
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, min);
+            Date date = calendar.getTime();
 
-            // To make time more easy to understand
-            if(hour == 0) {
-                hour = 12;
-            }
-
-            if(hour > 12) {
-                hour = hour - 12;
-                state = "PM";
-
-            }
-            showTime.setText(hour + ":" + min + " " + state);
+            showTime.setText(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(date));
 
         }
 
