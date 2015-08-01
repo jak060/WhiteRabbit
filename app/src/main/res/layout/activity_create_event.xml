@@ -120,8 +120,35 @@
         android:textStyle="bold"
         android:text="" />
 
-    <View
+    <View android:id="@+id/divider5"
         android:layout_below="@id/inviteesTextView"
+        android:layout_height="1dp"
+        android:layout_width="match_parent"
+        android:background="#cccccc" />
+
+    <TextView android:id="@+id/wager_label"
+        android:layout_below="@id/divider5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:text="Wager" />
+
+    <TextView android:id="@+id/wager_view"
+        android:layout_below="@id/divider5"
+        android:layout_alignParentEnd="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:paddingTop="16dp"
+        android:paddingBottom="16dp"
+        android:textColor="#000000"
+        android:textStyle="bold"
+        android:text="@string/wager_default" />
+
+    <View
+        android:layout_below="@id/wager_view"
         android:layout_height="1dp"
         android:layout_width="match_parent"
         android:background="#cccccc" />

@@ -40,4 +40,16 @@
 
     <string name="geofence_transition_notification_text">Click notification to return to app</string>
 
+    <string name="wager_amount">Pick wager amount</string>
+    <string name="wager_default">$1</string>
+    <string name="cancel">Cancel</string>
+
+    <string-array name="wager_options">
+        <item>$1</item>
+        <item>$2</item>
+        <item>$3</item>
+        <item>$4</item>
+        <item>$5</item>
+    </string-array>
+
 </resources>
