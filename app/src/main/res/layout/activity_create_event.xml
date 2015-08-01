@@ -15,7 +15,7 @@
         android:layout_below="@id/title"
         android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="#cccccc" />
+        android:background="@drawable/divider" />
 
     <TextView android:id="@+id/time_label"
         android:layout_below="@id/divider1"
@@ -41,7 +41,7 @@
         android:layout_below="@id/showTime"
         android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="#cccccc" />
+        android:background="@drawable/divider" />
 
     <TextView android:id="@+id/date_label"
         android:layout_below="@id/divider2"
@@ -67,7 +67,7 @@
         android:layout_below="@id/showDate"
         android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="#cccccc" />
+        android:background="@drawable/divider" />
 
     <TextView android:id="@+id/location_label"
         android:layout_below="@id/divider3"
@@ -93,7 +93,7 @@
         android:layout_below="@id/chosenLocationText"
         android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="#cccccc" />
+        android:background="@drawable/divider" />
 
     <TextView android:id="@+id/people_label"
         android:layout_below="@id/divider4"
@@ -119,7 +119,7 @@
         android:layout_below="@id/inviteesTextView"
         android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="#cccccc" />
+        android:background="@drawable/divider" />
 
     <TextView android:id="@+id/wager_label"
         android:layout_below="@id/divider5"
@@ -145,7 +145,7 @@
         android:layout_below="@id/wager_view"
         android:layout_height="1dp"
         android:layout_width="match_parent"
-        android:background="#cccccc" />
+        android:background="@drawable/divider" />
 
     <Button android:id="@+id/sendBtn"
         android:layout_centerHorizontal="true"
