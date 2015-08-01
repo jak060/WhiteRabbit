@@ -21,6 +21,7 @@
         android:layout_below="@id/divider1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_textview"
         android:textSize="18sp"
         android:padding="16dp"
         android:text="Time" />
@@ -46,6 +47,7 @@
         android:layout_below="@id/divider2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_textview"
         android:textSize="18sp"
         android:padding="16dp"
         android:text="Date" />
@@ -71,6 +73,7 @@
         android:layout_below="@id/divider3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_textview"
         android:textSize="18sp"
         android:padding="16dp"
         android:text="Location" />
@@ -96,6 +99,7 @@
         android:layout_below="@id/divider4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_textview"
         android:textSize="18sp"
         android:padding="16dp"
         android:text="People" />
@@ -121,6 +125,7 @@
         android:layout_below="@id/divider5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/selector_textview"
         android:textSize="18sp"
         android:padding="16dp"
         android:text="Wager" />
