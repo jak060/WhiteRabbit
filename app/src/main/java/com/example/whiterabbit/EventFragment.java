@@ -81,6 +81,8 @@ public class EventFragment extends Fragment {
                         invitationInfoActivity.setLocation((String) list.get(i).get("location"));
                         invitationInfoActivity.setWith((ArrayList) list.get(i).get("invitees"));
                         invitationInfoActivity.setState((Integer) list.get(i).get("stateNum"));
+                        invitationInfoActivity.setLatitude((Double) list.get(i).get("lat"));
+                        invitationInfoActivity.setLongitude((Double) list.get(i).get("lng"));
                         Log.v(TAG, "Current State: " + invitationInfoActivity.getState());
                         infoList.add(invitationInfoActivity);
                     }

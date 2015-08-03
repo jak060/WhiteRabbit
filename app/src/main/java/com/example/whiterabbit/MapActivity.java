@@ -40,6 +40,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     ImageButton locationBtn; // To search the location
     LocationManager mlocationManager;
     Location globalLocation;
+    double lat;
+    double lng;
+
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
@@ -171,8 +174,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         }
 
         // Get the latitude and longitude of the user-typed address
-        double lat = address.getLatitude();
-        double lng = address.getLongitude();
+        lat = address.getLatitude();
+        lng = address.getLongitude();
         Log.v(TAG, "lat: " + lat);
         Log.v(TAG, "lng: " + lng);
 
@@ -208,6 +211,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             public void onInfoWindowClick(Marker marker) {
                 Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
                 intent.putExtra("address", strAddress.toString());
+                intent.putExtra("lat", lat);
+                intent.putExtra("lng", lng);
                 setResult(RESULT_OK, intent);
                 finish();
             }

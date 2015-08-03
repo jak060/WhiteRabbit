@@ -13,6 +13,9 @@ public class InvitationInfoActivity {
     private int state; // To hold the state of the invitation.
                           // It can be accepted, declined, or inProgress
 
+    private double latitude; // To hold the latitude of the user-defined location
+    private double longitude; // To hold the longitude of the user-defined location
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -35,6 +38,10 @@ public class InvitationInfoActivity {
 
     public void setState(int state) { this.state = state; }
 
+    public void setLatitude(double latitude) { this.latitude = latitude; }
+
+    public void setLongitude(double longitude) { this.longitude = longitude; }
+
     public String getTitle() {
         return title;
     }
@@ -56,4 +63,8 @@ public class InvitationInfoActivity {
     }
 
     public int getState() { return state; }
+
+    public double getLatitude() { return latitude; }
+
+    public double getLongitude() { return longitude; }
 }

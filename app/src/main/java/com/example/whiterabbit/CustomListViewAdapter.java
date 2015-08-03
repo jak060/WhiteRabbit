@@ -1,6 +1,7 @@
 package com.example.whiterabbit;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,10 +16,12 @@ public class CustomListViewAdapter extends BaseAdapter{
 
     private LayoutInflater layoutInflater;
     private ArrayList<InvitationInfoActivity> infoList;
+    private Context context;
 
     public CustomListViewAdapter(Context context, ArrayList<InvitationInfoActivity> infoList) {
         this.infoList = infoList;
         layoutInflater = LayoutInflater.from(context);
+        this.context = context;
     }
 
     public int getCount() {
@@ -76,6 +79,14 @@ public class CustomListViewAdapter extends BaseAdapter{
         if(infoList.get(position).getState() == 0) {
             holder.light.setBackgroundColor(Color.parseColor("#00FF00")); // Green light
             holder.status.setText("Accepted");
+
+            // Start the geofence
+            Intent intent = new Intent(context, GeofenceActivity.class);
+            intent.putExtra("lat", infoList.get(position).getLatitude());
+            intent.putExtra("lng", infoList.get(position).getLongitude());
+
+            context.startActivity(intent);
+
         } else if((infoList.get(position).getState() > 0) && (infoList.get(position).getState() < infoList.get(position).getWith().size())) {
             holder.light.setBackgroundColor(Color.parseColor("#F7D358")); // Yellow light
             holder.status.setText("Pending");

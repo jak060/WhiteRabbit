@@ -96,7 +96,6 @@ public class CreateAccountActivity extends AppCompatActivity {
         Utility.hideKeyboard(this, password);
         Utility.hideKeyboard(this, phoneNumber);
 
-        // TODO: When the user clicks the Create Account Button, we need to make sure that the info goes into the database
         // When the user clicks it, go to the main page
         createBtn.setOnClickListener(new View.OnClickListener() {
 

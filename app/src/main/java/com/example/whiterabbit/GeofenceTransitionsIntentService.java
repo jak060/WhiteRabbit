@@ -92,7 +92,7 @@ public class GeofenceTransitionsIntentService extends IntentService{
     }
 
     private void sendNotification(String notificationDetails) {
-        Intent notificationIntent = new Intent(getApplicationContext(), GeofenceActivity.class);
+        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 

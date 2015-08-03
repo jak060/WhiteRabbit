@@ -16,6 +16,7 @@
 
 package com.example.whiterabbit;
 
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,13 +41,14 @@ import com.google.android.gms.location.GeofencingApi;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * This class deals with geofence-related activities
  */
 
-public class GeofenceActivity extends AppCompatActivity implements
+public class GeofenceActivity extends Activity implements
         ConnectionCallbacks, OnConnectionFailedListener, ResultCallback<Status> {
 
     // For the debugging purpose
@@ -62,18 +64,38 @@ public class GeofenceActivity extends AppCompatActivity implements
 
     private SharedPreferences sharedPreferences;
 
+    public static final HashMap<String, LatLng> GEOFENCE_LOCATIONS = new HashMap<String, LatLng>();
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_geofence);
 
-        geofenceList = new ArrayList<Geofence>();
-        geofencePendingIntent = null;
-        geofencesAdded = sharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY ,false);
+        // Make sure to empty the list before using it
+        GEOFENCE_LOCATIONS.clear();
+        //setContentView(R.layout.activity_geofence);
 
-        populateGeofenceList();
+        Intent intent = getIntent();
+        if(intent != null) {
+            double lat = intent.getExtras().getDouble("lat");
+            double lng = intent.getExtras().getDouble("lng");
 
-        buildGoogleApiClient();
+            Log.v(TAG, "GEOFENCE LAT: " + lat);
+            Log.v(TAG, "GEOFENCE LNG: " + lng);
+
+            LatLng currentLocation = new LatLng(lat, lng);
+
+            geofenceList = new ArrayList<Geofence>();
+            geofencePendingIntent = null;
+            sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+            geofencesAdded = sharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
+
+            GEOFENCE_LOCATIONS.put("Location", currentLocation);
+
+            populateGeofenceList();
+
+            buildGoogleApiClient();
+        }
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -99,6 +121,7 @@ public class GeofenceActivity extends AppCompatActivity implements
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.v(TAG, "Connected to GoogleApiClient");
+        addGeofencesHandler();
     }
 
     @Override
@@ -112,7 +135,7 @@ public class GeofenceActivity extends AppCompatActivity implements
     }
 
     public void populateGeofenceList() {
-        for(Map.Entry<String, LatLng> entry : Constants.BAY_AREA_LANDMARKS.entrySet()) {
+        for(Map.Entry<String, LatLng> entry : GEOFENCE_LOCATIONS.entrySet()) {
             geofenceList.add(new Geofence.Builder()
             .setRequestId(entry.getKey())
             .setCircularRegion(
@@ -137,7 +160,7 @@ public class GeofenceActivity extends AppCompatActivity implements
         return builder.build();
     }
 
-    public void addGeofencesHandler(View view) {
+    public void addGeofencesHandler() {
         if(!googleApiClient.isConnected()) {
             Toast.makeText(this, "Not Connected!", Toast.LENGTH_SHORT).show();
             return;
@@ -154,7 +177,7 @@ public class GeofenceActivity extends AppCompatActivity implements
         }
     }
 
-    public void removeGeofencesHandler(View view) {
+    public void removeGeofencesHandler() {
         if(!googleApiClient.isConnected()) {
             Toast.makeText(this, "Not Connected!", Toast.LENGTH_SHORT).show();
             return;

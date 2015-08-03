@@ -68,6 +68,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
     public ProgressDialog dialog;
 
+    double lat;
+    double lng;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -168,6 +171,10 @@ public class CreateEventActivity extends AppCompatActivity {
                 invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
                 invitationInfo.put("stateNum", friendList.size() - 1);
 
+                // Needed to save them in db for the geofence
+                invitationInfo.put("lat", lat);
+                invitationInfo.put("lng", lng);
+
                 // Save those info into the Parse
                 invitationInfo.saveInBackground(new SaveCallback() {
                     @Override
@@ -242,6 +249,11 @@ public class CreateEventActivity extends AppCompatActivity {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
                 showLocation.setText(data.getStringExtra("address"));
+                lat = data.getDoubleExtra("lat", 0.0000);
+                lng = data.getDoubleExtra("lng", 0.0000);
+                Log.v(TAG, "LAT: " + lat);
+                Log.v(TAG, "LNG: " + lng);
+
             }
         } else if(requestCode == 2) {
             if(resultCode == RESULT_OK) {
