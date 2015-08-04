@@ -13,7 +13,7 @@
             android:id="@+id/pager_header"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#F4FA58"
+            android:background="#dddddd"
             android:layout_gravity="top"
             android:paddingBottom="4dp"
             android:paddingTop="4dp" />
