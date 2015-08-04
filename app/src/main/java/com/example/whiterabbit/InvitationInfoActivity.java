@@ -16,6 +16,8 @@ public class InvitationInfoActivity {
     private double latitude; // To hold the latitude of the user-defined location
     private double longitude; // To hold the longitude of the user-defined location
 
+    private String objectId; // To hold the objectId of the event
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -42,6 +44,8 @@ public class InvitationInfoActivity {
 
     public void setLongitude(double longitude) { this.longitude = longitude; }
 
+    public void setObjectId(String objectId) { this.objectId = objectId; }
+
     public String getTitle() {
         return title;
     }
@@ -67,4 +71,6 @@ public class InvitationInfoActivity {
     public double getLatitude() { return latitude; }
 
     public double getLongitude() { return longitude; }
+
+    public String getObjectId() { return objectId; }
 }

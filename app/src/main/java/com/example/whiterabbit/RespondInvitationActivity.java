@@ -115,7 +115,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                                 @Override
                                 public void done(ParseException e) {
                                     if(e == null) {
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                                         startActivity(intent);
                                     } else {
                                         Log.e(TAG, "Error saving updated invitation info to parse (when user clicked Accept Button)");
@@ -182,7 +182,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                                 @Override
                                 public void done(ParseException e) {
                                     if(e == null) {
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                        Intent intent = new Intent(getApplicationContext(), Survey1Activity.class);
                                         startActivity(intent);
                                     } else {
                                         Log.e(TAG, "Error saving updated invitation info to parse (when user clicked Decline Button)");
@@ -200,5 +200,10 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 });
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }

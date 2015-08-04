@@ -116,7 +116,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                locate(tempMap);
+                if(locationText.getText().toString().length() > 0) {
+                    locate(tempMap);
+                }
             }
         });
 

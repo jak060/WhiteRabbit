@@ -81,11 +81,13 @@ public class CustomListViewAdapter extends BaseAdapter{
             holder.status.setText("Accepted");
 
             // Start the geofence
-            Intent intent = new Intent(context, GeofenceActivity.class);
-            intent.putExtra("lat", infoList.get(position).getLatitude());
-            intent.putExtra("lng", infoList.get(position).getLongitude());
+            //Intent intent = new Intent(context, GeofenceActivity.class);
+            //intent.putExtra("lat", infoList.get(position).getLatitude());
+            //intent.putExtra("lng", infoList.get(position).getLongitude());
+            //Intent intent = new Intent(context, UserTestingActivity.class);
+            //intent.putExtra("objectId", infoList.get(position).getObjectId());
 
-            context.startActivity(intent);
+            //context.startActivity(intent);
 
         } else if((infoList.get(position).getState() > 0) && (infoList.get(position).getState() < infoList.get(position).getWith().size())) {
             holder.light.setBackgroundColor(Color.parseColor("#F7D358")); // Yellow light

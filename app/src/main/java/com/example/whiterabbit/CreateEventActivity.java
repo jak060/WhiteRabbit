@@ -230,7 +230,7 @@ public class CreateEventActivity extends AppCompatActivity {
                             }
 
                             // Start the new activity
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), PaymentActivity.class);
                             startActivity(intent);
                         }
                     }

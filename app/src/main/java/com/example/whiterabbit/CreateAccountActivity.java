@@ -182,7 +182,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                     user.setPassword(textField4);
                     user.put("firstName", textField1);
                     user.put("lastName", textField2);
-                    user.put("phoneNumber", textField5);
+
+                    // Save only numbers in db
+                    user.put("phoneNumber", textField5.replaceAll("[^0-9]", ""));
 
                     // Sign up in the background
                     user.signUpInBackground(new SignUpCallback() {
