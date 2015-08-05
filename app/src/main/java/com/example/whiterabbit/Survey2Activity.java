@@ -22,8 +22,6 @@ public class Survey2Activity extends AppCompatActivity {
     String answerForA = "";
     String answerForB = "";
     String answerForC = "";
-    String answerForD = "";
-    String answerForE = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,20 +46,11 @@ public class Survey2Activity extends AppCompatActivity {
 
         });
 
-        final EditText questionC = (EditText) findViewById(R.id.editText4);
-
-
-        final EditText questionD = (EditText) findViewById(R.id.editText5);
-
-
-        final EditText questionE = (EditText) findViewById(R.id.editText6);
-
+        final EditText questionC = (EditText) findViewById(R.id.editText6);
 
         Button submitBtn = (Button) findViewById(R.id.button5);
 
         Utility.hideKeyboard(this, questionC);
-        Utility.hideKeyboard(this, questionD);
-        Utility.hideKeyboard(this, questionE);
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,12 +58,6 @@ public class Survey2Activity extends AppCompatActivity {
 
                 if(questionC.getText().toString().length() > 0) {
                     answerForC = questionC.getText().toString();
-                }
-                if(questionD.getText().toString().length() > 0) {
-                    answerForD = questionD.getText().toString();
-                }
-                if(questionE.getText().toString().length() > 0) {
-                    answerForE = questionE.getText().toString();
                 }
 
                 final ProgressDialog dialog = new ProgressDialog(Survey2Activity.this);
@@ -88,8 +71,7 @@ public class Survey2Activity extends AppCompatActivity {
                 survey1.put("answerA", answerForA);
                 survey1.put("answerB", answerForB);
                 survey1.put("answerC", answerForC);
-                survey1.put("answerD", answerForD);
-                survey1.put("answerE", answerForE);
+
                 survey1.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {

@@ -25,9 +25,9 @@ public class UserTestingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), UserTestingResultActivity.class);
-                intent.putExtra("result", "Congratulation! You're the white rabbitt! Yay :D\n\n" +
-                        "You just got an email with a gift card from your friend!\n\n" +
-                        "You're a step away to be golden rabbitt :)");
+                intent.putExtra("result", "On time? you get these messages:\n\n" + "1. You're the winner\n\n" +
+                        "2. Your gift card from “John”(late comer) has arrived in your email.\n\n" +
+                        "3. Enjoy your reward!\n\n" + "4. Please try other case OR press ok for survey");
                 //intent.putExtra("objectId", objectId);
                 startActivity(intent);
             }
@@ -37,8 +37,10 @@ public class UserTestingActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), UserTestingResultActivity.class);
-                intent.putExtra("result", "Sorry, just missed a chance to win! Maybe next time :)\n\n" +
-                        "Your receipt is ready in your email!");
+                intent.putExtra("result", "Late? you get these messages:\n\n 1. Sorry, just missed a chance to win!\n\n" +
+                        "2. Starbuck gift has been sent your friends\n\n" +
+                        "3. The payment receipt is ready in your email\n\n" +
+                        "4. Please try other case OR press ok for survey");
                 //intent.putExtra("objectId", objectId);
                 startActivity(intent);
             }

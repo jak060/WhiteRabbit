@@ -11,13 +11,15 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Survey 2"
         android:id="@+id/textView13"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center_horizontal" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
         android:textColor="#5882FA"
+        android:layout_marginBottom="10dp"
         android:text="A. Would you recommend this app to your friend?"
         android:id="@+id/textView14" />
 
@@ -25,6 +27,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
         android:id="@+id/radioGroup1">
 
         <RadioButton
@@ -46,14 +49,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textSize="20sp"
         android:textColor="#5882FA"
         android:text="B. Would you use this app again?"
+        android:layout_marginBottom="10dp"
         android:id="@+id/textView15" />
 
     <RadioGroup
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
         android:id="@+id/radioGroup2">
 
         <RadioButton
@@ -76,39 +82,9 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="#5882FA"
-        android:text="C. If yes / no, why?"
-        android:id="@+id/textView16" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText4"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        android:hint="Click HERE to ANSWER!" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="D. How would describe this app in one or a few words?"
-        android:textColor="#5882FA"
-        android:id="@+id/textView17" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/editText5"
-        android:imeOptions="actionDone"
-        android:singleLine="true"
-        android:hint="Click HERE to ANSWER!" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textColor="#5882FA"
-        android:text="E. Any Comments?"
+        android:textSize="20sp"
+        android:text="C. Any Comments?"
+        android:layout_marginBottom="10dp"
         android:id="@+id/textView18" />
 
     <EditText
@@ -117,6 +93,7 @@
         android:id="@+id/editText6"
         android:imeOptions="actionDone"
         android:singleLine="true"
+        android:layout_marginBottom="50dp"
         android:hint="Click HERE to ANSWER!" />
 
     <Button

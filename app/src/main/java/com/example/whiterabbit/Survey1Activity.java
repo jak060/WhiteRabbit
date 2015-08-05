@@ -22,8 +22,6 @@ public class Survey1Activity extends AppCompatActivity{
     String answerForA = "";
     String answerForB = "";
     String answerForC = "";
-    String answerForD = "";
-    String answerForE = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,17 +30,9 @@ public class Survey1Activity extends AppCompatActivity{
 
         final RadioGroup questionA = (RadioGroup) findViewById(R.id.radioGroup1);
 
-
         final RadioGroup questionB = (RadioGroup) findViewById(R.id.radioGroup2);
 
-
-        final EditText questionC = (EditText) findViewById(R.id.editText2);
-
-
-        final RadioGroup questionD = (RadioGroup) findViewById(R.id.radioGroup3);
-
-        final EditText questionE = (EditText) findViewById(R.id.editText3);
-
+        final RadioGroup questionC = (RadioGroup) findViewById(R.id.radioGroup3);
 
         Button submitBtn = (Button) findViewById(R.id.button4);
 
@@ -62,27 +52,17 @@ public class Survey1Activity extends AppCompatActivity{
 
         });
 
-        questionD.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+        questionC.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = (RadioButton) findViewById(checkedId);
-                answerForD = rb.getText().toString();
+                answerForC = rb.getText().toString();
             }
 
         });
 
-        Utility.hideKeyboard(this, questionC);
-        Utility.hideKeyboard(this, questionE);
-
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                if(questionC.getText().toString().length() > 0) {
-                    answerForC = questionC.getText().toString();
-                }
-                if(questionE.getText().toString().length() >0) {
-                    answerForE = questionE.getText().toString();
-                }
 
                 final ProgressDialog dialog = new ProgressDialog(Survey1Activity.this);
                 dialog.setTitle("Thank You For Your Feedback");
@@ -95,8 +75,7 @@ public class Survey1Activity extends AppCompatActivity{
                 survey1.put("answerA", answerForA);
                 survey1.put("answerB", answerForB);
                 survey1.put("answerC", answerForC);
-                survey1.put("answerD", answerForD);
-                survey1.put("answerE", answerForE);
+
                 survey1.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
