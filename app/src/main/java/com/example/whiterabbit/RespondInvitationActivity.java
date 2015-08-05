@@ -201,4 +201,9 @@ public class RespondInvitationActivity  extends AppCompatActivity{
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        return;
+    }
 }
