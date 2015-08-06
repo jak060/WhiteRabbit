@@ -58,16 +58,14 @@ public class EventFragment extends Fragment {
 
         final ListView eventList = (ListView) view.findViewById(R.id.listView);
 
-        // For the debugging purposes
-        TextView loggedInAs = (TextView) view.findViewById(R.id.textView);
-        loggedInAs.setText("I'm logged in as " + ParseUser.getCurrentUser().getUsername());
-
         // Make sure to clear the list before using it
         infoList.clear();
 
         // Make a query to the database to retrieve invitation information
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("invitationInfo");
         query.whereContains("ownerID", ParseUser.getCurrentUser().getObjectId());
+        query.addAscendingOrder("date");
+        query.addAscendingOrder("time");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {

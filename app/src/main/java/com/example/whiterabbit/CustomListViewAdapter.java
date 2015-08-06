@@ -44,36 +44,24 @@ public class CustomListViewAdapter extends BaseAdapter{
         if(convertView == null) {
             convertView = layoutInflater.inflate(R.layout.activity_custom_event_row, null);
             holder = new Holder();
-            holder.information = (TextView) convertView.findViewById(R.id.event);
+            holder.date = (TextView) convertView.findViewById(R.id.event_row_date);
+            holder.time = (TextView) convertView.findViewById(R.id.event_row_time);
+            holder.title = (TextView) convertView.findViewById(R.id.event_row_title);
+            holder.location = (TextView) convertView.findViewById(R.id.event_row_location);
             holder.light = (Button) convertView.findViewById((R.id.signalLight));
             holder.status = (TextView) convertView.findViewById(R.id.status);
             convertView.setTag(holder);
 
         }
-
         // Otherwise, user the existing ones
         else {
             holder = (Holder) convertView.getTag();
         }
 
-
-        // To hold the final string of invitees
-        StringBuilder tempStringBuilder = new StringBuilder();
-
-        for(int i = 0; i < infoList.get(position).getWith().size(); i++) {
-            tempStringBuilder = tempStringBuilder.append(infoList.get(position).getWith().get(i) + ", ");
-
-        }
-
-        // final string of all invitees without the last comma
-        if(tempStringBuilder.length() > 0) {
-            finalString = tempStringBuilder.substring(0, tempStringBuilder.lastIndexOf(","));
-        }
-
-        // Set up the string of all the invitation information
-        String temp = "Title: " + infoList.get(position).getTitle() + "\n" + "When: " + infoList.get(position).getTime() + ", " +
-                infoList.get(position).getDate() + "\n" + "Where: " + infoList.get(position).getLocation() + "Participants:\n" + finalString;
-        holder.information.setText(temp);
+        holder.date.setText(infoList.get(position).getDate());
+        holder.time.setText(infoList.get(position).getTime());
+        holder.title.setText(infoList.get(position).getTitle());
+        holder.location.setText(infoList.get(position).getLocation());
 
         // This is to show indication light for events
         if(infoList.get(position).getState() == 0) {
@@ -100,7 +88,10 @@ public class CustomListViewAdapter extends BaseAdapter{
     }
 
     static class Holder {
-        TextView information;
+        TextView date;
+        TextView time;
+        TextView title;
+        TextView location;
         Button light;
         TextView status;
     }

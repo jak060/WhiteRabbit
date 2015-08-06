@@ -1,36 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical"
-    android:paddingBottom="10dp"
-    android:paddingLeft="10dp"
-    android:paddingTop="10dp"
-    android:background="@drawable/border">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="10dp">
 
-    <TextView
-        android:id="@+id/event"
+    <TextView android:id="@+id/event_row_date"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Date"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:background="#e5e5e5"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        style="?android:listSeparatorTextViewStyle" />
+
+    <TextView android:id="@+id/event_row_time"
+        android:layout_below="@id/event_row_date"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textSize="14sp"
+        android:text="6:30 PM" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    <TextView android:id="@+id/event_row_title"
+        android:layout_below="@id/event_row_date"
+        android:layout_toEndOf="@id/event_row_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/black"
+        android:text="Title" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:text=""
-            android:background="#FF0000"
-            android:id="@+id/signalLight" />
+    <TextView android:id="@+id/event_row_location"
+        android:layout_below="@id/event_row_title"
+        android:layout_toEndOf="@id/event_row_time"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
+        android:textSize="14sp"
+        android:text="Location" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/status" />
-    </LinearLayout>
+    <Button android:id="@+id/signalLight"
+        android:layout_below="@id/event_row_location"
+        android:layout_toEndOf="@id/event_row_time"
+        android:layout_width="16dp"
+        android:layout_height="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="#FF0000"
+        android:text=""
+        style="?android:attr/buttonStyleSmall" />
 
-</LinearLayout>
+    <TextView android:id="@+id/status"
+        android:layout_below="@id/event_row_location"
+        android:layout_toEndOf="@id/signalLight"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        android:text="Status" />
+
+</RelativeLayout>
