@@ -103,8 +103,6 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
 
-                        dialog.dismiss();
-
                         if (e == null) {
                             // stateNum - 1 is to change the indicator light in the main event page
                             parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) - 1);
@@ -114,6 +112,9 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
+
+                                    dialog.dismiss();
+
                                     if(e == null) {
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);

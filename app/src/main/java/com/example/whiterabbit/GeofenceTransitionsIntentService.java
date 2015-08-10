@@ -21,7 +21,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
 import android.text.TextUtils;
@@ -57,7 +59,7 @@ public class GeofenceTransitionsIntentService extends IntentService{
 
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
-        if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER ||
+        if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
 
@@ -70,8 +72,24 @@ public class GeofenceTransitionsIntentService extends IntentService{
             sendNotification(geofenceTransitionDetails);
             Log.v(TAG, geofenceTransitionDetails);
 
+            if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
+                Log.v(TAG, "I've entered!");
+                // This is to share this friends list with other activities
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, true);
+                editor.commit();
+            } else if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
+                Log.v(TAG, "I've exited!");
+                // This is to share this friends list with other activities
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
+                editor.commit();
+            }
+
         } else {
-            Log.e(TAG, "Geofence transition error: invalid transition type"  + geofenceTransition);
+            Log.e(TAG, "Geofence transition error: invalid transition type" + geofenceTransition);
         }
     }
 
@@ -96,7 +114,7 @@ public class GeofenceTransitionsIntentService extends IntentService{
 
         TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
 
-        stackBuilder.addParentStack(GeofenceActivity.class);
+        stackBuilder.addParentStack(MainActivity.class);
 
         stackBuilder.addNextIntent(notificationIntent);
 
@@ -108,6 +126,7 @@ public class GeofenceTransitionsIntentService extends IntentService{
                 .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
                 .setContentTitle(notificationDetails)
                 .setContentText("Click notification to return to app")
+                .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})
                 .setContentIntent(notificationPendingIntent);
 
         builder.setAutoCancel(true);
@@ -120,9 +139,11 @@ public class GeofenceTransitionsIntentService extends IntentService{
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return "Entered";
+                return "You've arrived at the location :)";
             case Geofence.GEOFENCE_TRANSITION_EXIT:
-                return "Exited";
+                return "You just left the destination.";
+            case Geofence.GEOFENCE_TRANSITION_DWELL:
+                return "You've arrived at the location :)";
             default:
                 return "Unknown Transition";
         }

@@ -136,18 +136,32 @@
         </activity>
 
         <activity
-            android:name=".GeofenceActivity"
+            android:name=".RewardWinnerActivity"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.NoDisplay"
             android:screenOrientation="portrait">
             <intent-filter>
-                <action android:name="com.example.whiterabbit.GEOFENCE" />
+                <action android:name="com.example.whiterabbit.REWARD_WINNER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".RewardLoserActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.example.whiterabbit.REWARD_LOSER" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <service android:name=".GeofenceActivity" />
+
         <service android:name=".GeofenceTransitionsIntentService" />
+
+        <service android:name=".RewardPreparationService" />
 
         <service android:name="com.parse.PushService" />
         <receiver android:name="com.parse.ParseBroadcastReceiver">

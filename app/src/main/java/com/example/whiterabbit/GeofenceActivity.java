@@ -17,10 +17,12 @@
 package com.example.whiterabbit;
 
 import android.app.Activity;
+import android.app.IntentService;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -48,7 +50,7 @@ import java.util.Map;
  * This class deals with geofence-related activities
  */
 
-public class GeofenceActivity extends Activity implements
+public class GeofenceActivity extends IntentService implements
         ConnectionCallbacks, OnConnectionFailedListener, ResultCallback<Status> {
 
     // For the debugging purpose
@@ -66,17 +68,24 @@ public class GeofenceActivity extends Activity implements
 
     public static final HashMap<String, LatLng> GEOFENCE_LOCATIONS = new HashMap<String, LatLng>();
 
+    public GeofenceActivity() {
+        super("geofence-activity");
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void onCreate() {
+        super.onCreate();
 
         // Make sure to empty the list before using it
-        GEOFENCE_LOCATIONS.clear();
-        //setContentView(R.layout.activity_geofence);
 
-        Intent intent = getIntent();
-        if(intent != null) {
+        //setContentView(R.layout.activity_geofence);
+    }
+
+    @Override
+    protected void onHandleIntent (Intent intent) {
+        GEOFENCE_LOCATIONS.clear();
+        //Intent intent = getIntent();
+
             double lat = intent.getExtras().getDouble("lat");
             double lng = intent.getExtras().getDouble("lng");
 
@@ -90,12 +99,18 @@ public class GeofenceActivity extends Activity implements
             sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
             geofencesAdded = sharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
 
-            GEOFENCE_LOCATIONS.put("Location", currentLocation);
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, true);
+            editor.commit();
+
+            GEOFENCE_LOCATIONS.put("WhiteRabbit", currentLocation);
 
             populateGeofenceList();
 
             buildGoogleApiClient();
-        }
+
     }
 
     protected synchronized void buildGoogleApiClient() {
@@ -104,18 +119,7 @@ public class GeofenceActivity extends Activity implements
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
         googleApiClient.connect();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        googleApiClient.disconnect();
     }
 
     @Override
@@ -137,16 +141,16 @@ public class GeofenceActivity extends Activity implements
     public void populateGeofenceList() {
         for(Map.Entry<String, LatLng> entry : GEOFENCE_LOCATIONS.entrySet()) {
             geofenceList.add(new Geofence.Builder()
-            .setRequestId(entry.getKey())
-            .setCircularRegion(
-                    entry.getValue().latitude,
-                    entry.getValue().longitude,
-                    Constants.GEOFENCE_RADIUS_IN_METERS
-            )
-            .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
-            .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
-                    Geofence.GEOFENCE_TRANSITION_EXIT)
-            .build());
+                    .setRequestId(entry.getKey())
+                    .setCircularRegion(
+                            entry.getValue().latitude,
+                            entry.getValue().longitude,
+                            Constants.GEOFENCE_RADIUS_IN_METERS
+                    )
+                    .setExpirationDuration(Constants.GEOFENCE_EXPIRATION_IN_MILLISECONDS)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER |
+                            Geofence.GEOFENCE_TRANSITION_EXIT)
+                    .build());
         }
 
     }
@@ -215,6 +219,7 @@ public class GeofenceActivity extends Activity implements
 
             if(geofencesAdded) {
                 Toast.makeText(this, "Geofence is added.", Toast.LENGTH_SHORT).show();
+                //removeGeofencesHandler();
             } else {
                 Toast.makeText(this, "Geofenc is removed.", Toast.LENGTH_SHORT).show();
             }
