@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_create_event) {
             Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
             startActivity(intent);
             return true;
