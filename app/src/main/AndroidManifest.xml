@@ -146,6 +146,20 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whiterabbit.MainActivity" />
+        </activity>
+        <activity
+            android:name=".InvitationsActivity"
+            android:label="@string/title_activity_invitations" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whiterabbit.MainActivity" />
+        </activity>
 
         <service android:name=".GeofenceActivity" />
         <service android:name=".GeofenceTransitionsIntentService" />
@@ -182,15 +196,6 @@
         <meta-data
             android:name="com.parse.push.notification_icon"
             android:resource="@mipmap/ic_launcher" />
-
-        <activity
-            android:name=".SettingsActivity"
-            android:label="@string/title_activity_settings" >
-        </activity>
-        <activity
-            android:name=".InvitationsActivity"
-            android:label="@string/title_activity_invitations" >
-        </activity>
     </application>
 
 </manifest>
