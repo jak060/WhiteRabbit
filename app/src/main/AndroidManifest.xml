@@ -88,7 +88,7 @@
         </activity>
         <activity
             android:name=".CreateEventActivity"
-            android:label="@string/create_event_label"
+            android:label="@string/title_activity_create_event"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="com.example.whiterabbit.CREATE_EVENT" />
