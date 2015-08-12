@@ -11,4 +11,8 @@
         android:title="@string/action_create_event"
         android:icon="@drawable/ic_add_white_48dp"
         app:showAsAction="always" />
+
+    <item android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
 </menu>

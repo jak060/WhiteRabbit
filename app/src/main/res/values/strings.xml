@@ -3,14 +3,16 @@
     <string name="create_event_label">New Event</string>
 
     <string name="hello_world">Hello world!</string>
-    <string name="title_activity_maps">Map</string>
 
+    <string name="title_activity_maps">Map</string>
     <string name="title_activity_show_geofence_transitions">ShowGeofenceTransitionsActivity</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="title_activity_settings">Settings</string>
 
     <!-- Action bar item strings -->
     <string name="action_invitations">Invitations</string>
     <string name="action_create_event">New Event</string>
+    <string name="action_settings">Settings</string>
 
     <!-- Buttons strings -->
     <string name="add_geofences">Add geofences</string>
