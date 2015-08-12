@@ -50,7 +50,12 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.action_create_event) {
+        if(id == R.id.action_invitations) {
+            Intent intent = new Intent(getApplicationContext(), InvitationsActivity.class);
+            startActivity(intent);
+            return true;
+        }
+        else if(id == R.id.action_create_event) {
             Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
             startActivity(intent);
             return true;
