@@ -57,11 +57,9 @@ public class CreateEventActivity extends AppCompatActivity {
     TextView dateLabel;
     TextView locationLabel;
     TextView peopleLabel;
-    TextView wagerLabel;
 
     static TextView showTime;
     static TextView showDate;
-    static TextView showWager;
 
     TextView showLocation;
     TextView showInvitees;
@@ -87,7 +85,6 @@ public class CreateEventActivity extends AppCompatActivity {
         dateLabel = (TextView) findViewById(R.id.date_label);
         locationLabel = (TextView) findViewById(R.id.location_label);
         peopleLabel = (TextView) findViewById(R.id.people_label);
-        wagerLabel = (TextView) findViewById(R.id.wager_label);
 
         showTime = (TextView) findViewById(R.id.showTime);
         showTime.setText(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(new Date()));
@@ -97,7 +94,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
-        showWager = (TextView) findViewById(R.id.wager_view);
 
         Button sendBtn = (Button) findViewById(R.id.sendBtn);
 
@@ -134,14 +130,6 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SelectInviteeActivity.class);
                 startActivityForResult(intent, 2);
-            }
-        });
-
-        wagerLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WagerDialogFragment wagerDialogFragment = new WagerDialogFragment();
-                wagerDialogFragment.show(getFragmentManager(), "dialog_wager");
             }
         });
 
@@ -327,37 +315,6 @@ public class CreateEventActivity extends AppCompatActivity {
             Date date = calendar.getTime();
 
             showDate.setText(java.text.DateFormat.getDateInstance().format(date));
-        }
-    }
-
-    public static class WagerDialogFragment extends DialogFragment {
-
-        String[] wagerOptions;
-        String selectedWager;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            wagerOptions = getResources().getStringArray(R.array.wager_options);
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(R.string.wager_amount);
-
-            builder.setItems(wagerOptions, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    selectedWager = wagerOptions[which];
-                    showWager.setText(selectedWager);
-                }
-            });
-
-            // Create the AlertDialog object and return it
-            return builder.create();
         }
     }
 }
