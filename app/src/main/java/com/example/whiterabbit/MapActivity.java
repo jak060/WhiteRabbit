@@ -119,6 +119,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(final LatLng latLng) {
+
+                // Hide the soft keyboard so that the user can see the map
+                hideKeyboard(locationText);
+
                 // Add a marker to the user-typed address
                 map.clear();
                 map.addMarker(new MarkerOptions()

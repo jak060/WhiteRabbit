@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/WhiteRabbit_MASTER.iml" filepath="$PROJECT_DIR$/WhiteRabbit_MASTER.iml" />
-      <module fileurl="file://$PROJECT_DIR$/WhiteRabbit_MASTER_LOCAL.iml" filepath="$PROJECT_DIR$/WhiteRabbit_MASTER_LOCAL.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WhiteRabbit.iml" filepath="$PROJECT_DIR$/WhiteRabbit.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
