@@ -25,20 +25,25 @@ public class RewardPreparationService  extends IntentService{
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        // A boolean avalue to check whether the user has entered the geofence or not
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-
         boolean arrived = prefs.getBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
 
+        // To pass objectId to corresponding reward page
         String objectId = intent.getExtras().getString("objectId");
 
         Log.v(TAG, "Did he arrive? " + arrived);
 
+        // If he has entered the geofence, then go to the winner page
         if(arrived == true) {
             Intent newIntent = new Intent(this, RewardWinnerActivity.class);
             newIntent.putExtra("objectId", objectId);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(newIntent);
-        } else {
+        }
+
+        // Else, then go to the loser page
+        else {
             Intent newIntent = new Intent(this, RewardLoserActivity.class);
             newIntent.putExtra("objectId", objectId);
             newIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

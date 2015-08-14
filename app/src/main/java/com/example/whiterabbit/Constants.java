@@ -38,9 +38,9 @@ public final class Constants {
 
     public static final String GEOFENCES_TRANSITION_INTENT_ENTERED_KEY = PACKAGE_NAME + ".GEOFENCES_TRANSITION_INTENT_ENTERED_KEY";
     /**
-     * For this sample, geofences expire after 10 minutes.
+     * For this sample, geofences expire after 1 minutes for debugging purposes.
      */
-    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = 5 * 60 * 1000;
+    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = 1 * 60 * 1000;
     public static final float GEOFENCE_RADIUS_IN_METERS = 1609 / 4; // 0.25 mile, 0.4 km
 
 }

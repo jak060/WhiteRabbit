@@ -11,10 +11,13 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -85,7 +88,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     }
 
     @Override
-    public void onMapReady(GoogleMap map) {
+    public void onMapReady(final GoogleMap map) {
 
         final GoogleMap tempMap = map;
 
@@ -112,6 +115,68 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
         }
 
+        // When the user long clicks the map, add the marker
+        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(final LatLng latLng) {
+                // Add a marker to the user-typed address
+                map.clear();
+                map.addMarker(new MarkerOptions()
+                        .title("Location Found:")
+                        .snippet("Click HERE To Choose This Location :)")
+                        .position(latLng));
+
+                List<Address> addressList = null;
+                Address address = null;
+
+                final StringBuilder strAddress = new StringBuilder();
+
+                // Geocoder converts actual longitude and latitude to the String address
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+
+                try {
+                    // This gets the user-typed address and save it into the StringBuilder
+                    addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                    address = addressList.get(0);
+                    for(int i = 0; i < address.getMaxAddressLineIndex(); i ++) {
+                        strAddress.append(address.getAddressLine(i)).append("\n");
+                    }
+
+                    Toast.makeText(getApplicationContext(), strAddress, Toast.LENGTH_LONG).show();
+                } catch(IOException e) {
+                    e.printStackTrace();
+                }
+
+                LatLng currentLocation = new LatLng(latLng.latitude, latLng.longitude);;
+
+                // When the user clicks the marker, show the message
+                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                    @Override
+                    public boolean onMarkerClick(Marker marker) {
+                        marker.showInfoWindow();
+                        return false;
+                    }
+                });
+
+                // When the user clicks the message, go back to the previous activity with
+                // passing the user-typed address
+                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+
+                    @Override
+                    public void onInfoWindowClick(Marker marker) {
+                        Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
+                        intent.putExtra("address", strAddress.toString());
+                        intent.putExtra("lat", latLng.latitude);
+                        intent.putExtra("lng", latLng.longitude);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                    }
+                });
+
+
+            }
+        });
+
         // When user clicks the button, call the method which locates the address that user has typed
         locationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,6 +185,20 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                     locate(tempMap);
                 }
 
+            }
+        });
+
+        // When user clicks the search button, call the method which locates the address that user has typed
+        locationText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    if(locationText.getText().toString().length() > 0) {
+                        locate(tempMap);
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -144,7 +223,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         return bestLocation;
     }
 
-    public void locate(GoogleMap map) {
+    public void locate(final GoogleMap map) {
 
         // Hide the soft keyboard so that the user can see the map
         hideKeyboard(locationText);
@@ -183,9 +262,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Log.v(TAG, "lng: " + lng);
 
 
-        LatLng currentLocation = new LatLng(lat, lng);
-
-        //Constants.BAY_AREA_LANDMARKS.put("Location", currentLocation);
+        LatLng currentLocation = new LatLng(lat, lng);;
 
         // Move the map to the user-typed address
         map.setMyLocationEnabled(true);
@@ -206,7 +283,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             }
         });
 
-        // When the user clicks the message, go back to the previous activty with
+        // When the user clicks the message, go back to the previous activity with
         // passing the user-typed address
         map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 

@@ -41,7 +41,20 @@ public class RewardWinnerActivity extends AppCompatActivity{
             Log.v(TAG, "ObjectId For Winner: " + objectId);
         }
 
+        // Reset the boolean value of GEOFENCES_REGISTERED_KEY
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
+        editor.commit();
+
+        // Reset the boolean value of GEOFENCES_TRANSITION_INTENT_ENTERED_KEY
+        SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor2 = prefs2.edit();
+        editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
+        editor2.commit();
+
         okButton.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
 
@@ -53,28 +66,29 @@ public class RewardWinnerActivity extends AppCompatActivity{
                 dialog.setCancelable(false);
                 dialog.setCanceledOnTouchOutside(false);
 
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
-                editor.commit();
-
+                // ObjectId is needed for unsubscribing an user from the event
                 ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
                 invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         if (e == null) {
+
+                            // Unsubscribe the current user from the event
                             String temp = (String) parseObject.get("ownerID");
                             String myID = ParseUser.getCurrentUser().getObjectId();
                             temp = temp.replace(myID, "");
                             parseObject.put("ownerID", temp);
 
+                            // Save the change back to the db
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
 
+                                    // Dismiss the progress dialog
                                     dialog.dismiss();
 
                                     if (e == null) {
+                                        // If no error, then start the main activity
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
                                     } else {
