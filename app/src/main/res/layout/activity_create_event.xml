@@ -169,12 +169,5 @@
             android:padding="16dp"
             android:text="Earn carrots by arriving on time. Lose carrots by arriving late or failing to show up." />
 
-        <Button android:id="@+id/sendBtn"
-            android:layout_below="@id/wager_description"
-            android:layout_centerHorizontal="true"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Send" />
-
     </RelativeLayout>
 </ScrollView>
