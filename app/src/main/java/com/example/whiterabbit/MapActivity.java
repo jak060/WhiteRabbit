@@ -6,7 +6,7 @@ import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
+import com.google.android.gms.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -37,7 +37,7 @@ import java.util.List;
  * This class deals with the Google Maps v2 w/ Geocoder
  */
 
-public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
     EditText locationText; // To search the location
     ImageButton locationBtn; // To search the location
@@ -45,33 +45,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     Location globalLocation;
     double lat;
     double lng;
+    GoogleMap googleMap;
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
-
-    private final LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(final Location location) {
-
-            globalLocation = location;
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            // TODO locationListenerGPS onStatusChanged
-            // Log.d(TAG, "Provedor trocado");
-        }
-
-        // @Override
-        public void onProviderEnabled(String provider) {
-            // Log.w(TAG, "PROVEDOR " + provider + " HABILITADO!");
-        }
-
-        // @Override
-        public void onProviderDisabled(String provider) {
-            // Log.w(TAG, "PROVEDOR " + provider + " DESABILITADO!");
-        }
-
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,10 +67,10 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     @Override
     public void onMapReady(final GoogleMap map) {
 
-        final GoogleMap tempMap = map;
+        googleMap = map;
 
         // When the user starts the map, start at the current position of the user
-         mlocationManager = (LocationManager)
+           mlocationManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
 
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
@@ -103,20 +80,44 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
         Criteria criteria = new Criteria();
         String bestProvider = locationManager.getBestProvider(criteria, true);
         Log.v(TAG, "Best proviver: " + bestProvider);
-        globalLocation = getLastKnownLocation();
+        globalLocation = locationManager.getLastKnownLocation(bestProvider);
+        googleMap.setMyLocationEnabled(true);
 
         // If we found one, use it as the current location
         if(globalLocation != null) {
-            double latitude = globalLocation.getLatitude();
-            double longitude = globalLocation.getLongitude();
-            LatLng startLocation = new LatLng(latitude, longitude);
-            map.setMyLocationEnabled(true); // This makes the button when the user clicks, brings the
-            // map to the current position
-            map.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
+            onLocationChanged(globalLocation);
         }
 
+        locationManager.requestLocationUpdates(bestProvider, 20000, 0, new android.location.LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+                LatLng startLocation = new LatLng(latitude, longitude);
+                // This makes the button when the user clicks, brings the
+                // map to the current position
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        });
+
+
         // When the user long clicks the map, add the marker
-        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+        googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(final LatLng latLng) {
 
@@ -124,8 +125,8 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 hideKeyboard(locationText);
 
                 // Add a marker to the user-typed address
-                map.clear();
-                map.addMarker(new MarkerOptions()
+                googleMap.clear();
+                googleMap.addMarker(new MarkerOptions()
                         .title("Location Found:")
                         .snippet("Click HERE To Choose This Location :)")
                         .position(latLng));
@@ -154,7 +155,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 LatLng currentLocation = new LatLng(latLng.latitude, latLng.longitude);;
 
                 // When the user clicks the marker, show the message
-                map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
                     public boolean onMarkerClick(Marker marker) {
                         marker.showInfoWindow();
@@ -164,7 +165,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
                 // When the user clicks the message, go back to the previous activity with
                 // passing the user-typed address
-                map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
                     @Override
                     public void onInfoWindowClick(Marker marker) {
@@ -186,7 +187,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View view) {
                 if(locationText.getText().toString().length() > 0) {
-                    locate(tempMap);
+                    locate(googleMap);
                 }
 
             }
@@ -198,7 +199,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     if(locationText.getText().toString().length() > 0) {
-                        locate(tempMap);
+                        locate(googleMap);
                     }
                     return true;
                 }
@@ -301,6 +302,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
                 finish();
             }
         });
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+        LatLng startLocation = new LatLng(latitude, longitude);
+        // This makes the button when the user clicks, brings the
+        // map to the current position
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
     }
 
     // A method which hides the soft keyboard
