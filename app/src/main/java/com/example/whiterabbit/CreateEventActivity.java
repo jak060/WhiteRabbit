@@ -57,11 +57,9 @@ public class CreateEventActivity extends AppCompatActivity {
     TextView dateLabel;
     TextView locationLabel;
     TextView peopleLabel;
-    TextView wagerLabel;
 
     static TextView showTime;
     static TextView showDate;
-    static TextView showWager;
 
     TextView showLocation;
     TextView showInvitees;
@@ -70,6 +68,29 @@ public class CreateEventActivity extends AppCompatActivity {
 
     double lat;
     double lng;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_create_event, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if(id == R.id.action_event_send) {
+            sendInvitation();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +108,6 @@ public class CreateEventActivity extends AppCompatActivity {
         dateLabel = (TextView) findViewById(R.id.date_label);
         locationLabel = (TextView) findViewById(R.id.location_label);
         peopleLabel = (TextView) findViewById(R.id.people_label);
-        wagerLabel = (TextView) findViewById(R.id.wager_label);
 
         showTime = (TextView) findViewById(R.id.showTime);
         showTime.setText(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(new Date()));
@@ -97,9 +117,6 @@ public class CreateEventActivity extends AppCompatActivity {
 
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
-        showWager = (TextView) findViewById(R.id.wager_view);
-
-        Button sendBtn = (Button) findViewById(R.id.sendBtn);
 
         // When the Time TextView is clicked, show the time picker
         timeLabel.setOnClickListener(new View.OnClickListener() {
@@ -137,110 +154,6 @@ public class CreateEventActivity extends AppCompatActivity {
             }
         });
 
-        wagerLabel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                WagerDialogFragment wagerDialogFragment = new WagerDialogFragment();
-                wagerDialogFragment.show(getFragmentManager(), "dialog_wager");
-            }
-        });
-
-        // If the user clicks send button. . .
-        sendBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                // First of all show the progress dialog to make the user wait
-                dialog = new ProgressDialog(CreateEventActivity.this);
-                dialog.setTitle("Thank You For Your Patience :)");
-                dialog.setMessage("Sending This Invitation. . .");
-                dialog.show();
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
-
-                // Put these invitation information into Parse
-                final ParseObject invitationInfo = new ParseObject("invitationInfo");
-                invitationInfo.put("title", title.getText().toString());
-                invitationInfo.put("time", showTime.getText().toString());
-                invitationInfo.put("date", showDate.getText().toString());
-                invitationInfo.put("location", showLocation.getText().toString());
-                // This format looks like Jacob Kim: (111) 222-3333
-                String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));
-                friendList.add(myself);
-                invitationInfo.put("invitees", friendList);
-                invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
-                invitationInfo.put("stateNum", friendList.size() - 1);
-
-                // Needed to save them in db for the geofence
-                invitationInfo.put("lat", lat);
-                invitationInfo.put("lng", lng);
-
-                // Save those info into the Parse
-                invitationInfo.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        dialog.dismiss();
-
-                        // Error case
-                        if (e != null) {
-                            Toast.makeText(getApplicationContext(), "Error saving: " + e.getMessage(),
-                                    Toast.LENGTH_SHORT).show();
-
-                        } else {
-                            // Format looks like (123)456-7890 => 1234567890 saving only numbers
-                            Utility.saveOnlyNumbers(friendList, phoneNumbers);
-
-                            // For the testing purposes
-                            Log.v(TAG, phoneNumbers.get(0));
-
-                            // Create our Installation query
-                            if (phoneNumbers.isEmpty() == false) {
-                                // Send push notifications to users
-                                for (int i = 0; i < phoneNumbers.size(); i++) {
-                                    // If that user exists, send the push notification
-                                    if(!phoneNumbers.get(i).equals(ParseUser.getCurrentUser().get("phoneNumber"))) {
-                                        ParseQuery pushQuery = ParseInstallation.getQuery();
-                                        pushQuery.whereEqualTo("user", phoneNumbers.get(i));
-
-                                        // Send push notification to query
-                                        ParsePush push = new ParsePush();
-
-                                        // Using JSON to send more information along with the push notification
-                                        JSONObject data = new JSONObject();
-                                        try {
-                                            data.put("alert", "You have an invitation!!!");
-                                            data.put("title", title.getText().toString());
-                                            data.put("time", showTime.getText().toString());
-                                            data.put("date", showDate.getText().toString());
-                                            data.put("location", showLocation.getText().toString());
-                                            data.put("fromName", ParseUser.getCurrentUser().get("firstName"));
-                                            data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
-                                            Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
-                                            data.put("objectId", invitationInfo.getObjectId());
-
-                                        } catch (JSONException e1) {
-                                            e1.printStackTrace();
-                                        }
-                                        push.setQuery(pushQuery); // Set our Installation query
-                                        push.setData(data);
-                                        push.sendInBackground();
-                                    }
-
-                                }
-                            }
-
-                            // Start the new activity
-                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                            startActivity(intent);
-                        }
-                    }
-                });
-
-
-
-            }
-        });
-
     }
 
     // This method brings a user-typed address and displays that address
@@ -267,6 +180,94 @@ public class CreateEventActivity extends AppCompatActivity {
                 showInvitees.setText(temp);
             }
         }
+    }
+
+    private void sendInvitation() {
+        // First of all show the progress dialog to make the user wait
+        dialog = new ProgressDialog(CreateEventActivity.this);
+        dialog.setTitle("Thank You For Your Patience :)");
+        dialog.setMessage("Sending This Invitation. . .");
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        // Put these invitation information into Parse
+        final ParseObject invitationInfo = new ParseObject("invitationInfo");
+        invitationInfo.put("title", title.getText().toString());
+        invitationInfo.put("time", showTime.getText().toString());
+        invitationInfo.put("date", showDate.getText().toString());
+        invitationInfo.put("location", showLocation.getText().toString());
+        // This format looks like Jacob Kim: (111) 222-3333
+        String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));
+        friendList.add(myself);
+        invitationInfo.put("invitees", friendList);
+        invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId());
+        invitationInfo.put("stateNum", friendList.size() - 1);
+
+        // Needed to save them in db for the geofence
+        invitationInfo.put("lat", lat);
+        invitationInfo.put("lng", lng);
+
+        // Save those info into the Parse
+        invitationInfo.saveInBackground(new SaveCallback() {
+            @Override
+            public void done(ParseException e) {
+                dialog.dismiss();
+
+                // Error case
+                if (e != null) {
+                    Toast.makeText(getApplicationContext(), "Error saving: " + e.getMessage(),
+                            Toast.LENGTH_SHORT).show();
+
+                } else {
+                    // Format looks like (123)456-7890 => 1234567890 saving only numbers
+                    Utility.saveOnlyNumbers(friendList, phoneNumbers);
+
+                    // For the testing purposes
+                    Log.v(TAG, phoneNumbers.get(0));
+
+                    // Create our Installation query
+                    if (phoneNumbers.isEmpty() == false) {
+                        // Send push notifications to users
+                        for (int i = 0; i < phoneNumbers.size(); i++) {
+                            // If that user exists, send the push notification
+                            if(!phoneNumbers.get(i).equals(ParseUser.getCurrentUser().get("phoneNumber"))) {
+                                ParseQuery pushQuery = ParseInstallation.getQuery();
+                                pushQuery.whereEqualTo("user", phoneNumbers.get(i));
+
+                                // Send push notification to query
+                                ParsePush push = new ParsePush();
+
+                                // Using JSON to send more information along with the push notification
+                                JSONObject data = new JSONObject();
+                                try {
+                                    data.put("alert", "You have an invitation!!!");
+                                    data.put("title", title.getText().toString());
+                                    data.put("time", showTime.getText().toString());
+                                    data.put("date", showDate.getText().toString());
+                                    data.put("location", showLocation.getText().toString());
+                                    data.put("fromName", ParseUser.getCurrentUser().get("firstName"));
+                                    data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
+                                    Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
+                                    data.put("objectId", invitationInfo.getObjectId());
+
+                                } catch (JSONException e1) {
+                                    e1.printStackTrace();
+                                }
+                                push.setQuery(pushQuery); // Set our Installation query
+                                push.setData(data);
+                                push.sendInBackground();
+                            }
+
+                        }
+                    }
+
+                    // Start the new activity
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
     /**
@@ -327,37 +328,6 @@ public class CreateEventActivity extends AppCompatActivity {
             Date date = calendar.getTime();
 
             showDate.setText(java.text.DateFormat.getDateInstance().format(date));
-        }
-    }
-
-    public static class WagerDialogFragment extends DialogFragment {
-
-        String[] wagerOptions;
-        String selectedWager;
-
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-
-            wagerOptions = getResources().getStringArray(R.array.wager_options);
-        }
-
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
-            builder.setTitle(R.string.wager_amount);
-
-            builder.setItems(wagerOptions, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    selectedWager = wagerOptions[which];
-                    showWager.setText(selectedWager);
-                }
-            });
-
-            // Create the AlertDialog object and return it
-            return builder.create();
         }
     }
 }

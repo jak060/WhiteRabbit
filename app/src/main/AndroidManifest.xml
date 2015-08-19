@@ -90,6 +90,9 @@
             android:name=".CreateEventActivity"
             android:label="@string/title_activity_create_event"
             android:screenOrientation="portrait" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whiterabbit.MainActivity" />
             <intent-filter>
                 <action android:name="com.example.whiterabbit.CREATE_EVENT" />
 

@@ -14,6 +14,7 @@
     <string name="action_invitations">Invitations</string>
     <string name="action_create_event">New Event</string>
     <string name="action_settings">Settings</string>
+    <string name="action_event_send">Send</string>
 
     <!-- Buttons strings -->
     <string name="add_geofences">Add geofences</string>

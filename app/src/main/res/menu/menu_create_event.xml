@@ -1,0 +1,9 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".CreateEventActivity">
+
+    <item android:id="@+id/action_event_send"
+        android:title="@string/action_event_send"
+        android:icon="@drawable/ic_check_white_48dp"
+        app:showAsAction="always" />
+</menu>
