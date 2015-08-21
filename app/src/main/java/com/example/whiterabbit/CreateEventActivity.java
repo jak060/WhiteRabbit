@@ -22,6 +22,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -65,6 +67,9 @@ public class CreateEventActivity extends AppCompatActivity {
     TextView showInvitees;
 
     public ProgressDialog dialog;
+
+    RadioGroup carrots;
+    String numberOfCarrots = "0 carrot";
 
     double lat;
     double lng;
@@ -118,6 +123,8 @@ public class CreateEventActivity extends AppCompatActivity {
         showLocation = (TextView) findViewById(R.id.chosenLocationText);
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
 
+        carrots = (RadioGroup) findViewById(R.id.radio_group_wager);
+
         // When the Time TextView is clicked, show the time picker
         timeLabel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,6 +160,14 @@ public class CreateEventActivity extends AppCompatActivity {
                 startActivityForResult(intent, 2);
             }
         });
+
+        carrots.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                RadioButton rb = (RadioButton) findViewById(checkedId);
+                numberOfCarrots = rb.getText().toString();
+            }
+        });
+
 
     }
 
@@ -207,6 +222,9 @@ public class CreateEventActivity extends AppCompatActivity {
         // Needed to save them in db for the geofence
         invitationInfo.put("lat", lat);
         invitationInfo.put("lng", lng);
+
+        // Save the number of carrots
+        invitationInfo.put("carrots", numberOfCarrots);
 
         // Save those info into the Parse
         invitationInfo.saveInBackground(new SaveCallback() {

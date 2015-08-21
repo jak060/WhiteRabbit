@@ -73,6 +73,35 @@ public class RewardWinnerActivity extends AppCompatActivity{
                     public void done(ParseObject parseObject, ParseException e) {
                         if (e == null) {
 
+                            // Add the number of carrots, which user has predefined
+                            String stringCarrots = (String) parseObject.get("carrots");
+                            String numberOfCarrots = (String) stringCarrots.substring(0, 1);
+                            Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
+                            totalCarrots = totalCarrots + Integer.parseInt(numberOfCarrots);
+
+                            // Increment the total number of attempts
+                            Integer numOfAttempts = (Integer) ParseUser.getCurrentUser().get("attempts");
+                            numOfAttempts = numOfAttempts + 1;
+
+                            // Increment the rank points
+                            Integer rankPoints = (Integer) ParseUser.getCurrentUser().get("rankPoints");
+                            rankPoints = rankPoints + 1;
+
+                            // Update the number of carrots
+                            ParseUser.getCurrentUser().put("carrots", totalCarrots);
+
+                            // Update the total number of attempts
+                            ParseUser.getCurrentUser().put("attempts", numOfAttempts);
+
+                            Log.v(TAG, "numOfAttempts" + numOfAttempts);
+
+                            // Update the total rank points
+                            // Update the total number of attempts
+                            ParseUser.getCurrentUser().put("rankPoints", rankPoints);
+
+                            // Save
+                            ParseUser.getCurrentUser().saveInBackground();
+
                             // Unsubscribe the current user from the event
                             String temp = (String) parseObject.get("ownerID");
                             String myID = ParseUser.getCurrentUser().getObjectId();

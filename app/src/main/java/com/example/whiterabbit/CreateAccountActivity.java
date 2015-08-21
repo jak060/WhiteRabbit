@@ -183,6 +183,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                     user.put("firstName", textField1);
                     user.put("lastName", textField2);
                     user.put("phoneNumber", textField5);
+                    user.put("carrots", 50);
+                    user.put("rankPoints", 0);
+                    user.put("attempts", 0);
 
                     // Sign up in the background
                     user.signUpInBackground(new SignUpCallback() {
