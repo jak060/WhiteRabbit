@@ -40,7 +40,7 @@ public final class Constants {
     /**
      * For this sample, geofences expire after 1 minutes for debugging purposes.
      */
-    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = 1 * 60 * 1000;
+    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = 10 * 60 * 1000;
     public static final float GEOFENCE_RADIUS_IN_METERS = 1609 / 10; // 0.25 mile, 0.4 km
 
 }

@@ -17,6 +17,7 @@ import android.widget.ListView;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -93,11 +94,45 @@ public class ContactListFragment extends Fragment {
         // Check whether those phone numbers are in the database
         checkPhoneNumbersFromDB();
 
+        // When the user selects one of his/her friends. . .
         friends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), ContactActivity.class);
-                startActivity(intent);
+                Log.v(TAG, "ListView item: " + friends.getItemAtPosition(position));
+
+                // This string only saves the number to check from the database to see
+                // if that phone number exists. . .
+                String temp = (String) friends.getItemAtPosition(position);
+                temp = temp.substring(temp.indexOf(":") + 2);
+                temp = temp.replaceAll("[^0-9]", "");
+                Log.v(TAG, "temp: " + temp);
+
+                ParseQuery<ParseUser> query = ParseUser.getQuery();
+                query.whereEqualTo("phoneNumber", temp);
+
+                // Find that user from the database
+                query.findInBackground(new FindCallback<ParseUser>() {
+                    public void done(List<ParseUser> objects, ParseException e) {
+                        if (e == null) {
+
+                            // Pass necessary information to the detail page
+                            Intent intent = new Intent(getActivity(), ContactActivity.class);
+                            intent.putExtra("firstName", (String) objects.get(0).get("firstName"));
+                            intent.putExtra("lastName", (String) objects.get(0).get("lastName"));
+                            intent.putExtra("phoneNumber", (String) objects.get(0).get("phoneNumber"));
+                            intent.putExtra("username", (String) objects.get(0).get("username"));
+                            intent.putExtra("carrots", (Integer) objects.get(0).get("carrots"));
+                            intent.putExtra("rankPoints", (Integer) objects.get(0).get("rankPoints"));
+
+                            // Start the activity
+                            startActivity(intent);
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
             }
         });
 
