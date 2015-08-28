@@ -1,25 +1,14 @@
 package com.example.whiterabbit;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,39 +20,19 @@ import com.parse.SignUpCallback;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
+    private static final String ERROR_EMPTY_FIELD = "Field cannot be left blank.";
+    private static final String ERROR_AGREE_BOX = "You must agree to the terms to create an account.";
+
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
-    // To convert user inputs(EditText) to String
-    public String textField1 = "";
-    public String textField2 = "";
-    public String textField3 = "";
-    public String textField4 = "";
-    public String textField5 = "";
+    private EditText firstName;
+    private EditText lastName;
+    private EditText email;
+    private EditText password;
+    private EditText phoneNumber;
 
-    // To check whether textFields(user inputs) are empty
-    public boolean isEmpty1 = true;
-    public boolean isEmpty2 = true;
-    public boolean isEmpty3 = true;
-    public boolean isEmpty4 = true;
-    public boolean isEmpty5 = true;
-
-    // To check whether the user has checked the checkbox for the agreeing terms
-    public boolean isChecked = false;
-
-    public EditText firstName;
-    public EditText lastName;
-    public EditText email;
-    public EditText password;
-    public EditText phoneNumber;
-
-    // To let user know that they have to meet minimum requirements to create an account
-    public TextView req1;
-    public TextView req2;
-    public TextView req3;
-    public TextView req4;
-    public TextView req5;
-    public TextView req6;
+    private TextView agreeBoxReqMsg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,14 +49,18 @@ public class CreateAccountActivity extends AppCompatActivity {
         password = (EditText) findViewById(R.id.password);
         phoneNumber = (EditText) findViewById(R.id.phoneNumber);
 
-        req1 = (TextView) findViewById(R.id.reqField1);
-        req2 = (TextView) findViewById(R.id.reqField2);
-        req3 = (TextView) findViewById(R.id.reqField3);
-        req4 = (TextView) findViewById(R.id.reqField4);
-        req5 = (TextView) findViewById(R.id.reqField5);
-        req6 = (TextView) findViewById(R.id.reqField6);
+        agreeBoxReqMsg = (TextView) findViewById(R.id.agreeBoxReqMsg);
 
         final CheckBox agreeTerm = (CheckBox) findViewById(R.id.agreeBox);
+        agreeTerm.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (agreeTerm.isChecked()) {
+                    agreeBoxReqMsg.setText("");
+                }
+            }
+        });
 
         // Hides the keyboard when the user touches something other then the edit text fields
         Utility.hideKeyboard(this, firstName);
@@ -102,72 +75,39 @@ public class CreateAccountActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                textField1 = firstName.getText().toString();
-                textField2 = lastName.getText().toString();
-                textField3 = email.getText().toString();
-                textField4 = password.getText().toString();
-                textField5 = phoneNumber.getText().toString();
-
-                // To check whether each input is empty or not
-                if(textField1.length() > 0) {
-                    isEmpty1 = false;
-                    req1.setText("");
-                } else {
-                    isEmpty1 = true;
-                    req1.setText("Required Field!");
+                if(firstName.getText().length() == 0) {
+                    firstName.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(textField2.length() > 0) {
-                    isEmpty2 = false;
-                    req2.setText("");
-                } else {
-                    isEmpty2 = true;
-                    req2.setText("Required Field!");
-                }
-                if(textField3.length() > 0) {
-                    isEmpty3 = false;
-                    req3.setText("");
-                } else {
-                    isEmpty3 = true;
-                    req3.setText("Required Field!");
+                if(lastName.getText().length() == 0) {
+                    lastName.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(textField4.length() > 0) {
-                    isEmpty4 = false;
-                    req4.setText("");
-                } else {
-                    isEmpty4 = true;
-                    req4.setText("Required Field!");
+                if(email.getText().length() == 0) {
+                    email.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(textField5.length() > 0) {
-                    isEmpty5 = false;
-                    req5.setText("");
-                } else {
-                    isEmpty5 = true;
-                    req5.setText("Required Field!");
+                if(password.getText().length() == 0) {
+                    password.setError(ERROR_EMPTY_FIELD);
                 }
 
-                // If the return value is false, then it indicates that the user hasn't checked
-                // the checkbox
-                if(agreeTerm.isChecked() == false) {
-                    isChecked = false;
-                    req6.setText("Required Field!");
-                } else {
-                    isChecked = true;
-                    req6.setText("");
+                if(phoneNumber.getText().length() == 0) {
+                    phoneNumber.setError(ERROR_EMPTY_FIELD);
                 }
 
-                Log.v(TAG, "isEmpty1:" + isEmpty1);
-                Log.v(TAG, "isEmpty2:" + isEmpty2);
-                Log.v(TAG, "isEmpty3:" + isEmpty3);
-                Log.v(TAG, "isEmpty4:" + isEmpty4);
-                Log.v(TAG, "isEmpty5:" + isEmpty5);
-                Log.v(TAG, "isChecked:" + isChecked);
+                if(!agreeTerm.isChecked()) {
+                    agreeBoxReqMsg.setText(ERROR_AGREE_BOX);
+                } else {
+                    agreeBoxReqMsg.setText("");
+                }
 
-                // Makes sure that the user has filled each text field & checkbox & radio button
-                if(isEmpty1 == false && isEmpty2 == false && isEmpty3 == false && isEmpty4 == false
-                        && isEmpty5 == false && isChecked == true) {
+                // Makes sure that the user has completed everything
+                if(firstName.getText().length() > 0 &&
+                        lastName.getText().length() > 0 &&
+                        email.getText().length() > 0 &&
+                        password.getText().length() > 0 &&
+                        phoneNumber.getText().length() > 0 &&
+                        agreeTerm.isChecked()) {
 
                     final ProgressDialog dialog = new ProgressDialog(CreateAccountActivity.this);
                     dialog.setTitle("Thank You For Your Patience");
@@ -178,11 +118,11 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                     // Set up a new user
                     ParseUser user = new ParseUser();
-                    user.setUsername(textField3);
-                    user.setPassword(textField4);
-                    user.put("firstName", textField1);
-                    user.put("lastName", textField2);
-                    user.put("phoneNumber", textField5);
+                    user.setUsername(email.getText().toString());
+                    user.setPassword(password.getText().toString());
+                    user.put("firstName", firstName.getText().toString());
+                    user.put("lastName", lastName.getText().toString());
+                    user.put("phoneNumber", phoneNumber.getText().toString());
                     user.put("carrots", 50);
                     user.put("rankPoints", 0);
                     user.put("attempts", 0);
@@ -203,17 +143,15 @@ public class CreateAccountActivity extends AppCompatActivity {
                                     Toast.makeText(CreateAccountActivity.this, "Username already taken!", Toast.LENGTH_LONG).show();
                                     email.setText("");
                                 }
-
                             }
 
                             else {
-
                                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                                installation.put("user", textField5);
+                                installation.put("user", email.getText().toString());
                                 installation.put("userName", ParseUser.getCurrentUser());
                                 // TODO: REMOVE ALL SPECIAL CHARS FROM THE PHONE NUMBER
                                 String testPhoneNumber = (String) ParseUser.getCurrentUser().get("phoneNumber");
-                                Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + textField5);
+                                Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + phoneNumber.getText().toString());
                                 Log.v(TAG, "Phone Number At CREATE_ACCOUNT_TEST: " + testPhoneNumber);
                                 installation.saveInBackground(new SaveCallback() {
                                     @Override
@@ -233,18 +171,6 @@ public class CreateAccountActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    // A method that checks the length of the passed string and set whether it's empty or not.
-    // And then it sets the corresponding text message
-    public void checkLength(String str, TextView textView, boolean isEmpty) {
-        if(str.length() != 0) {
-            isEmpty = false;
-            textView.setText("");
-        } else {
-            isEmpty = true;
-            textView.setText("Required Field!");
-        }
     }
 
 }
