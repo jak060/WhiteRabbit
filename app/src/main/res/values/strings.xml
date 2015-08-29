@@ -17,6 +17,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_event_send">Send</string>
     <string name="action_close">Close</string>
+    <string name="action_sync">Sync</string>
 
     <!-- Create account strings -->
     <string name="label_first_name">First name</string>
