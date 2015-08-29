@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
@@ -32,8 +34,6 @@ public class RewardWinnerActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reward_winner);
 
-        Button okButton = (Button) findViewById(R.id.button);
-
         Intent intent = getIntent();
 
         if(intent != null) {
@@ -52,94 +52,110 @@ public class RewardWinnerActivity extends AppCompatActivity{
         SharedPreferences.Editor editor2 = prefs2.edit();
         editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
         editor2.commit();
+    }
 
-        okButton.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_reward_winner_activity, menu);
+        return true;
+    }
 
-            @Override
-            public void onClick(View view) {
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
 
-                // First of all show the progress dialog to make the user wait
-                dialog = new ProgressDialog(RewardWinnerActivity.this);
-                dialog.setTitle("Thank You Using Our App :)");
-                dialog.setMessage("Going Back To Main. . .");
-                dialog.show();
-                dialog.setCancelable(false);
-                dialog.setCanceledOnTouchOutside(false);
+        if(id == R.id.action_close) {
+            updateParse();
+            return true;
+        }
 
-                // ObjectId is needed for unsubscribing an user from the event
-                ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
-                invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
-                    @Override
-                    public void done(ParseObject parseObject, ParseException e) {
-                        if (e == null) {
-
-                            // Add the number of carrots, which user has predefined
-                            String stringCarrots = (String) parseObject.get("carrots");
-                            String numberOfCarrots = (String) stringCarrots.substring(0, 1);
-                            Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
-                            totalCarrots = totalCarrots + Integer.parseInt(numberOfCarrots);
-
-                            // Increment the total number of attempts
-                            Integer numOfAttempts = (Integer) ParseUser.getCurrentUser().get("attempts");
-                            numOfAttempts = numOfAttempts + 1;
-
-                            // Increment the rank points
-                            Integer rankPoints = (Integer) ParseUser.getCurrentUser().get("rankPoints");
-                            rankPoints = rankPoints + 1;
-
-                            // Update the number of carrots
-                            ParseUser.getCurrentUser().put("carrots", totalCarrots);
-
-                            // Update the total number of attempts
-                            ParseUser.getCurrentUser().put("attempts", numOfAttempts);
-
-                            Log.v(TAG, "numOfAttempts" + numOfAttempts);
-
-                            // Update the total rank points
-                            // Update the total number of attempts
-                            ParseUser.getCurrentUser().put("rankPoints", rankPoints);
-
-                            // Save
-                            ParseUser.getCurrentUser().saveInBackground();
-
-                            // Unsubscribe the current user from the event
-                            String temp = (String) parseObject.get("ownerID");
-                            String myID = ParseUser.getCurrentUser().getObjectId();
-                            temp = temp.replace(myID, "");
-                            parseObject.put("ownerID", temp);
-
-                            // Save the change back to the db
-                            parseObject.saveInBackground(new SaveCallback() {
-                                @Override
-                                public void done(ParseException e) {
-
-                                    // Dismiss the progress dialog
-                                    dialog.dismiss();
-
-                                    if (e == null) {
-                                        // If no error, then start the main activity
-                                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                        startActivity(intent);
-                                    } else {
-                                        e.printStackTrace();
-                                    }
-                                }
-                            });
-                        }
-
-                        else {
-                            e.printStackTrace();
-                        }
-
-                    }
-                });
-
-            }
-        });
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        return;
+        updateParse();
+    }
+
+    private void updateParse() {
+        // First of all show the progress dialog to make the user wait
+        dialog = new ProgressDialog(RewardWinnerActivity.this);
+        dialog.setTitle("Thank You Using Our App :)");
+        dialog.setMessage("Going Back To Main. . .");
+        dialog.show();
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+
+        // ObjectId is needed for unsubscribing an user from the event
+        ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
+        invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
+            @Override
+            public void done(ParseObject parseObject, ParseException e) {
+                if (e == null) {
+
+                    // Add the number of carrots, which user has predefined
+                    String stringCarrots = (String) parseObject.get("carrots");
+                    String numberOfCarrots = (String) stringCarrots.substring(0, 1);
+                    Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
+                    totalCarrots = totalCarrots + Integer.parseInt(numberOfCarrots);
+
+                    // Increment the total number of attempts
+                    Integer numOfAttempts = (Integer) ParseUser.getCurrentUser().get("attempts");
+                    numOfAttempts = numOfAttempts + 1;
+
+                    // Increment the rank points
+                    Integer rankPoints = (Integer) ParseUser.getCurrentUser().get("rankPoints");
+                    rankPoints = rankPoints + 1;
+
+                    // Update the number of carrots
+                    ParseUser.getCurrentUser().put("carrots", totalCarrots);
+
+                    // Update the total number of attempts
+                    ParseUser.getCurrentUser().put("attempts", numOfAttempts);
+
+                    Log.v(TAG, "numOfAttempts" + numOfAttempts);
+
+                    // Update the total rank points
+                    // Update the total number of attempts
+                    ParseUser.getCurrentUser().put("rankPoints", rankPoints);
+
+                    // Save
+                    ParseUser.getCurrentUser().saveInBackground();
+
+                    // Unsubscribe the current user from the event
+                    String temp = (String) parseObject.get("ownerID");
+                    String myID = ParseUser.getCurrentUser().getObjectId();
+                    temp = temp.replace(myID, "");
+                    parseObject.put("ownerID", temp);
+
+                    // Save the change back to the db
+                    parseObject.saveInBackground(new SaveCallback() {
+                        @Override
+                        public void done(ParseException e) {
+
+                            // Dismiss the progress dialog
+                            dialog.dismiss();
+
+                            if (e == null) {
+                                // If no error, then start the main activity
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+                            } else {
+                                e.printStackTrace();
+                            }
+                        }
+                    });
+                }
+
+                else {
+                    e.printStackTrace();
+                }
+
+            }
+        });
     }
 }
