@@ -45,13 +45,21 @@
             android:id="@+id/password"
             android:hint="@string/label_password" />
 
+        <EditText android:layout_below="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPassword"
+            android:ems="10"
+            android:id="@+id/passwordConfirm"
+            android:hint="@string/label_passwordConfirm" />
+
         <EditText android:id="@+id/phoneNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="phone"
             android:ems="10"
             android:hint="@string/label_phone"
-            android:layout_below="@+id/password" />
+            android:layout_below="@+id/passwordConfirm" />
 
         <CheckBox android:id="@+id/agreeBox"
             android:layout_below="@id/phoneNumber"

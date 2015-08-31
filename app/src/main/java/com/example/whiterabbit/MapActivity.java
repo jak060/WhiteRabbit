@@ -88,6 +88,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             onLocationChanged(globalLocation);
         }
 
+        /*
         locationManager.requestLocationUpdates(bestProvider, 20000, 0, new android.location.LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
@@ -113,7 +114,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             public void onProviderDisabled(String s) {
 
             }
-        });
+        });*/
 
 
         // When the user long clicks the map, add the marker
@@ -274,19 +275,12 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
         // Add a marker to the user-typed address
-        map.addMarker(new MarkerOptions()
+        Marker marker = map.addMarker(new MarkerOptions()
                 .title("Location Found:")
                 .snippet("Click HERE To Choose This Location :)")
                 .position(currentLocation));
 
-        // When the user clicks the marker, show the message
-        map.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                marker.showInfoWindow();
-                return false;
-            }
-        });
+        marker.showInfoWindow();
 
         // When the user clicks the message, go back to the previous activity with
         // passing the user-typed address

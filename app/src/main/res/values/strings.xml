@@ -24,6 +24,7 @@
     <string name="label_last_name">Last name</string>
     <string name="label_email">Email address</string>
     <string name="label_password">Password</string>
+    <string name="label_passwordConfirm">Confirm Password</string>
     <string name="label_phone">Phone number</string>
     <string name="label_agreement">I agree to White Rabbit\'s terms</string>
 
