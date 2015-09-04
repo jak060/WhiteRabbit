@@ -209,8 +209,14 @@ public class CreateEventActivity extends AppCompatActivity {
         // Put these invitation information into Parse
         final ParseObject invitationInfo = new ParseObject("invitationInfo");
         invitationInfo.put("title", title.getText().toString());
+
+        // These are needed to perform a sorting later when we fetch events
+        String time = Utility.parseTimeTo24HourFormat(showTime.getText().toString());
+        invitationInfo.put("parsedTime", time);
+        String date = Utility.parseDate(showDate.getText().toString());
+        invitationInfo.put("date", date);
+
         invitationInfo.put("time", showTime.getText().toString());
-        invitationInfo.put("date", showDate.getText().toString());
         invitationInfo.put("location", showLocation.getText().toString());
         // This format looks like Jacob Kim: (111) 222-3333
         String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));

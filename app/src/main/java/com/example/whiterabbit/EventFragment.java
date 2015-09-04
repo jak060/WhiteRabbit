@@ -65,7 +65,7 @@ public class EventFragment extends Fragment {
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("invitationInfo");
         query.whereContains("ownerID", ParseUser.getCurrentUser().getObjectId());
         query.addAscendingOrder("date");
-        query.addAscendingOrder("time");
+        query.addAscendingOrder("parsedTime");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> list, ParseException e) {

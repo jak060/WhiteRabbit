@@ -55,7 +55,7 @@ public class CustomListViewAdapter extends BaseAdapter{
 
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
-        String finalString = "";
+        String prevDate = "";
 
         // If we haven't initialized this convertView, set it up
         if(convertView == null) {
@@ -75,7 +75,20 @@ public class CustomListViewAdapter extends BaseAdapter{
             holder = (Holder) convertView.getTag();
         }
 
-        holder.date.setText(infoList.get(position).getDate());
+        // Make sure that the position is greater than 0 so that it won't go out of index
+        if(position > 0) {
+            prevDate = infoList.get(position - 1).getDate();
+        }
+
+        // If dates are matching, then hide the duplicate
+        if(prevDate.equals(infoList.get(position).getDate())) {
+            holder.date.setVisibility(View.GONE);
+        } else {
+            holder.date.setVisibility(View.VISIBLE);
+        }
+
+        // Set each text field with the corresponding data
+        holder.date.setText(Utility.parseDate2(infoList.get(position).getDate()));
         holder.time.setText(infoList.get(position).getTime());
         holder.title.setText(infoList.get(position).getTitle());
         holder.location.setText(infoList.get(position).getLocation());
@@ -109,7 +122,7 @@ public class CustomListViewAdapter extends BaseAdapter{
                 Log.v(TAG, "ObjectId for CustomListViewAdapter: " + infoList.get(position).getObjectId());
 
                 String time = infoList.get(position).getTime(); // Time holder
-                String date = infoList.get(position).getDate(); // Date holder
+                String date = Utility.parseDate2(infoList.get(position).getDate()); // Date holder
 
                 // Combine the date and time
                 String dateTime = date + " " + time;

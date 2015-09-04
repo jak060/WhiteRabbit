@@ -125,12 +125,16 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 // Hide the soft keyboard so that the user can see the map
                 hideKeyboard(locationText);
 
-                // Add a marker to the user-typed address
+                // Clear the map
                 googleMap.clear();
-                googleMap.addMarker(new MarkerOptions()
+
+                // Add a marker to the user-typed address
+                Marker marker = map.addMarker(new MarkerOptions()
                         .title("Location Found:")
                         .snippet("Click HERE To Choose This Location :)")
                         .position(latLng));
+
+                marker.showInfoWindow();
 
                 List<Address> addressList = null;
                 Address address = null;
@@ -152,17 +156,6 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 } catch(IOException e) {
                     e.printStackTrace();
                 }
-
-                LatLng currentLocation = new LatLng(latLng.latitude, latLng.longitude);;
-
-                // When the user clicks the marker, show the message
-                googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
-                    @Override
-                    public boolean onMarkerClick(Marker marker) {
-                        marker.showInfoWindow();
-                        return false;
-                    }
-                });
 
                 // When the user clicks the message, go back to the previous activity with
                 // passing the user-typed address

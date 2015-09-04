@@ -85,6 +85,11 @@ public class ContactListFragment extends Fragment {
         // Save a contact list into the ArrayList
         Utility.createContactList(getActivity(), contacts);
 
+        // For debugging purposes. . . Getting contact list from the phone
+        for(int i = 0; i < contacts.size(); i ++) {
+            Log.v(TAG, "My Contact List Number " + i + ": " + contacts.get(i));
+        }
+
         // Initialization of arrayAdapter which is needed for listing items
         arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, finalFriendList);
 
