@@ -145,6 +145,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         user.put("carrots", 50);
                         user.put("rankPoints", 0);
                         user.put("attempts", 0);
+                        user.put("donationPoints", 0);
 
                         // Sign up in the background
                         user.signUpInBackground(new SignUpCallback() {
