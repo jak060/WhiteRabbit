@@ -1,5 +1,6 @@
 package com.example.whiterabbit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -66,7 +67,7 @@ public class DonationActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_event, menu);
+        getMenuInflater().inflate(R.menu.menu_donation, menu);
         return true;
     }
 
@@ -78,6 +79,9 @@ public class DonationActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_donate) {
+            Intent intent = new Intent(getApplicationContext(), DonationSuccessActivity.class);
+            startActivity(intent);
+
             return true;
         }
 

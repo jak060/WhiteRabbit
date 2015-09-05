@@ -180,6 +180,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.whiterabbit.MainActivity" />
         </activity>
+        <activity
+            android:name=".DonationSuccessActivity"
+            android:label="@string/title_activity_donation_success" >
+        </activity>
 
         <service android:name=".GeofenceActivity" />
         <service android:name=".GeofenceTransitionsIntentService" />
