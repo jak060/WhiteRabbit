@@ -167,8 +167,15 @@
         </activity>
         <activity
             android:name=".ContactActivity"
-            android:theme="@style/NoActionBarTheme"
-            android:label="@string/title_activity_contact">
+            android:label="@string/title_activity_contact"
+            android:theme="@style/NoActionBarTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.whiterabbit.MainActivity" />
+        </activity>
+        <activity
+            android:name=".DonationActivity"
+            android:label="@string/title_activity_donation" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.whiterabbit.MainActivity" />

@@ -8,18 +8,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.text.DecimalFormat;
-import java.util.List;
 
 public class MyProfileFragment extends Fragment {
     private String title;
@@ -59,7 +57,7 @@ public class MyProfileFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_my_profile, viewGroup, false);
+        View view = inflater.inflate(R.layout.fragment_my_profile, viewGroup, false);
 
         // Initialize TextViews
         nameHolder = (TextView) view.findViewById(R.id.name);
@@ -88,6 +86,15 @@ public class MyProfileFragment extends Fragment {
                 } else {
                     e.printStackTrace();
                 }
+            }
+        });
+
+        Button btnDonateCarrots = (Button) view.findViewById(R.id.btn_donate_carrots);
+        btnDonateCarrots.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DonationActivity.class);
+                startActivity(intent);
             }
         });
 
