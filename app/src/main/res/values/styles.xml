@@ -3,11 +3,16 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#ff7f00</item>
+        <item name="colorPrimary">#ff8000</item>
+        <item name="android:windowContentOverlay">@null</item>
     </style>
 
     <style name="NoActionBarTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+    </style>
+
+    <style name="PagerTabStripText">
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 </resources>
