@@ -127,7 +127,7 @@
 
         <TextView android:id="@+id/wager_label"
             android:layout_below="@id/divider5"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/selector_textview"
             android:textSize="18sp"
@@ -168,6 +168,17 @@
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="Earn carrots by arriving on time. Lose carrots by arriving late or failing to show up." />
+
+        <TextView android:id="@+id/errorMsg"
+            android:layout_below="@id/divider5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/wager_label"
+            android:background="@drawable/selector_textview"
+            android:textSize="18sp"
+            android:padding="16dp"
+            android:text=""
+            android:textColor="#FE2E2E"/>
 
     </RelativeLayout>
 </ScrollView>

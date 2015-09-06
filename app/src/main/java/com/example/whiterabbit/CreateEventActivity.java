@@ -11,6 +11,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.Menu;
@@ -47,6 +49,8 @@ import java.util.List;
 
 public class CreateEventActivity extends AppCompatActivity {
 
+    private static final String ERROR_EMPTY_FIELD = "Field cannot be left blank.";
+
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
@@ -59,6 +63,7 @@ public class CreateEventActivity extends AppCompatActivity {
     TextView dateLabel;
     TextView locationLabel;
     TextView peopleLabel;
+    TextView errorMsg;
 
     static TextView showTime;
     static TextView showDate;
@@ -89,7 +94,23 @@ public class CreateEventActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_event_send) {
-            sendInvitation();
+
+            // Make sure that each field is not empty
+            if(title.getText().length() <= 0) {
+                title.setError(ERROR_EMPTY_FIELD);
+            }
+            if(showLocation.getText().length() <= 0) {
+                showLocation.setError(ERROR_EMPTY_FIELD);
+            }
+            if(showInvitees.getText().length() <= 0) {
+                showInvitees.setError(ERROR_EMPTY_FIELD);
+            }
+            if(numberOfCarrots.equals("0 carrot")) {
+                errorMsg.setText("Please Select One");
+            }
+            if(title.getText().length() > 0 && showLocation.getText().length() > 0 && showInvitees.getText().length() > 0) {
+                sendInvitation();
+            }
 
             return true;
         }
@@ -113,7 +134,7 @@ public class CreateEventActivity extends AppCompatActivity {
         dateLabel = (TextView) findViewById(R.id.date_label);
         locationLabel = (TextView) findViewById(R.id.location_label);
         peopleLabel = (TextView) findViewById(R.id.people_label);
-
+        errorMsg = (TextView) findViewById(R.id.errorMsg);
         showTime = (TextView) findViewById(R.id.showTime);
         showTime.setText(java.text.DateFormat.getTimeInstance(java.text.DateFormat.SHORT).format(new Date()));
 
@@ -124,6 +145,8 @@ public class CreateEventActivity extends AppCompatActivity {
         showInvitees = (TextView) findViewById(R.id.inviteesTextView);
 
         carrots = (RadioGroup) findViewById(R.id.radio_group_wager);
+
+        disableErrorWhenUserTypes(title);
 
         // When the Time TextView is clicked, show the time picker
         timeLabel.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +188,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 RadioButton rb = (RadioButton) findViewById(checkedId);
                 numberOfCarrots = rb.getText().toString();
+                errorMsg.setText("");
             }
         });
 
@@ -176,6 +200,7 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == 1) {
             if (resultCode == RESULT_OK) {
+                showLocation.setError(null);
                 showLocation.setText(data.getStringExtra("address"));
                 lat = data.getDoubleExtra("lat", 0.0000);
                 lng = data.getDoubleExtra("lng", 0.0000);
@@ -186,6 +211,7 @@ public class CreateEventActivity extends AppCompatActivity {
         } else if(requestCode == 2) {
             if(resultCode == RESULT_OK) {
 
+                showInvitees.setError(null);
                 StringBuilder temp = new StringBuilder();
                 friendList = data.getStringArrayListExtra("invitees");
 
@@ -353,6 +379,28 @@ public class CreateEventActivity extends AppCompatActivity {
 
             showDate.setText(java.text.DateFormat.getDateInstance().format(date));
         }
+    }
+
+    // This method is to diable the error message when the user tries to re-type each field
+    public void disableErrorWhenUserTypes(final EditText editText) {
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(editText.getText().length() > 0) {
+                    editText.setError(null);
+                }
+            }
+        });
     }
 }
 
