@@ -1,11 +1,13 @@
 package com.example.whiterabbit;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.telephony.PhoneNumberUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -103,6 +105,13 @@ public class ContactListFragment extends Fragment {
         friends.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                final ProgressDialog dialog = new ProgressDialog(getActivity());
+                dialog.setTitle("Thank You For Your Patience");
+                dialog.setMessage("Bringing Friend's Information. . .");
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
+
                 Log.v(TAG, "ListView item: " + friends.getItemAtPosition(position));
 
                 // This string only saves the number to check from the database to see
@@ -119,7 +128,7 @@ public class ContactListFragment extends Fragment {
                 query.findInBackground(new FindCallback<ParseUser>() {
                     public void done(List<ParseUser> objects, ParseException e) {
                         if (e == null) {
-
+                            dialog.dismiss();
                             // Pass necessary information to the detail page
                             Intent intent = new Intent(getActivity(), ContactActivity.class);
                             intent.putExtra("firstName", (String) objects.get(0).get("firstName"));
@@ -128,6 +137,7 @@ public class ContactListFragment extends Fragment {
                             intent.putExtra("username", (String) objects.get(0).get("username"));
                             intent.putExtra("carrots", (Integer) objects.get(0).get("carrots"));
                             intent.putExtra("rankPoints", (Integer) objects.get(0).get("rankPoints"));
+                            intent.putExtra("donationPoints", (Integer) objects.get(0).get("donationPoints"));
 
                             // Start the activity
                             startActivity(intent);
@@ -158,6 +168,11 @@ public class ContactListFragment extends Fragment {
                         String username = user.getUsername();
                         String phoneNum = user.get("phoneNumber").toString();
                         phoneNum = phoneNum.replaceAll("[^0-9]", "");
+
+                        // In case that the user has put +1 or 1 at the beginning of phone number
+                        if(phoneNum.length() == 11) {
+                            phoneNum = phoneNum.substring(1);
+                        }
                         Log.v(TAG, "In lookUpTables: " + phoneNum);
                         lookUpTable.put(phoneNum, username);
 

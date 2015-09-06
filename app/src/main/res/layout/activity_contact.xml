@@ -86,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:layout_marginEnd="40dp"
             android:orientation="vertical">
 
             <ImageView
@@ -96,6 +97,22 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="# carrots" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_android_black_48dp" />
+            <TextView android:id="@+id/donation_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Donation" />
         </LinearLayout>
     </LinearLayout>
 

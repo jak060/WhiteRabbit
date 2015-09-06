@@ -58,7 +58,12 @@ public class Utility {
             temp = temp.substring(temp.indexOf(":") + 2);
             temp = temp.replaceAll("[^0-9]", "");
 
-          //  Log.v(TAG, "In phoneNums: " + temp);
+            // In case that the user has put +1 or 1 at the beginning of phone number
+            if(temp.length() == 11) {
+                temp = temp.substring(1);
+            }
+
+            Log.v("Utility.java", "In phoneNums: " + temp);
 
             dest.add(temp);
         }

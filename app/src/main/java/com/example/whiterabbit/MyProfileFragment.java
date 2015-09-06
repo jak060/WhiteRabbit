@@ -29,8 +29,11 @@ public class MyProfileFragment extends Fragment {
     TextView carrotsHolder;
     TextView rankPointsHolder;
     TextView punctualityHolder;
+    TextView donationHolder;
 
     ProgressBar progressBar;
+
+    Integer numOfCarrots = 0;
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
@@ -67,7 +70,24 @@ public class MyProfileFragment extends Fragment {
         rankPointsHolder = (TextView) view.findViewById(R.id.rank_value);
         punctualityHolder = (TextView) view.findViewById(R.id.punctuality);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
+        donationHolder = (TextView) view.findViewById(R.id.donation_points);
 
+        fetchUserDateFromParse();
+
+        Button btnDonateCarrots = (Button) view.findViewById(R.id.btn_donate_carrots);
+        btnDonateCarrots.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), DonationActivity.class);
+                intent.putExtra("carrots", numOfCarrots);
+                startActivity(intent);
+            }
+        });
+
+        return view;
+    }
+
+    private void fetchUserDateFromParse() {
         ParseUser.getCurrentUser().fetchInBackground(new GetCallback<ParseObject>() {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
@@ -75,8 +95,14 @@ public class MyProfileFragment extends Fragment {
                     phoneNumberHolder.setText(Utility.phoneNumberFormat((String) parseObject.get("phoneNumber")));
                     usernameHolder.setText((String) parseObject.get("username"));
                     rankPointsHolder.setText((parseObject.get("rankPoints")).toString());
+                    numOfCarrots = (Integer) parseObject.get("carrots");
                     carrotsHolder.setText(parseObject.get("carrots").toString());
+                    donationHolder.setText("$" + parseObject.get("donationPoints").toString());
                     double punc = (((Integer) parseObject.get("rankPoints") * 1.0) / (Integer) parseObject.get("attempts")) * 100;
+
+                    if(Double.isNaN(punc)) {
+                        punc = 0.0;
+                    }
 
                     DecimalFormat decimalFormat = new DecimalFormat("###.##");
 
@@ -88,16 +114,5 @@ public class MyProfileFragment extends Fragment {
                 }
             }
         });
-
-        Button btnDonateCarrots = (Button) view.findViewById(R.id.btn_donate_carrots);
-        btnDonateCarrots.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), DonationActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        return view;
     }
 }

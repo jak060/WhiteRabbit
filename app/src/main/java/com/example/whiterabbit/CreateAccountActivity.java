@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.telephony.PhoneNumberUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -80,44 +82,46 @@ public class CreateAccountActivity extends AppCompatActivity {
         disableErrorWhenUserTypes(email);
         disableErrorWhenUserTypes(phoneNumber);
 
+        phoneNumber.addTextChangedListener(new PhoneNumberFormattingTextWatcher());
+
         // When the user clicks it, go to the main page
         createBtn.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                if(firstName.getText().length() == 0) {
+                if (firstName.getText().length() == 0) {
                     firstName.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(lastName.getText().length() == 0) {
+                if (lastName.getText().length() == 0) {
                     lastName.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(email.getText().length() == 0) {
+                if (email.getText().length() == 0) {
                     email.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(password.getText().length() == 0) {
+                if (password.getText().length() == 0) {
                     password.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(passwordConfirm.getText().length() == 0) {
+                if (passwordConfirm.getText().length() == 0) {
                     passwordConfirm.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(phoneNumber.getText().length() == 0) {
+                if (phoneNumber.getText().length() == 0) {
                     phoneNumber.setError(ERROR_EMPTY_FIELD);
                 }
 
-                if(!agreeTerm.isChecked()) {
+                if (!agreeTerm.isChecked()) {
                     agreeBoxReqMsg.setText(ERROR_AGREE_BOX);
                 } else {
                     agreeBoxReqMsg.setText("");
                 }
 
                 // Makes sure that the user has completed everything
-                if(firstName.getText().length() > 0 &&
+                if (firstName.getText().length() > 0 &&
                         lastName.getText().length() > 0 &&
                         email.getText().length() > 0 &&
                         password.getText().length() > 0 &&
@@ -126,7 +130,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         agreeTerm.isChecked()) {
 
                     // Make sure that the user has typed the password correctly
-                    if(password.getText().toString().equals(passwordConfirm.getText().toString())) {
+                    if (password.getText().toString().equals(passwordConfirm.getText().toString())) {
 
                         final ProgressDialog dialog = new ProgressDialog(CreateAccountActivity.this);
                         dialog.setTitle("Thank You For Your Patience");
@@ -141,8 +145,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                         user.setPassword(password.getText().toString());
                         user.put("firstName", firstName.getText().toString());
                         user.put("lastName", lastName.getText().toString());
-                        user.put("phoneNumber", phoneNumber.getText().toString());
-                        user.put("carrots", 50);
+                        user.put("phoneNumber", phoneNumber.getText().toString().replaceAll("[^0-9]", ""));
+                        user.put("carrots", 30);
                         user.put("rankPoints", 0);
                         user.put("attempts", 0);
                         user.put("donationPoints", 0);
@@ -153,19 +157,17 @@ public class CreateAccountActivity extends AppCompatActivity {
                             public void done(ParseException e) {
                                 dialog.dismiss();
 
-                                if(e != null) {
+                                if (e != null) {
                                     // Display a error message when creating account fails
                                     //Toast.makeText(CreateAccountActivity.this, "Error from saving a user", Toast.LENGTH_SHORT).show();
                                     Log.v(TAG, "Error:" + e.getMessage() + ", " + e.getCode());
 
                                     // 202 means a username is already taken
-                                    if(e.getCode() == 202) {
+                                    if (e.getCode() == 202) {
                                         Toast.makeText(CreateAccountActivity.this, "Username already taken!", Toast.LENGTH_LONG).show();
                                         email.setText("");
                                     }
-                                }
-
-                                else {
+                                } else {
                                     ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                                     installation.put("user", email.getText().toString());
                                     installation.put("userName", ParseUser.getCurrentUser());

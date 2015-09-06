@@ -146,19 +146,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="1 carrot"
+                android:text="10 carrot"
                 android:textSize="18sp" />
             <RadioButton android:id="@+id/radio_2carrots"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="2 carrots"
+                android:text="25 carrots"
                 android:textSize="18sp" />
             <RadioButton android:id="@+id/radio_3carrots"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="3 carrots"
+                android:text="50 carrots"
                 android:textSize="18sp" />
         </RadioGroup>
 

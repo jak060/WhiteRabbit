@@ -99,7 +99,7 @@ public class RewardWinnerActivity extends AppCompatActivity{
 
                     // Add the number of carrots, which user has predefined
                     String stringCarrots = (String) parseObject.get("carrots");
-                    String numberOfCarrots = (String) stringCarrots.substring(0, 1);
+                    String numberOfCarrots = (String) stringCarrots.substring(0, 2);
                     Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
                     totalCarrots = totalCarrots + Integer.parseInt(numberOfCarrots);
 

@@ -31,27 +31,18 @@
 
     <LinearLayout
         android:layout_below="@id/placeholder"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout">
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:gravity="center_horizontal"
-            android:orientation="vertical">
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_android_black_48dp" />
-            <TextView android:id="@+id/rank_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Rank" />
-        </LinearLayout>
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/placeholder"
+            android:text="Previous Status:"
+            android:id="@+id/label_previous_status" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -82,6 +73,57 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_android_black_48dp" />
             <TextView android:id="@+id/donation_points"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Donation" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@id/linearLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="30dp"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/linearLayout2">
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/linearLayout"
+            android:text="Current Status:"
+            android:id="@+id/label_current_status" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:layout_marginEnd="40dp"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_android_black_48dp" />
+            <TextView android:id="@+id/carrots_value2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="# carrots" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_android_black_48dp" />
+            <TextView android:id="@+id/donation_points2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Donation" />

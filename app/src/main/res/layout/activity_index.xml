@@ -17,7 +17,7 @@
             android:text="Create An Account"
             android:id="@+id/createBtn"
             android:textColor="#ffffff"
-            android:background="#182e7f" />
+            android:background="#ff7f00" />
 
         <Button
             android:layout_marginLeft="3dp"
@@ -27,6 +27,6 @@
             android:text="Log In"
             android:id="@+id/loginBtn"
             android:textColor="#ffffff"
-            android:background="#182e7f"/>
+            android:background="#ff7f00"/>
     </LinearLayout>
 </RelativeLayout>

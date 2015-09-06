@@ -99,9 +99,8 @@ public class RewardLoserActivity extends AppCompatActivity{
 
                     // Subtract the number of carrots, which user has predefined
                     String stringCarrots = (String) parseObject.get("carrots");
-                    String numberOfCarrots = (String) stringCarrots.substring(0, 1);
                     Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
-                    totalCarrots = totalCarrots - Integer.parseInt(numberOfCarrots);
+                    totalCarrots = totalCarrots - 5;
 
                     // Increment the total number of attempts
                     Integer numOfAttempts = (Integer) ParseUser.getCurrentUser().get("attempts");
