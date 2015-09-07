@@ -62,6 +62,12 @@ public class InvitationInfoActivity {
         return location;
     }
 
+    public String getLocationShort() {
+        String[] locationArray = location.split("\n");
+
+        return locationArray[0];
+    }
+
     public ArrayList<String> getWith() {
         return with;
     }

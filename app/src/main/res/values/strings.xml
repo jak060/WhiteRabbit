@@ -22,6 +22,15 @@
     <string name="action_sync">Sync</string>
     <string name="action_donate">Donate</string>
 
+    <string name="date">Date</string>
+    <string name="title">Title</string>
+    <string name="time">Time</string>
+    <string name="location">Location</string>
+    <string name="status">Status</string>
+    <string name="accepted">Accepted</string>
+    <string name="declined">Declined</string>
+    <string name="pending">Pending</string>
+
     <!-- Create account strings -->
     <string name="label_first_name">First name</string>
     <string name="label_last_name">Last name</string>

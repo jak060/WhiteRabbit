@@ -6,12 +6,13 @@
     <TextView android:id="@+id/event_row_date"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Date"
-        android:textSize="14sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="4dp"
+        android:textColor="#454545"
+        android:textAllCaps="true"
         android:textStyle="bold"
-        android:background="#e5e5e5"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        style="?android:listSeparatorTextViewStyle" />
+        android:text="@string/date" />
 
 </LinearLayout>

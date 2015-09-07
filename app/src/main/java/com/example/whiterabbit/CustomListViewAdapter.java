@@ -5,14 +5,14 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -21,7 +21,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class CustomListViewAdapter extends BaseAdapter{
 
@@ -61,12 +60,13 @@ public class CustomListViewAdapter extends BaseAdapter{
         if(convertView == null) {
             convertView = layoutInflater.inflate(R.layout.activity_custom_event_row, null);
             holder = new Holder();
+            holder.container = (RelativeLayout) convertView.findViewById(R.id.event_container);
             holder.date = (TextView) convertView.findViewById(R.id.event_row_date);
             holder.time = (TextView) convertView.findViewById(R.id.event_row_time);
             holder.title = (TextView) convertView.findViewById(R.id.event_row_title);
             holder.location = (TextView) convertView.findViewById(R.id.event_row_location);
-            holder.light = (Button) convertView.findViewById((R.id.signalLight));
-            holder.status = (TextView) convertView.findViewById(R.id.status);
+            holder.status = (TextView) convertView.findViewById(R.id.event_status);
+            holder.statusBar = convertView.findViewById(R.id.event_status_bar);
             convertView.setTag(holder);
 
         }
@@ -89,14 +89,16 @@ public class CustomListViewAdapter extends BaseAdapter{
 
         // Set each text field with the corresponding data
         holder.date.setText(Utility.parseDate2(infoList.get(position).getDate()));
-        holder.time.setText(infoList.get(position).getTime());
+        holder.time.setText(infoList.get(position).getTime() + " / " + (Utility.parseDate2(infoList.get(position).getDate()).toUpperCase()));
         holder.title.setText(infoList.get(position).getTitle());
-        holder.location.setText(infoList.get(position).getLocation());
+        holder.location.setText(infoList.get(position).getLocationShort());
 
         // This is to show indication light for events
         if(infoList.get(position).getState() == 0) {
-            holder.light.setBackgroundColor(Color.parseColor("#00FF00")); // Green light
-            holder.status.setText("Accepted");
+            holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_accepted));
+            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_accepted));
+            holder.status.setText(context.getResources().getString(R.string.accepted));
+            holder.status.setTextColor(context.getResources().getColor(R.color.event_accepted));
 
             // To see whether geofence has been registered or not
             SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(context);
@@ -164,27 +166,32 @@ public class CustomListViewAdapter extends BaseAdapter{
                 alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
             }
         } else if((infoList.get(position).getState() > 0) && (infoList.get(position).getState() < infoList.get(position).getWith().size())) {
-            holder.light.setBackgroundColor(Color.parseColor("#F7D358")); // Yellow light
-            holder.status.setText("Pending");
+            holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_pending));
+            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_pending));
+            holder.status.setText(context.getResources().getString(R.string.pending));
+            holder.status.setTextColor(context.getResources().getColor(R.color.event_pending));
         } else {
-            holder.light.setBackgroundColor(Color.parseColor("#FF0000")); // Red light
-            holder.status.setText("Declined");
+            holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_declined));
+            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_declined));
+            holder.title.setTextColor(context.getResources().getColor(R.color.event_declined));
+            holder.time.setTextColor(context.getResources().getColor(R.color.event_declined));
+            holder.location.setTextColor(context.getResources().getColor(R.color.event_declined));
+            holder.status.setText(context.getResources().getString(R.string.declined));
+            holder.status.setTextColor(context.getResources().getColor(R.color.event_declined));
         }
-
-
-
 
         return convertView;
 
     }
 
     static class Holder {
+        RelativeLayout container;
         TextView date;
         TextView time;
         TextView title;
         TextView location;
-        Button light;
         TextView status;
+        View statusBar;
     }
 
 }
