@@ -30,6 +30,18 @@
     <string name="accepted">Accepted</string>
     <string name="declined">Declined</string>
     <string name="pending">Pending</string>
+    <string name="level">Level</string>
+    <string name="level_placeholder">(Level)</string>
+    <string name="carrots">Carrots</string>
+    <string name="carrots_placeholder">(Carrots)</string>
+    <string name="donation">Donation</string>
+    <string name="donation_placeholder">(Donation)</string>
+    <string name="name">Name</string>
+    <string name="phone">Phone</string>
+    <string name="email">Email</string>
+    <string name="punctuality_percentage">Punctuality (%)</string>
+
+    <string name="btn_donate_carrots">Donate carrots</string>
 
     <!-- Create account strings -->
     <string name="label_first_name">First name</string>

@@ -7,8 +7,7 @@ import android.widget.TextView;
 
 public class ContactActivity extends AppCompatActivity {
 
-    TextView firstNameHolder;
-    TextView lastNameHolder;
+    TextView nameHolder;
     TextView phoneNumberHolder;
     TextView usernameHolder;
     TextView carrotsHolder;
@@ -23,13 +22,12 @@ public class ContactActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_up, R.anim.no_change);
 
         // Initialize TextViews
-        firstNameHolder = (TextView) findViewById(R.id.first_name);
-        lastNameHolder = (TextView) findViewById(R.id.last_name);
+        nameHolder = (TextView) findViewById(R.id.name);
         phoneNumberHolder = (TextView) findViewById(R.id.phone_number);
         usernameHolder = (TextView) findViewById(R.id.email);
         carrotsHolder = (TextView) findViewById(R.id.carrots_value);
-        rankPointsHolder = (TextView) findViewById(R.id.rank_value);
-        donationHolder = (TextView) findViewById(R.id.donation_points);
+        rankPointsHolder = (TextView) findViewById(R.id.level_value);
+        donationHolder = (TextView) findViewById(R.id.donation_value);
 
         // Get chosen user's details from the last activity
         Intent intent = getIntent();
@@ -43,8 +41,7 @@ public class ContactActivity extends AppCompatActivity {
         Integer donationPoints = (Integer) intent.getExtras().get("donationPoints");
 
         // Set TextViews with details of the selected user
-        firstNameHolder.setText(firstName);
-        lastNameHolder.setText(lastName);
+        nameHolder.setText(firstName + " " + lastName);
         phoneNumberHolder.setText(phoneNumber);
         usernameHolder.setText(username);
         carrotsHolder.setText(carrots.toString());

@@ -67,10 +67,10 @@ public class MyProfileFragment extends Fragment {
         phoneNumberHolder = (TextView) view.findViewById(R.id.phone_number);
         usernameHolder = (TextView) view.findViewById(R.id.email);
         carrotsHolder = (TextView) view.findViewById(R.id.carrots_value);
-        rankPointsHolder = (TextView) view.findViewById(R.id.rank_value);
+        rankPointsHolder = (TextView) view.findViewById(R.id.level_value);
         punctualityHolder = (TextView) view.findViewById(R.id.punctuality);
         progressBar = (ProgressBar) view.findViewById(R.id.progressBar);
-        donationHolder = (TextView) view.findViewById(R.id.donation_points);
+        donationHolder = (TextView) view.findViewById(R.id.donation_value);
 
         fetchUserDateFromParse();
 
@@ -92,6 +92,7 @@ public class MyProfileFragment extends Fragment {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
+                    nameHolder.setText(parseObject.get("firstName") + " " + parseObject.get("lastName"));
                     phoneNumberHolder.setText(Utility.phoneNumberFormat((String) parseObject.get("phoneNumber")));
                     usernameHolder.setText((String) parseObject.get("username"));
                     rankPointsHolder.setText((parseObject.get("rankPoints")).toString());

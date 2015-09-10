@@ -25,7 +25,7 @@ public class DonationSuccessActivity extends AppCompatActivity {
 
         // Initializing Views
         prevCarrotView = (TextView) findViewById(R.id.carrots_value);
-        prevAmountView = (TextView) findViewById(R.id.donation_points);
+        prevAmountView = (TextView) findViewById(R.id.donation_value);
         currCarrotView = (TextView) findViewById(R.id.carrots_value2);
         currAmountView = (TextView) findViewById(R.id.donation_points2);
 
