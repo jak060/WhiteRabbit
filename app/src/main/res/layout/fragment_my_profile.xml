@@ -134,7 +134,7 @@
         android:textStyle="bold"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="45dp"
-        android:background="#DF7401"
+        android:background="@color/btn_primary"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>
