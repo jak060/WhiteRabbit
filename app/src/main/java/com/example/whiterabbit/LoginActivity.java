@@ -27,6 +27,7 @@ import com.parse.ParseException;
 import com.parse.ParseInstallation;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -94,7 +95,7 @@ public class LoginActivity extends AppCompatActivity {
                 textField2 = password.getText().toString();
 
                 // To check whether the input is empty or not
-                if(textField1.length() > 0) {
+                if (textField1.length() > 0) {
                     isEmpty1 = false;
                     req1.setText("");
                 } else {
@@ -102,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
                     req1.setText("Required Field!");
                 }
 
-                if(textField2.length() > 0) {
+                if (textField2.length() > 0) {
                     isEmpty2 = false;
                     req2.setText("");
                 } else {
@@ -111,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
 
                 // Makes sure that each field is not empty
-                if(isEmpty1 == false && isEmpty2 == false) {
+                if (isEmpty1 == false && isEmpty2 == false) {
 
                     // Create a Progress dialog to buy some time to talk to the server
                     dialog = new ProgressDialog(LoginActivity.this);
@@ -130,12 +131,12 @@ public class LoginActivity extends AppCompatActivity {
                             dialog.dismiss();
 
                             // If log in fails, display a alert dialog
-                            if(e != null) {
+                            if (e != null) {
                                 new AlertDialog.Builder(LoginActivity.this)
                                         .setTitle("Error!")
                                         .setMessage("Username or Passoword doesn't match! Please try again!")
-                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener(){
-                                            public void onClick(DialogInterface dialog, int which){
+                                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
 
                                             }
                                         }).setIcon(android.R.drawable.ic_dialog_alert).show();
@@ -149,10 +150,17 @@ public class LoginActivity extends AppCompatActivity {
                                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
                                 installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
                                 installation.put("userName", ParseUser.getCurrentUser());
-                                installation.saveInBackground();
-
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
+                                installation.saveInBackground(new SaveCallback() {
+                                    @Override
+                                    public void done(ParseException e) {
+                                        if (e == null) {
+                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            e.printStackTrace();
+                                        }
+                                    }
+                                });
                             }
 
                         }

@@ -100,13 +100,7 @@ public class GeofenceTransitionsIntentService extends IntentService{
 
         String geofenceTransitionString = getTransitionString(geofenceTransition);
 
-        ArrayList triggeringGeofencesIdsList = new ArrayList();
-        for (Geofence geofence : triggeringGeofences) {
-            triggeringGeofencesIdsList.add(geofence.getRequestId());
-        }
-        String triggeringGeofencesIdsString = TextUtils.join(", ", triggeringGeofencesIdsList);
-
-        return geofenceTransitionString + ": " + triggeringGeofencesIdsString;
+        return geofenceTransitionString;
     }
 
     private void sendNotification(String notificationDetails) {
@@ -139,11 +133,11 @@ public class GeofenceTransitionsIntentService extends IntentService{
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:
-                return "You've arrived at the location :)";
+                return "You've arrived!";
             case Geofence.GEOFENCE_TRANSITION_EXIT:
                 return "You just left the destination.";
             case Geofence.GEOFENCE_TRANSITION_DWELL:
-                return "You've arrived at the location :)";
+                return "You've arrived!";
             default:
                 return "Unknown Transition";
         }

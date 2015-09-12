@@ -217,13 +217,6 @@ public class GeofenceActivity extends IntentService implements
             editor.putBoolean(Constants.GEOFENCES_ADDED_KEY, geofencesAdded);
             editor.commit();
 
-            if(geofencesAdded) {
-                Toast.makeText(this, "Geofence is added.", Toast.LENGTH_SHORT).show();
-                //removeGeofencesHandler();
-            } else {
-                Toast.makeText(this, "Geofenc is removed.", Toast.LENGTH_SHORT).show();
-            }
-
         } else {
             Log.e(TAG, "Error in onResult: " + status.getStatusCode());
         }

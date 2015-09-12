@@ -54,7 +54,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_android_black_48dp" />
+                android:src="@drawable/ic_carrot_48dp" />
             <TextView android:id="@+id/carrots_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -71,7 +71,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_android_black_48dp" />
+                android:src="@drawable/ic_donation_48dp" />
             <TextView android:id="@+id/donation_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +105,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_android_black_48dp" />
+                android:src="@drawable/ic_carrot_48dp" />
             <TextView android:id="@+id/carrots_value2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_android_black_48dp" />
+                android:src="@drawable/ic_donation_48dp" />
             <TextView android:id="@+id/donation_points2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

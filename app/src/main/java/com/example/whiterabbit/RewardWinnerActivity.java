@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
@@ -29,6 +30,14 @@ public class RewardWinnerActivity extends AppCompatActivity{
     String objectId = "";
     ProgressDialog dialog;
 
+    TextView prevCarrotView;
+    TextView prevRankView;
+    TextView currCarrotView;
+    TextView currRankView;
+    TextView resultTextView;
+
+    Intent intent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,17 +50,15 @@ public class RewardWinnerActivity extends AppCompatActivity{
             Log.v(TAG, "ObjectId For Winner: " + objectId);
         }
 
-        // Reset the boolean value of GEOFENCES_REGISTERED_KEY
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor = prefs.edit();
-        editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
-        editor.commit();
+        // Initializing Views
+        prevCarrotView = (TextView) findViewById(R.id.carrots_value);
+        prevRankView = (TextView) findViewById(R.id.rank_value);
+        currCarrotView = (TextView) findViewById(R.id.carrots_value2);
+        currRankView = (TextView) findViewById(R.id.rank_value2);
+        resultTextView = (TextView) findViewById(R.id.resultText);
 
-        // Reset the boolean value of GEOFENCES_TRANSITION_INTENT_ENTERED_KEY
-        SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        SharedPreferences.Editor editor2 = prefs2.edit();
-        editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
-        editor2.commit();
+        // Update the parse
+        updateParse();
     }
 
     @Override
@@ -69,7 +76,22 @@ public class RewardWinnerActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         if(id == R.id.action_close) {
-            updateParse();
+            if(intent != null) {
+
+                // Reset the boolean value of GEOFENCES_REGISTERED_KEY
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
+                editor.commit();
+
+                // Reset the boolean value of GEOFENCES_TRANSITION_INTENT_ENTERED_KEY
+                SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                SharedPreferences.Editor editor2 = prefs2.edit();
+                editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
+                editor2.commit();
+
+                startActivity(intent);
+            }
             return true;
         }
 
@@ -78,14 +100,30 @@ public class RewardWinnerActivity extends AppCompatActivity{
 
     @Override
     public void onBackPressed() {
-        updateParse();
+
+        // Reset the boolean value of GEOFENCES_REGISTERED_KEY
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
+        editor.commit();
+
+        // Reset the boolean value of GEOFENCES_TRANSITION_INTENT_ENTERED_KEY
+        SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor2 = prefs2.edit();
+        editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
+        editor2.commit();
+
+        if(intent != null) {
+            startActivity(intent);
+        }
+
     }
 
     private void updateParse() {
         // First of all show the progress dialog to make the user wait
         dialog = new ProgressDialog(RewardWinnerActivity.this);
         dialog.setTitle("Thank You Using Our App :)");
-        dialog.setMessage("Going Back To Main. . .");
+        dialog.setMessage("Bringing out the result. . .");
         dialog.show();
         dialog.setCancelable(false);
         dialog.setCanceledOnTouchOutside(false);
@@ -101,7 +139,12 @@ public class RewardWinnerActivity extends AppCompatActivity{
                     String stringCarrots = (String) parseObject.get("carrots");
                     String numberOfCarrots = (String) stringCarrots.substring(0, 2);
                     Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
+                    prevCarrotView.setText(totalCarrots.toString());
+
                     totalCarrots = totalCarrots + Integer.parseInt(numberOfCarrots);
+                    currCarrotView.setText(totalCarrots.toString());
+
+                    resultTextView.setText("You have earned " + Integer.parseInt(numberOfCarrots) + " carrots!");
 
                     // Increment the total number of attempts
                     Integer numOfAttempts = (Integer) ParseUser.getCurrentUser().get("attempts");
@@ -109,7 +152,10 @@ public class RewardWinnerActivity extends AppCompatActivity{
 
                     // Increment the rank points
                     Integer rankPoints = (Integer) ParseUser.getCurrentUser().get("rankPoints");
+                    prevRankView.setText(rankPoints.toString());
+
                     rankPoints = rankPoints + 1;
+                    currRankView.setText(rankPoints.toString());
 
                     // Update the number of carrots
                     ParseUser.getCurrentUser().put("carrots", totalCarrots);
@@ -142,8 +188,8 @@ public class RewardWinnerActivity extends AppCompatActivity{
 
                             if (e == null) {
                                 // If no error, then start the main activity
-                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                startActivity(intent);
+                                intent = new Intent(getApplicationContext(), MainActivity.class);
+
                             } else {
                                 e.printStackTrace();
                             }

@@ -53,29 +53,51 @@ public class Utility {
     // This method takes a contact list which has a name and phone number and saves only
     // phone number to the ArrayList
     public static void saveOnlyNumbers(ArrayList<String> src, ArrayList<String> dest) {
-        for(int i = 0; i < src.size(); i++) {
-            String temp = src.get(i);
-            temp = temp.substring(temp.indexOf(":") + 2);
-            temp = temp.replaceAll("[^0-9]", "");
 
-            // In case that the user has put +1 or 1 at the beginning of phone number
-            if(temp.length() == 11) {
-                temp = temp.substring(1);
+        int i = 0;
+
+        // Make sure that the list size is greater than 0
+        if(src.size() > 0) {
+            while(i < src.size()) {
+                String temp = src.get(i);
+                temp = temp.substring(temp.indexOf(":") + 2);
+                temp = temp.replaceAll("[^0-9]", "");
+
+                Log.v("Utility.java", "In phoneNums: " + temp);
+
+                // To avoid duplicates
+                if(!dest.contains(temp)) {
+                    dest.add(temp);
+                    i ++;
+                } else {
+                    src.remove(i);
+                }
             }
-
-            Log.v("Utility.java", "In phoneNums: " + temp);
-
-            dest.add(temp);
         }
+
     }
 
     // This method changes 0001112222 to (000) 111-2222
     // Only to have a better readability
     public static String phoneNumberFormat(String phoneNumber) {
-        String temp = phoneNumber.substring(0, 3);
-        String temp2 = phoneNumber.substring(3, 6);
-        String temp3 = phoneNumber.substring(6);
-        String finalFormat = "(" + temp + ") " + temp2 + "-" + temp3;
+
+        String finalFormat = phoneNumber;
+
+        if(phoneNumber.length() == 10) {
+            String temp = phoneNumber.substring(0, 3);
+            String temp2 = phoneNumber.substring(3, 6);
+            String temp3 = phoneNumber.substring(6);
+            finalFormat = "(" + temp + ") " + temp2 + "-" + temp3;
+        }
+
+        // If user has put 1 in front of the phone number, then exclude 1.
+        else if(phoneNumber.length() == 11) {
+            String temp = phoneNumber.substring(1, 4);
+            String temp2 = phoneNumber.substring(4, 7);
+            String temp3 = phoneNumber.substring(7);
+            finalFormat = "(" + temp + ") " + temp2 + "-" + temp3;
+        }
+
         return finalFormat;
     }
 

@@ -40,6 +40,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private TextView agreeBoxReqMsg;
 
+    private String phoneNum = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,7 +147,14 @@ public class CreateAccountActivity extends AppCompatActivity {
                         user.setPassword(password.getText().toString());
                         user.put("firstName", firstName.getText().toString());
                         user.put("lastName", lastName.getText().toString());
-                        user.put("phoneNumber", phoneNumber.getText().toString().replaceAll("[^0-9]", ""));
+
+                        phoneNum = phoneNumber.getText().toString().replaceAll("[^0-9]", "");
+
+                        if(phoneNum.length() == 11 && phoneNum.substring(0, 1).equals("1")) {
+                            phoneNum = phoneNum.substring(1);
+                        }
+
+                        user.put("phoneNumber", phoneNum);
                         user.put("carrots", 30);
                         user.put("rankPoints", 0);
                         user.put("attempts", 0);
@@ -169,12 +178,12 @@ public class CreateAccountActivity extends AppCompatActivity {
                                     }
                                 } else {
                                     ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                                    installation.put("user", email.getText().toString());
+                                    installation.put("user", phoneNum);
                                     installation.put("userName", ParseUser.getCurrentUser());
                                     // TODO: REMOVE ALL SPECIAL CHARS FROM THE PHONE NUMBER
                                     String testPhoneNumber = (String) ParseUser.getCurrentUser().get("phoneNumber");
-                                    Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + phoneNumber.getText().toString());
-                                    Log.v(TAG, "Phone Number At CREATE_ACCOUNT_TEST: " + testPhoneNumber);
+                                    //Log.v(TAG, "Phone Number At CREATE_ACCOUNT_CORRECT: " + phoneNumber.getText().toString());
+                                    //Log.v(TAG, "Phone Number At CREATE_ACCOUNT_TEST: " + testPhoneNumber);
                                     installation.saveInBackground(new SaveCallback() {
                                         @Override
                                         public void done(ParseException e) {

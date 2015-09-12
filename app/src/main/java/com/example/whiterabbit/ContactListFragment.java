@@ -82,6 +82,7 @@ public class ContactListFragment extends Fragment {
         // Clear all the lists
         contacts.clear();
         phoneNums.clear();
+        lookUpTable.clear();
         finalFriendList.clear();
 
         // Save a contact list into the ArrayList
@@ -120,6 +121,12 @@ public class ContactListFragment extends Fragment {
                 temp = temp.substring(temp.indexOf(":") + 2);
                 temp = temp.replaceAll("[^0-9]", "");
                 Log.v(TAG, "temp: " + temp);
+
+                // Case where the phone number has 1 in front of it
+                if(temp.length() == 11 && temp.substring(0, 1).equals("1")) {
+                    Log.v(TAG, "Phone number has 1 in front of it");
+                    temp = temp.substring(1);
+                }
 
                 ParseQuery<ParseUser> query = ParseUser.getQuery();
                 query.whereEqualTo("phoneNumber", temp);
@@ -169,10 +176,6 @@ public class ContactListFragment extends Fragment {
                         String phoneNum = user.get("phoneNumber").toString();
                         phoneNum = phoneNum.replaceAll("[^0-9]", "");
 
-                        // In case that the user has put +1 or 1 at the beginning of phone number
-                        if(phoneNum.length() == 11) {
-                            phoneNum = phoneNum.substring(1);
-                        }
                         Log.v(TAG, "In lookUpTables: " + phoneNum);
                         lookUpTable.put(phoneNum, username);
 

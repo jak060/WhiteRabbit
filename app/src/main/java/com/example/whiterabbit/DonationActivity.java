@@ -20,7 +20,7 @@ import com.parse.SaveCallback;
 public class DonationActivity extends AppCompatActivity {
 
     private static final String ERROR_INVALID_NUMBER = "Number cannot be zero";
-    private static final String ERROR_TOO_MUCH_CARROT = "Donating too much carrot!";
+    private static final String ERROR_TOO_MUCH_CARROT = "Donating too many carrot!";
 
     Integer currentNumOfCarrots = 0;
     Integer numOfCarrots = 0;
