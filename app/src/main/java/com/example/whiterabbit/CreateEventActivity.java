@@ -300,6 +300,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
                                     Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
                                     data.put("objectId", invitationInfo.getObjectId());
+                                    data.put("carrots", numberOfCarrots);
 
                                 } catch (JSONException e1) {
                                     e1.printStackTrace();

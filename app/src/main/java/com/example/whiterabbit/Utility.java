@@ -65,6 +65,11 @@ public class Utility {
 
                 Log.v("Utility.java", "In phoneNums: " + temp);
 
+                // In case user has put number one in front of the phone number
+                if(temp.length() == 11 && temp.substring(0, 1).equals("1")) {
+                    temp = temp.substring(1);
+                }
+
                 // To avoid duplicates
                 if(!dest.contains(temp)) {
                     dest.add(temp);
