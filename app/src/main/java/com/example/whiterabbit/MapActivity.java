@@ -1,6 +1,8 @@
 package com.example.whiterabbit;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Criteria;
@@ -31,6 +33,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -244,51 +247,69 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
         try {
             // This gets the user-typed address and save it into the StringBuilder
             addressList = geocoder.getFromLocationName(location, 1);
-            address = addressList.get(0);
-            for(int i = 0; i < address.getMaxAddressLineIndex(); i ++) {
-                strAddress.append(address.getAddressLine(i)).append("\n");
+            if(addressList.size() > 0) {
+                address = addressList.get(0);
+
+                for(int i = 0; i < address.getMaxAddressLineIndex(); i ++) {
+                    strAddress.append(address.getAddressLine(i)).append("\n");
+                }
+
+                Toast.makeText(this, strAddress, Toast.LENGTH_LONG).show();
             }
 
-            Toast.makeText(this, strAddress, Toast.LENGTH_LONG).show();
+
         } catch(IOException e) {
             e.printStackTrace();
         }
 
-        // Get the latitude and longitude of the user-typed address
-        lat = address.getLatitude();
-        lng = address.getLongitude();
-        Log.v(TAG, "lat: " + lat);
-        Log.v(TAG, "lng: " + lng);
+
+        if(address != null) {
+            // Get the latitude and longitude of the user-typed address
+            lat = address.getLatitude();
+            lng = address.getLongitude();
+            Log.v(TAG, "lat: " + lat);
+            Log.v(TAG, "lng: " + lng);
 
 
-        LatLng currentLocation = new LatLng(lat, lng);;
+            LatLng currentLocation = new LatLng(lat, lng);;
 
-        // Move the map to the user-typed address
-        map.setMyLocationEnabled(true);
-        map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
+            // Move the map to the user-typed address
+            map.setMyLocationEnabled(true);
+            map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
-        // Add a marker to the user-typed address
-        Marker marker = map.addMarker(new MarkerOptions()
-                .title("Location Found:")
-                .snippet("Click HERE To Choose This Location :)")
-                .position(currentLocation));
+            // Add a marker to the user-typed address
+            Marker marker = map.addMarker(new MarkerOptions()
+                    .title("Location Found:")
+                    .snippet("Click HERE To Choose This Location :)")
+                    .position(currentLocation));
 
-        marker.showInfoWindow();
+            marker.showInfoWindow();
 
-        // When the user clicks the message, go back to the previous activity with
-        // passing the user-typed address
-        map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            // When the user clicks the message, go back to the previous activity with
+            // passing the user-typed address
+            map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
 
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
-                intent.putExtra("address", strAddress.toString());
-                intent.putExtra("lat", lat);
-                intent.putExtra("lng", lng);
-                setResult(RESULT_OK, intent);
-                finish();
-            }
-        });
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
+                    intent.putExtra("address", strAddress.toString());
+                    intent.putExtra("lat", lat);
+                    intent.putExtra("lng", lng);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
+            });
+        } else {
+            new AlertDialog.Builder(MapActivity.this)
+                    .setTitle("Location Not Found.")
+                    .setMessage("Please Try Again.")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    }).setIcon(android.R.drawable.ic_dialog_alert).show();
+        }
+
     }
 
     @Override
