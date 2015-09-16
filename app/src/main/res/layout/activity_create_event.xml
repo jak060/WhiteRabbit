@@ -146,13 +146,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="10 carrot"
+                android:text="10 carrots"
                 android:textSize="13sp" />
             <RadioButton android:id="@+id/radio_2carrots"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="25 carrots"
+                android:text="30 carrots"
                 android:textSize="13sp" />
             <RadioButton android:id="@+id/radio_3carrots"
                 android:layout_width="match_parent"

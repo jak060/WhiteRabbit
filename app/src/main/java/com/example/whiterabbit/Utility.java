@@ -60,7 +60,7 @@ public class Utility {
         if(src.size() > 0) {
             while(i < src.size()) {
                 String temp = src.get(i);
-                temp = temp.substring(temp.indexOf(":") + 2);
+                temp = temp.substring(temp.lastIndexOf(":") + 2);
                 temp = temp.replaceAll("[^0-9]", "");
 
                 Log.v("Utility.java", "In phoneNums: " + temp);

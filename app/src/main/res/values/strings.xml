@@ -94,4 +94,5 @@
         <item>$5</item>
     </string-array>
 
+    <string name="dialog_title">Still pending. . .</string>
 </resources>

@@ -45,7 +45,6 @@ public class RespondInvitationActivity  extends AppCompatActivity{
         final String name;
         String temp = ""; // To hold the phoneNumber
         String temp2 = ""; // To hold the objectId
-        String temp3 = ""; // To hold the name
 
 
         if(intent != null) {
@@ -53,7 +52,6 @@ public class RespondInvitationActivity  extends AppCompatActivity{
             invitationInfo.setText(intent.getStringExtra("info"));
             temp = intent.getStringExtra("phoneNumber");
             temp2 = intent.getStringExtra("objectId");
-            temp3 = intent.getStringExtra("name");
         }
 
         Button acceptBtn = (Button) findViewById(R.id.acceptBtn);
@@ -61,10 +59,6 @@ public class RespondInvitationActivity  extends AppCompatActivity{
 
         phoneNumber = temp;
         objectId = temp2;
-        name = temp3;
-
-        // Combine name with the phone number
-        combined = name + ": " + phoneNumber;
 
         // Handle the case when the user accepts the invitation
         acceptBtn.setOnClickListener(new View.OnClickListener() {
@@ -105,7 +99,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
 
                         if (e == null) {
                             // stateNum - 1 is to change the indicator light in the main event page
-                            parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) - 1);
+                            parseObject.put("accepted", ((Integer) parseObject.get("accepted")) + 1);
 
                             // This is to subscribe this user the the invitation so that this user can display the received invitation on his main event page
                             parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
@@ -178,11 +172,18 @@ public class RespondInvitationActivity  extends AppCompatActivity{
 
                         if(e == null) {
                             // stateNum is to change the indicator light to the red light in the main event page
-                            parseObject.put("stateNum", ((Integer) parseObject.get("stateNum")) + ((ArrayList) parseObject.get("invitees")).size());
+                            parseObject.put("declined", ((Integer) parseObject.get("declined")) + 1);
+
+                            // Unsubscribe the current user from the event
+                            String temp = (String) parseObject.get("ownerID");
+                            String myID = ParseUser.getCurrentUser().getObjectId();
+                            temp = temp.replace(myID, "");
+                            parseObject.put("ownerID", temp);
+
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {
-                                    if(e == null) {
+                                    if (e == null) {
                                         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                         startActivity(intent);
                                     } else {

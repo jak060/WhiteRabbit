@@ -1,6 +1,8 @@
 package com.example.whiterabbit;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -8,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -71,6 +74,7 @@ public class EventFragment extends Fragment {
             public void done(List<ParseObject> list, ParseException e) {
                 if (e == null) {
 
+                    // Save all corresponding info to each field to set up the adapter
                     for (int i = 0; i < list.size(); i++) {
                         InvitationInfoActivity invitationInfoActivity = new InvitationInfoActivity();
                         invitationInfoActivity.setTitle((String) list.get(i).get("title"));
@@ -78,22 +82,80 @@ public class EventFragment extends Fragment {
                         invitationInfoActivity.setDate((String) list.get(i).get("date"));
                         invitationInfoActivity.setLocation((String) list.get(i).get("location"));
                         invitationInfoActivity.setWith((ArrayList) list.get(i).get("invitees"));
-                        invitationInfoActivity.setState((Integer) list.get(i).get("stateNum"));
+                        invitationInfoActivity.setNumOfAccepted((Integer) list.get(i).get("accepted"));
+                        invitationInfoActivity.setNumOfDeclined((Integer) list.get(i).get("declined"));
+                        invitationInfoActivity.setCarrot((String) list.get(i).get("carrots"));
                         invitationInfoActivity.setLatitude((Double) list.get(i).get("lat"));
                         invitationInfoActivity.setLongitude((Double) list.get(i).get("lng"));
+                        invitationInfoActivity.setHostId((String) list.get(i).get("hostID"));
                         invitationInfoActivity.setObjectId(list.get(i).getObjectId());
-                        Log.v(TAG, "Current State: " + invitationInfoActivity.getState());
+                        //Log.v(TAG, "Current State: " + invitationInfoActivity.getState());
                         Log.v(TAG, "ObjectId in EventFragment: " + list.get(i).getObjectId());
                         infoList.add(invitationInfoActivity);
                     }
 
+                    // Set up the adapter
                     eventList.setAdapter(new CustomListViewAdapter(view.getContext(), infoList));
+
+                    // Make each row clickable
+                    eventList.setClickable(true);
+
+                    // When the user clicks an item. . .
+                    eventList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
+                            InvitationInfoActivity invitationInfoActivity = (InvitationInfoActivity) eventList.getItemAtPosition(position);
+
+                            // Check if the selected event is pending
+                            if (invitationInfoActivity.getNumOfAccepted() == 0 && infoList.get(position).getNumOfDeclined() < infoList.get(position).getWith().size() - 1) {
+
+                                // To check that the user is not a host so that the user can responds to the invitation
+                                if (!ParseUser.getCurrentUser().getObjectId().equals(invitationInfoActivity.getHostId())) {
+                                    Intent intent = new Intent(getActivity(), RespondInvitationActivity.class);
+
+                                    String invitationInfo = "Title: " + invitationInfoActivity.getTitle() + "\n" + "Time: " + invitationInfoActivity.getTime() + "\n" + "Date: " +
+                                            Utility.parseDate2(invitationInfoActivity.getDate()) + "\n" + "Location: " + invitationInfoActivity.getLocation() + "\n" + "From - "
+                                            + invitationInfoActivity.getWith().get(invitationInfoActivity.getWith().size() - 1)
+                                            + "\n" + "Rewards: " + invitationInfoActivity.getCarrot();
+
+                                    String phoneNum = invitationInfoActivity.getWith().get(invitationInfoActivity.getWith().size() - 1);
+                                    phoneNum = phoneNum.substring(phoneNum.lastIndexOf(":") + 2);
+                                    phoneNum = phoneNum.replaceAll("[^0-9]", "");
+
+                                    intent.putExtra("phoneNumber", phoneNum);
+                                    intent.putExtra("info", invitationInfo);
+                                    intent.putExtra("objectId", invitationInfoActivity.getObjectId());
+
+                                    startActivity(intent);
+                                } else {
+                                    Integer numOfResponded = invitationInfoActivity.getNumOfAccepted() + invitationInfoActivity.getNumOfDeclined();
+                                    Integer totalNumOfInvitees = invitationInfoActivity.getWith().size() - 1;
+                                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                    builder.setMessage(numOfResponded.toString()+ " invitee(s)" + " has responded out of " + totalNumOfInvitees + " invitee(s)")
+                                            .setTitle(R.string.dialog_title)
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+
+                                                }
+                                            });
+                                    AlertDialog dialog = builder.create();
+                                    dialog.show();
+                                }
+
+
+                            }
+                        }
+
+                    });
 
                 } else {
                     Log.d(TAG, "Error: " + e.getMessage());
                 }
             }
         });
+
         return view;
     }
 }

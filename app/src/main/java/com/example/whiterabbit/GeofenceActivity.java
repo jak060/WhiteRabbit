@@ -219,6 +219,10 @@ public class GeofenceActivity extends IntentService implements
 
         } else {
             Log.e(TAG, "Error in onResult: " + status.getStatusCode());
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
+            editor.commit();
         }
     }
 

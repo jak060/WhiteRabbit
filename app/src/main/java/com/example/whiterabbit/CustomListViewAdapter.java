@@ -94,7 +94,7 @@ public class CustomListViewAdapter extends BaseAdapter{
         holder.location.setText(infoList.get(position).getLocationShort());
 
         // This is to show indication light for events
-        if(infoList.get(position).getState() == 0) {
+        if(infoList.get(position).getNumOfAccepted() > 0) {
             holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_accepted));
             holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_accepted));
             holder.status.setText(context.getResources().getString(R.string.accepted));
@@ -148,7 +148,7 @@ public class CustomListViewAdapter extends BaseAdapter{
 
                 // We need it to trigger the geofence 10 minutes before the actual event
                 // But currenly 1 min before the actual event only for debugging purposes
-                long geofenceTriggerTime = 10 * 1000 * 60;
+                long geofenceTriggerTime = 1 * 1000 * 60;
 
                 // Set the date to the calendar
                 calendar.setTime(myDate);
@@ -165,19 +165,27 @@ public class CustomListViewAdapter extends BaseAdapter{
                 AlarmManager alarmManager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
                 alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
             }
-        } else if((infoList.get(position).getState() > 0) && (infoList.get(position).getState() < infoList.get(position).getWith().size())) {
-            holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_pending));
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_pending));
-            holder.status.setText(context.getResources().getString(R.string.pending));
-            holder.status.setTextColor(context.getResources().getColor(R.color.event_pending));
-        } else {
-            holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_declined));
-            holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_declined));
-            holder.title.setTextColor(context.getResources().getColor(R.color.event_declined));
-            holder.time.setTextColor(context.getResources().getColor(R.color.event_declined));
-            holder.location.setTextColor(context.getResources().getColor(R.color.event_declined));
-            holder.status.setText(context.getResources().getString(R.string.declined));
-            holder.status.setTextColor(context.getResources().getColor(R.color.event_declined));
+        }
+
+        else if(infoList.get(position).getNumOfAccepted() == 0) {
+            // Declined case where everyone declined the invitation
+            if(infoList.get(position).getNumOfDeclined() >= infoList.get(position).getWith().size() - 1) {
+                holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_declined));
+                holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_declined));
+                holder.title.setTextColor(context.getResources().getColor(R.color.event_declined));
+                holder.time.setTextColor(context.getResources().getColor(R.color.event_declined));
+                holder.location.setTextColor(context.getResources().getColor(R.color.event_declined));
+                holder.status.setText(context.getResources().getString(R.string.declined));
+                holder.status.setTextColor(context.getResources().getColor(R.color.event_declined));
+            }
+
+            // Pending case
+            else {
+                holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_pending));
+                holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_pending));
+                holder.status.setText(context.getResources().getString(R.string.pending));
+                holder.status.setTextColor(context.getResources().getColor(R.color.event_pending));
+            }
         }
 
         return convertView;

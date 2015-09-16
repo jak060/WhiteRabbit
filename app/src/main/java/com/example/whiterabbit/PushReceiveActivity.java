@@ -4,7 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParsePushBroadcastReceiver;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,7 +50,6 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
                         json.getString("date") + "\n" + "Location: " + json.getString("location") + "\n" + "From - " + json.getString("fromName") +
                         ": " + Utility.phoneNumberFormat(json.getString("fromNumber")) + "\n" + "Rewards: " + json.getString("carrots");
                 myIntent.putExtra("phoneNumber", json.getString("fromNumber"));
-                myIntent.putExtra("name", json.getString("fromName"));
                 myIntent.putExtra("info", invitationInfo);
                 myIntent.putExtra("objectId", json.getString("objectId"));
             }
@@ -55,6 +59,38 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
 
             // Start the new activity
             context.startActivity(myIntent);
+        } catch(JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    // A case where the user dismisses the push notification
+    @Override
+    public void onPushDismiss(Context context, Intent intent) {
+
+        try {
+            JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+
+            // If the json string was "You have an invitation!!!", then . . .
+            if(json.getString("alert").equals("You have an invitation!!!")) {
+
+                // This is to change the invitation information
+                ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
+                invitationInfo.getInBackground(json.getString("objectId"), new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, ParseException e) {
+                        if(e == null) {
+                            // This is to subscribe this user the the invitation so that this user can display the received invitation on his main event page
+                            parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
+                            parseObject.saveInBackground();
+
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+            }
         } catch(JSONException e) {
             e.printStackTrace();
         }
