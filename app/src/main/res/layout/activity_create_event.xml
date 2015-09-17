@@ -167,7 +167,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="Earn carrots by arriving on time. Lose carrots by arriving late or failing to show up." />
+            android:text="Earn carrots by arriving on time. Carrots can be used to make donations" />
 
         <TextView android:id="@+id/errorMsg"
             android:layout_below="@id/divider5"
