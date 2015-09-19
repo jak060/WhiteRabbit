@@ -31,7 +31,7 @@
         android:name="com.whiterabbitt.whiterabbitt.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
-    <uses-permission android:name="com.example.whiterabbit.permission.C2D_MESSAGE" />
+    <uses-permission android:name="com.whiterabbitt.whiterabbitt.permission.C2D_MESSAGE" />
 
     <application
         android:name="com.whiterabbitt.whiterabbitt.MyApplication"
@@ -44,7 +44,7 @@
             android:value="@integer/google_play_services_version" />
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value="AIzaSyD762UnZWK5bInepIpYnXdP1pPEL2t4iF4" />
 
         <activity
             android:name="com.whiterabbitt.whiterabbitt.IndexActivity"
@@ -61,7 +61,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.MAIN" />
+                <action android:name="com.whiterabbitt.whiterabbit.MAIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -71,7 +71,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.CREATE_ACCOUNT" />
+                <action android:name="com.whiterabbitt.whiterabbitt.CREATE_ACCOUNT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -81,7 +81,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.LOGIN" />
+                <action android:name="com.whiterabbitt.whiterabbitt.LOGIN" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -95,7 +95,7 @@
                 android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
 
             <intent-filter>
-                <action android:name="com.example.whiterabbit.CREATE_EVENT" />
+                <action android:name="com.whiterabbitt.whiterabbitt.CREATE_EVENT" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -106,7 +106,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateVisible" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.ACTIVITY_MAP" />
+                <action android:name="com.whiterabbitt.whiterabbitt.ACTIVITY_MAP" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -116,7 +116,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.SELECT_INVITEE" />
+                <action android:name="com.whiterabbitt.whiterabbitt.SELECT_INVITEE" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -126,7 +126,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.RESPOND_INVITATION" />
+                <action android:name="com.whiterabbitt.whiterabbitt.RESPOND_INVITATION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -136,7 +136,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.REWARD_WINNER" />
+                <action android:name="com.whiterabbitt.whiterabbitt.REWARD_WINNER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -146,7 +146,7 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="com.example.whiterabbit.REWARD_LOSER" />
+                <action android:name="com.whiterabbitt.whiterabbitt.REWARD_LOSER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -169,6 +169,15 @@
             android:name="com.whiterabbitt.whiterabbitt.ContactActivity"
             android:label="@string/title_activity_contact"
             android:theme="@style/NoActionBarTheme" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.whiterabbitt.whiterabbitt.EventDetailActivity"
+            android:label="@string/title_activity_contact"
+            android:theme="@style/NoActionBarTheme"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
@@ -204,7 +213,7 @@
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
 
                 <!-- IMPORTANT: Change "com.parse.tutorials.pushnotifications" to match your app's package name. -->
-                <category android:name="com.example.whiterabbit" />
+                <category android:name="com.whiterabbitt.whiterabbitt" />
             </intent-filter>
         </receiver>
         <receiver

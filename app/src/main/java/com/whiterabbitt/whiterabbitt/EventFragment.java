@@ -124,11 +124,14 @@ public class EventFragment extends Fragment {
                                     intent.putExtra("objectId", invitationInfoActivity.getObjectId());
 
                                     startActivity(intent);
-                                } else {
+                                }
+
+                                // If the user is a host, then just display the message how many people have responded
+                                else {
                                     Integer numOfResponded = invitationInfoActivity.getNumOfAccepted() + invitationInfoActivity.getNumOfDeclined();
                                     Integer totalNumOfInvitees = invitationInfoActivity.getWith().size() - 1;
                                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                                    builder.setMessage(numOfResponded.toString()+ " invitee(s)" + " has responded out of " + totalNumOfInvitees + " invitee(s)")
+                                    builder.setMessage(numOfResponded.toString() + " invitee(s)" + " has responded out of " + totalNumOfInvitees + " invitee(s)")
                                             .setTitle(R.string.dialog_title)
                                             .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                                 @Override
@@ -141,6 +144,20 @@ public class EventFragment extends Fragment {
                                 }
 
 
+                            }
+
+                            // Check if selected event is accepted
+                            else if (infoList.get(position).getNumOfAccepted() > 0) {
+                                Intent intent = new Intent(getActivity(), EventDetailActivity.class);
+                                intent.putExtra("title", invitationInfoActivity.getTitle());
+                                intent.putExtra("time", invitationInfoActivity.getTime());
+                                intent.putExtra("date", invitationInfoActivity.getDate());
+                                intent.putExtra("location", invitationInfoActivity.getLocation());
+                                intent.putExtra("reward", invitationInfoActivity.getCarrot());
+                                intent.putExtra("latitude", invitationInfoActivity.getLatitude());
+                                intent.putExtra("longitude", invitationInfoActivity.getLongitude());
+                                intent.putStringArrayListExtra("participants", invitationInfoActivity.getWith());
+                                startActivity(intent);
                             }
                         }
 

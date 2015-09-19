@@ -150,7 +150,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     addressList = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                     address = addressList.get(0);
                     for(int i = 0; i < address.getMaxAddressLineIndex(); i ++) {
-                        strAddress.append(address.getAddressLine(i)).append("\n");
+
+                        strAddress.append(address.getAddressLine(i));
+
+                        if((i+1) != address.getMaxAddressLineIndex()) {
+                            strAddress.append("\n");
+                        }
+
                     }
 
                     Toast.makeText(getApplicationContext(), strAddress, Toast.LENGTH_LONG).show();
@@ -249,7 +255,13 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                 address = addressList.get(0);
 
                 for(int i = 0; i < address.getMaxAddressLineIndex(); i ++) {
-                    strAddress.append(address.getAddressLine(i)).append("\n");
+
+                    strAddress.append(address.getAddressLine(i));
+
+                    if((i+1) != address.getMaxAddressLineIndex()) {
+                        strAddress.append("\n");
+                    }
+
                 }
 
                 Toast.makeText(this, strAddress, Toast.LENGTH_LONG).show();
