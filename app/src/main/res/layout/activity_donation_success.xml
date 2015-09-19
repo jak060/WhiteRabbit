@@ -13,7 +13,7 @@
         android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="You're awesome!" />
+        android:text="You donated ($)." />
 
     <TextView android:id="@+id/subtitle"
         android:layout_below="@id/header"
@@ -21,29 +21,25 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Thank you very much for your help." />
+        android:text="Thank you!" />
 
-    <View android:id="@+id/placeholder"
+    <TextView android:id="@+id/text_stats"
         android:layout_below="@id/subtitle"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:layout_centerHorizontal="true" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:layout_marginBottom="20dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Here are your updated stats:"/>
 
     <LinearLayout
-        android:layout_below="@id/placeholder"
-        android:layout_width="fill_parent"
+        android:layout_below="@id/text_stats"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/placeholder"
-            android:text="Previous Status:"
-            android:id="@+id/label_previous_status" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,14 +47,17 @@
             android:layout_marginEnd="40dp"
             android:orientation="vertical">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_carrot_48dp" />
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/carrots" />
             <TextView android:id="@+id/carrots_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="# carrots" />
+                android:textSize="20sp"
+                android:text="@string/carrots_placeholder" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,65 +67,17 @@
 
             android:orientation="vertical">
 
-            <ImageView
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_donation_48dp" />
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/donation" />
             <TextView android:id="@+id/donation_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Donation" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_below="@id/linearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout2">
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
-            android:text="Current Status:"
-            android:id="@+id/label_current_status" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginEnd="40dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_carrot_48dp" />
-            <TextView android:id="@+id/carrots_value2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="# carrots" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_donation_48dp" />
-            <TextView android:id="@+id/donation_points2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Donation" />
+                android:textSize="20sp"
+                android:text="@string/donation_placeholder" />
         </LinearLayout>
     </LinearLayout>
 
