@@ -23,6 +23,9 @@ public class DonationSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_success);
 
+        // Remove drop shadow from action bar on Lollipop
+        getSupportActionBar().setElevation(0);
+
         // Initializing Views
         prevCarrotView = (TextView) findViewById(R.id.carrots_value);
         prevAmountView = (TextView) findViewById(R.id.donation_value);

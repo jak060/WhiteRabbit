@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_container);
 
+        // Remove drop shadow from action bar on Lollipop
+        getSupportActionBar().setElevation(0);
+
         viewPager = (ViewPager) findViewById(R.id.pager);
         fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPageAdapter);
