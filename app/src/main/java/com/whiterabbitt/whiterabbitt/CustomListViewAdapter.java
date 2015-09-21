@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -67,6 +68,8 @@ public class CustomListViewAdapter extends BaseAdapter{
             convertView = layoutInflater.inflate(R.layout.activity_custom_event_row, null);
             holder = new Holder();
             holder.container = (RelativeLayout) convertView.findViewById(R.id.event_container);
+            holder.iconDate = (ImageView) convertView.findViewById(R.id.icon_date);
+            holder.iconLocation = (ImageView) convertView.findViewById(R.id.icon_location);
             holder.date = (TextView) convertView.findViewById(R.id.event_row_date);
             holder.time = (TextView) convertView.findViewById(R.id.event_row_time);
             holder.title = (TextView) convertView.findViewById(R.id.event_row_title);
@@ -178,6 +181,8 @@ public class CustomListViewAdapter extends BaseAdapter{
             if(infoList.get(position).getNumOfDeclined() >= infoList.get(position).getWith().size() - 1) {
                 holder.statusBar.setBackground(ContextCompat.getDrawable(context, R.color.event_declined));
                 holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_declined));
+                holder.iconDate.setImageResource(R.drawable.icon_date_declined);
+                holder.iconLocation.setImageResource(R.drawable.icon_location_declined);
                 holder.title.setTextColor(context.getResources().getColor(R.color.event_declined));
                 holder.time.setTextColor(context.getResources().getColor(R.color.event_declined));
                 holder.location.setTextColor(context.getResources().getColor(R.color.event_declined));
@@ -200,6 +205,8 @@ public class CustomListViewAdapter extends BaseAdapter{
 
     static class Holder {
         RelativeLayout container;
+        ImageView iconDate;
+        ImageView iconLocation;
         TextView date;
         TextView time;
         TextView title;
