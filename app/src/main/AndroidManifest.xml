@@ -159,13 +159,6 @@
                 android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
         </activity>
         <activity
-            android:name="com.whiterabbitt.whiterabbitt.InvitationsActivity"
-            android:label="@string/title_activity_invitations" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
-        </activity>
-        <activity
             android:name="com.whiterabbitt.whiterabbitt.ContactActivity"
             android:label="@string/title_activity_contact"
             android:theme="@style/NoActionBarTheme" >

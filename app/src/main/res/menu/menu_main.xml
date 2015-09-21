@@ -3,11 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".MainActivity">
 
-    <item android:id="@+id/action_invitations"
-        android:title="@string/action_invitations"
-        android:icon="@drawable/ic_mail_white_48dp"
-        app:showAsAction="always" />
-
     <item android:id="@+id/action_create_event"
         android:title="@string/action_create_event"
         android:icon="@drawable/ic_add_white_48dp"

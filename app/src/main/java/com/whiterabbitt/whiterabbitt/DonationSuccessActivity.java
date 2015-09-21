@@ -13,8 +13,7 @@ public class DonationSuccessActivity extends AppCompatActivity {
     Integer currCarrots;
     Integer currAmount;
 
-    TextView prevCarrotView;
-    TextView prevAmountView;
+    TextView headerView;
     TextView currCarrotView;
     TextView currAmountView;
 
@@ -23,21 +22,24 @@ public class DonationSuccessActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_donation_success);
 
+        // Remove drop shadow from action bar on Lollipop
+        getSupportActionBar().setElevation(0);
+
         // Initializing Views
-        prevCarrotView = (TextView) findViewById(R.id.carrots_value);
-        prevAmountView = (TextView) findViewById(R.id.donation_value);
-        currCarrotView = (TextView) findViewById(R.id.carrots_value2);
-        currAmountView = (TextView) findViewById(R.id.donation_points2);
+        headerView = (TextView) findViewById(R.id.header);
+        currCarrotView = (TextView) findViewById(R.id.carrots_value);
+        currAmountView = (TextView) findViewById(R.id.donation_value);
 
         Intent intent = getIntent();
 
+        // TODO: Probably want to change this to only save / retrieve amount donated.
         prevCarrots = (Integer) intent.getExtras().get("prevCarrots");
         prevAmount = (Integer) intent.getExtras().get("prevDonationPoints");
+        
         currCarrots = (Integer) intent.getExtras().get("currentCarrots");
         currAmount = (Integer) intent.getExtras().get("currentDonationPoints");
 
-        prevCarrotView.setText(prevCarrots.toString());
-        prevAmountView.setText("$"+prevAmount.toString());
+        headerView.setText(String.format("You donated $%d.", currAmount - prevAmount));
         currCarrotView.setText(currCarrots.toString());
         currAmountView.setText("$"+currAmount.toString());
     }

@@ -20,6 +20,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fragment_container);
 
+        // Remove drop shadow from action bar on Lollipop
+        getSupportActionBar().setElevation(0);
+
         viewPager = (ViewPager) findViewById(R.id.pager);
         fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPageAdapter);
@@ -40,12 +43,7 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        if(id == R.id.action_invitations) {
-            Intent intent = new Intent(getApplicationContext(), InvitationsActivity.class);
-            startActivity(intent);
-            return true;
-        }
-        else if(id == R.id.action_create_event) {
+        if(id == R.id.action_create_event) {
             Intent intent = new Intent(getApplicationContext(), CreateEventActivity.class);
             startActivity(intent);
             return true;
