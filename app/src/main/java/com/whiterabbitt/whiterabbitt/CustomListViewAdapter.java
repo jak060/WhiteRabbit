@@ -101,6 +101,9 @@ public class CustomListViewAdapter extends BaseAdapter{
         holder.time.setText(infoList.get(position).getTime() + " / " + (Utility.parseDate2(infoList.get(position).getDate()).toUpperCase()));
         holder.title.setText(infoList.get(position).getTitle());
         holder.location.setText(infoList.get(position).getLocationShort());
+        holder.title.setTextColor(holder.title.getTextColors().getDefaultColor());
+        holder.time.setTextColor(holder.time.getTextColors().getDefaultColor());
+        holder.location.setTextColor(holder.location.getTextColors().getDefaultColor());
 
         // This is to show indication light for events
         if(infoList.get(position).getNumOfAccepted() > 0) {

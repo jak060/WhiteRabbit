@@ -50,20 +50,20 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
 
         friends = (ListView) findViewById(R.id.participant_list);
 
+        // Make sure to clear the list before reusing it
         participants.clear();
 
+        // Initializing TextViews
         title = (TextView) findViewById(R.id.title);
-        Log.v(TAG, "TITLE COLORCODE:" + title.getTextColors().getDefaultColor());
         time_label = (TextView) findViewById(R.id.time_label);
-        Log.v(TAG, "TIME COLORCODE:" + time_label.getTextColors().getDefaultColor());
         location_label = (TextView) findViewById(R.id.location_label);
         reward_label = (TextView) findViewById(R.id.reward_label);
 
-
-
+        // Get a intent from the previous activity
         Intent intent = getIntent();
 
         if(intent != null) {
+            // Get all the necessary fields from the previous activity
             title.setText((String) intent.getExtras().get("title"));
             String time = (String) intent.getExtras().get("time");
             String date = (String) intent.getExtras().get("date");
@@ -78,11 +78,13 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
         // Initialization of arrayAdapter which is needed for listing items
         arrayAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.activity_custom_textview, participants);
 
+        // Get the google map ready
         MapFragment mapFragment = (MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        friends.setAdapter(arrayAdapter);
 
+        // Set the adapter for participants
+        friends.setAdapter(arrayAdapter);
 
     }
 
@@ -92,14 +94,18 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
         LatLng currentLocation = new LatLng(lat, lng);
 
         if(currentLocation != null) {
-            // Move the map to the predefined address
+
+            // Enabling to see my current location
             map.setMyLocationEnabled(true);
+
+            // Move the map to the predefined address
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, 13));
 
             // Add a marker to the user-typed address
             Marker marker = map.addMarker(new MarkerOptions()
                     .position(currentLocation));
 
+            // Add a geofence radius to the marker
             Circle circle = map.addCircle(new CircleOptions()
                     .center(currentLocation)
                     .radius(1609 / 5)
