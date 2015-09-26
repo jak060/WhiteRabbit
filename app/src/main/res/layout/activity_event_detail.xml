@@ -1,25 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:gravity="center">
+    android:layout_height="wrap_content">
 
     <TextView android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingTop="16dp"
         android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:textStyle="bold"
         android:text="Title" />
 
     <TextView android:id="@+id/time_label"
         android:layout_below="@id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="6:30 PM / SEP 07, 2015" />
@@ -28,48 +26,55 @@
         android:layout_below="@id/time_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
         android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="357 Vista Roma Way \n San Jose, CA 95000" />
-    <TextView android:id="@+id/reward_label"
-        android:layout_below="@id/location_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="30 carrots" />
+        android:text="357 Vista Roma Way, San Jose, CA 95000" />
 
     <fragment xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/map"
         android:clickable="true"
         android:layout_width="fill_parent"
         android:layout_height="200dp"
-        android:layout_below="@id/reward_label"
-        android:layout_marginBottom="15dp"
+        android:layout_below="@id/location_label"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
         android:name="com.google.android.gms.maps.MapFragment" />
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <TextView android:id="@+id/reward_label"
+        android:layout_below="@id/map"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/map">
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:text="Reward: 30 carrots" />
 
-        <TextView
+    <LinearLayout
+        android:layout_below="@id/reward_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal"
+        android:background="@drawable/border"
+        android:orientation="vertical">
+        <TextView android:id="@+id/participants_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Participants:"
-            android:id="@+id/participants_label"
-            android:layout_marginRight="15dp"/>
+            android:textStyle="bold"
+            android:text="Participants" />
 
-        <ListView
+        <ListView android:id="@+id/participant_list"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/participant_list" />
-
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
     </LinearLayout>
-
-
 </RelativeLayout>

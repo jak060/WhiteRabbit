@@ -68,8 +68,8 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
             String time = (String) intent.getExtras().get("time");
             String date = (String) intent.getExtras().get("date");
             time_label.setText(time + " / " + (Utility.parseDate2(date).toUpperCase()));
-            location_label.setText((String) intent.getExtras().get("location"));
-            reward_label.setText((String) intent.getExtras().get("reward"));
+            location_label.setText(((String) intent.getExtras().get("location")).replaceAll("\n", ", "));
+            reward_label.setText("Reward: " + intent.getExtras().get("reward"));
             lat =  intent.getExtras().getDouble("latitude");
             lng =  intent.getExtras().getDouble("longitude");
             participants = intent.getStringArrayListExtra("participants");
@@ -114,6 +114,13 @@ public class EventDetailActivity extends FragmentActivity implements OnMapReadyC
                     .fillColor(Color.LTGRAY));
 
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        overridePendingTransition(R.anim.no_change, R.anim.slide_down);
     }
 
 }
