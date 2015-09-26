@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -21,6 +23,8 @@ import com.parse.SaveCallback;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 // This class shows when user opens the app from the notification
 public class RespondInvitationActivity  extends AppCompatActivity{
 
@@ -31,23 +35,42 @@ public class RespondInvitationActivity  extends AppCompatActivity{
 
     ProgressDialog dialog;
 
+    TextView title;
+    TextView time_label;
+    TextView location_label;
+    TextView from_label;
+    TextView reward_label;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_respond_invitation);
+
+        title = (TextView) findViewById(R.id.title);
+        time_label = (TextView) findViewById(R.id.time_label);
+        location_label = (TextView) findViewById(R.id.location_label);
+        from_label = (TextView) findViewById(R.id.from_label);
+        reward_label = (TextView) findViewById(R.id.reward_label);
+
         Intent intent = getIntent();
         final String phoneNumber;
         final String objectId;
-        final String name;
         String temp = ""; // To hold the phoneNumber
         String temp2 = ""; // To hold the objectId
 
-
         if(intent != null) {
-            TextView invitationInfo = (TextView) findViewById(R.id.textView2);
-            invitationInfo.setText(intent.getStringExtra("info"));
             temp = intent.getStringExtra("phoneNumber");
             temp2 = intent.getStringExtra("objectId");
+
+            // Get all the necessary fields from the previous activity
+            title.setText((String) intent.getExtras().get("title"));
+            String time = (String) intent.getExtras().get("time");
+            String date = (String) intent.getExtras().get("date");
+
+            time_label.setText(time + " / " + date.toUpperCase());
+            location_label.setText(((String) intent.getExtras().get("location")).replaceAll("\n", ", "));
+            from_label.setText("From: " + intent.getExtras().get("name"));
+            reward_label.setText("Reward: " + intent.getExtras().get("reward"));
         }
 
         Button acceptBtn = (Button) findViewById(R.id.acceptBtn);

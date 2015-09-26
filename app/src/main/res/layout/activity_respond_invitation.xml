@@ -3,33 +3,71 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="fill_parent"
+    <TextView android:id="@+id/title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:paddingTop="16dp"
+        android:layout_marginBottom="4dp"
+        android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Here is My invitation!"
-        android:id="@+id/textView2" />
+        android:textStyle="bold"
+        android:text="Title" />
+
+    <TextView android:id="@+id/time_label"
+        android:layout_below="@id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="6:30 PM / SEP 07, 2015" />
+
+    <TextView android:id="@+id/location_label"
+        android:layout_below="@id/time_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="357 Vista Roma Way, San Jose, CA 95000" />
+
+    <TextView android:id="@+id/from_label"
+        android:layout_below="@id/location_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:text="From: Shawn Lee" />
+
+    <TextView android:id="@+id/reward_label"
+        android:layout_below="@id/from_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"
+        android:text="Reward: 30 carrots" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
-
-        <Button
+        <Button android:id="@+id/acceptBtn"
             android:layout_width="fill_parent"
-            android:layout_height="144px"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="Accept"
-            android:id="@+id/acceptBtn" />
+            android:text="Accept" />
 
-        <Button
-            android:layout_marginLeft="3dp"
+        <Button android:id="@+id/declineBtn"
             android:layout_width="fill_parent"
-            android:layout_height="144px"
+            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="Decline"
-            android:id="@+id/declineBtn" />
+            android:text="Decline" />
     </LinearLayout>
 </RelativeLayout>

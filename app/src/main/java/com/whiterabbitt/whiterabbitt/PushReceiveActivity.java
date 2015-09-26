@@ -49,9 +49,16 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
                 String invitationInfo = "Title: " + json.getString("title") + "\n" + "Time: " + json.getString("time") + "\n" + "Date: " +
                         json.getString("date") + "\n" + "Location: " + json.getString("location") + "\n" + "From - " + json.getString("fromName") +
                         ": " + Utility.phoneNumberFormat(json.getString("fromNumber")) + "\n" + "Rewards: " + json.getString("carrots");
+
                 myIntent.putExtra("phoneNumber", json.getString("fromNumber"));
                 myIntent.putExtra("info", invitationInfo);
                 myIntent.putExtra("objectId", json.getString("objectId"));
+                myIntent.putExtra("name", json.getString("fromName"));
+                myIntent.putExtra("title", json.getString("title"));
+                myIntent.putExtra("time", json.getString("time"));
+                myIntent.putExtra("date", json.getString("date"));
+                myIntent.putExtra("location", json.getString("location"));
+                myIntent.putExtra("reward", json.getString("carrots"));
             }
 
             // This this flag so that we can start the new activity
