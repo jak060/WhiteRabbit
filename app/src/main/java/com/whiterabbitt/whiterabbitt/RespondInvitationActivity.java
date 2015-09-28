@@ -120,8 +120,12 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                             // stateNum - 1 is to change the indicator light in the main event page
                             parseObject.put("accepted", ((Integer) parseObject.get("accepted")) + 1);
 
-                            // This is to subscribe this user the the invitation so that this user can display the received invitation on his main event page
+                            // This is to subscribe this user for the invitation so that this user can display the received invitation on his main event page
                             parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
+
+                            // This is to subscribe this user for the geofence flag
+                            parseObject.put("geofenceFlag", parseObject.get("geofenceFlag") + "-" + ParseUser.getCurrentUser().getObjectId() + ":F");
+
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {

@@ -16,6 +16,12 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.parse.GetCallback;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,8 +35,11 @@ public class CustomListViewAdapter extends BaseAdapter{
     private ArrayList<InvitationInfoActivity> infoList;
     private Context context;
 
-    private Calendar calendar = Calendar.getInstance();;
+    private Calendar calendar = Calendar.getInstance();
 
+    StringBuilder updatedMyGeofenceStatus;
+
+    int currPosition;
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
@@ -62,6 +71,7 @@ public class CustomListViewAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
         String prevDate = "";
+        currPosition = position;
 
         // If we haven't initialized this convertView, set it up
         if(convertView == null) {
@@ -117,65 +127,103 @@ public class CustomListViewAdapter extends BaseAdapter{
             Boolean isGeofenceRegistered = prefs.getBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
             Log.v(TAG, "isGeofenceRegistered? " + isGeofenceRegistered);
 
+            String geofenceFlag = infoList.get(position).getGeofenceFlag();
+            String myObjectId = ParseUser.getCurrentUser().getObjectId();
+
+            // This should get F or T
+            // F = False, which means user hasn't registered in geofence
+            // T = True, which means user has registered in geofence
+            String myGeofenceStatus = geofenceFlag.
+                    substring(geofenceFlag.indexOf(":", geofenceFlag.indexOf(myObjectId)) + 1,
+                            geofenceFlag.indexOf(":", geofenceFlag.indexOf(myObjectId)) + 2);
+
             // If not registered yet, then. . .
-            if(!isGeofenceRegistered) {
+            if(myGeofenceStatus.equals("F")) {
 
-                // Intent for the geofence
-                Intent intent = new Intent(context, GeofenceActivity.class);
+                // Make the geofence flag to be T (true)
+                updatedMyGeofenceStatus = new StringBuilder(geofenceFlag);
+                updatedMyGeofenceStatus.setCharAt(geofenceFlag.indexOf(":", geofenceFlag.indexOf(myObjectId)) + 1, 'T');
 
-                // Intent for the reward activity
-                Intent intent2 = new Intent(context, RewardPreparationService.class);
+                // Save the updated geofence flag
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("invitationInfo");
+                query.getInBackground(infoList.get(position).getObjectId(), new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject parseObject, com.parse.ParseException e) {
+                        if (e == null) {
+                            parseObject.put("geofenceFlag", updatedMyGeofenceStatus.toString());
+                            parseObject.saveInBackground(new SaveCallback() {
+                                @Override
+                                public void done(com.parse.ParseException e) {
+                                    if(e == null) {
 
-                // Pass latitude and longitude for the geofence
-                intent.putExtra("lat", infoList.get(position).getLatitude());
-                intent.putExtra("lng", infoList.get(position).getLongitude());
+                                        // Intent for the geofence
+                                        Intent intent = new Intent(context, GeofenceActivity.class);
 
-                // Pass objectId of the event to reward activity
-                intent2.putExtra("objectId", infoList.get(position).getObjectId());
+                                        // Intent for the reward activity
+                                        Intent intent2 = new Intent(context, RewardPreparationService.class);
 
-                Log.v(TAG, "ObjectId for CustomListViewAdapter: " + infoList.get(position).getObjectId());
+                                        // Pass latitude and longitude for the geofence
+                                        intent.putExtra("lat", infoList.get(currPosition).getLatitude());
+                                        intent.putExtra("lng", infoList.get(currPosition).getLongitude());
 
-                String time = infoList.get(position).getTime(); // Time holder
-                String date = Utility.parseDate2(infoList.get(position).getDate()); // Date holder
+                                        // Pass objectId of the event to reward activity
+                                        intent2.putExtra("objectId", infoList.get(currPosition).getObjectId());
 
-                // Combine the date and time
-                String dateTime = date + " " + time;
+                                        Log.v(TAG, "ObjectId for CustomListViewAdapter: " + infoList.get(currPosition).getObjectId());
 
-                Log.v(TAG, "dateTime: " + dateTime.toString());
+                                        String time = infoList.get(currPosition).getTime(); // Time holder
+                                        String date = Utility.parseDate2(infoList.get(currPosition).getDate()); // Date holder
 
-                // The format for the date and time (ex. Aug 25, 2015 11:50 PM)
-                DateFormat inFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm aa");
+                                        // Combine the date and time
+                                        String dateTime = date + " " + time;
 
-                Date myDate = null;
+                                        Log.v(TAG, "dateTime: " + dateTime.toString());
 
-                try {
-                    // Convert the string format of date to actual Date object
-                    myDate = inFormat.parse(dateTime);
-                    Log.v(TAG, "myDate: " + myDate.toString());
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                                        // The format for the date and time (ex. Aug 25, 2015 11:50 PM)
+                                        DateFormat inFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm aa");
 
-                Log.v(TAG, "calendar before: " + calendar.getTimeInMillis());
+                                        Date myDate = null;
 
-                // We need it to trigger the geofence 10 minutes before the actual event
-                // But currenly 1 min before the actual event only for debugging purposes
-                long geofenceTriggerTime = 10 * 1000 * 60;
+                                        try {
+                                            // Convert the string format of date to actual Date object
+                                            myDate = inFormat.parse(dateTime);
+                                            Log.v(TAG, "myDate: " + myDate.toString());
+                                        } catch (ParseException e1) {
+                                            e1.printStackTrace();
+                                        }
 
-                // Set the date to the calendar
-                calendar.setTime(myDate);
+                                        Log.v(TAG, "calendar before: " + calendar.getTimeInMillis());
 
-                Log.v(TAG, "calendar after: " + calendar.getTimeInMillis());
+                                        // We need it to trigger the geofence 10 minutes before the actual event
+                                        // But currenly 1 min before the actual event only for debugging purposes
+                                        long geofenceTriggerTime = 10 * 1000 * 60;
 
-                // Schedule the geofence activity at 10 mins before the actualy event
-                PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
+                                        // Set the date to the calendar
+                                        calendar.setTime(myDate);
 
-                // Schedule the reward activity at the actual event time
-                PendingIntent pendingIntent2 = PendingIntent.getService(context, 2, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
-                AlarmManager alarmManager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
+                                        Log.v(TAG, "calendar after: " + calendar.getTimeInMillis());
+
+                                        // Schedule the geofence activity at 10 mins before the actualy event
+                                        PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                                        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
+
+                                        // Schedule the reward activity at the actual event time
+                                        PendingIntent pendingIntent2 = PendingIntent.getService(context, 2, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
+                                        AlarmManager alarmManager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                                        alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
+                                    } else {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            });
+                        } else {
+                            e.printStackTrace();
+                        }
+                    }
+                });
+
+
             }
         }
 

@@ -21,6 +21,8 @@ public class InvitationInfoActivity {
 
     private String hostId; // To hold the objectId of the host of the current event
 
+    private String geofenceFlag; // To hold the flag for the geofence of current event
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -61,6 +63,10 @@ public class InvitationInfoActivity {
 
     public void setHostId(String hostId) {
         this.hostId = hostId;
+    }
+
+    public void setGeofenceFlag(String geofenceFlag) {
+        this.geofenceFlag = geofenceFlag;
     }
 
     public String getTitle() {
@@ -110,5 +116,7 @@ public class InvitationInfoActivity {
     public String getHostId() {
         return hostId;
     }
+
+    public String getGeofenceFlag() { return geofenceFlag; }
 
 }

@@ -242,10 +242,11 @@ public class CreateEventActivity extends AppCompatActivity {
         String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));
         friendList.add(myself);
         invitationInfo.put("invitees", friendList);
-        invitationInfo.put("ownerID", ParseUser.getCurrentUser().getObjectId()); // To hold IDs of all of the users who are involved in this event
+        String myObjectId = ParseUser.getCurrentUser().getObjectId();
+        invitationInfo.put("ownerID", myObjectId); // To hold IDs of all of the users who are involved in this event
         invitationInfo.put("accepted", 0);
         invitationInfo.put("declined", 0);
-        invitationInfo.put("hostID", ParseUser.getCurrentUser().getObjectId());
+        invitationInfo.put("hostID", myObjectId);
 
         // Needed to save them in db for the geofence
         invitationInfo.put("lat", lat);
@@ -253,6 +254,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
         // Save the number of carrots
         invitationInfo.put("carrots", numberOfCarrots);
+
+        // Put the flag of myself for geofence
+        invitationInfo.put("geofenceFlag", myObjectId + ":F");
 
         // Save those info into the Parse
         invitationInfo.saveInBackground(new SaveCallback() {

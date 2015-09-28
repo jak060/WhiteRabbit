@@ -85,6 +85,7 @@ public class EventFragment extends Fragment {
                         invitationInfoActivity.setLongitude((Double) list.get(i).get("lng"));
                         invitationInfoActivity.setHostId((String) list.get(i).get("hostID"));
                         invitationInfoActivity.setObjectId(list.get(i).getObjectId());
+                        invitationInfoActivity.setGeofenceFlag((String) list.get(i).get("geofenceFlag"));
                         //Log.v(TAG, "Current State: " + invitationInfoActivity.getState());
                         Log.v(TAG, "ObjectId in EventFragment: " + list.get(i).getObjectId());
                         infoList.add(invitationInfoActivity);

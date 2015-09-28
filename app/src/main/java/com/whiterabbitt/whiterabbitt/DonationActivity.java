@@ -149,6 +149,7 @@ public class DonationActivity extends AppCompatActivity {
                                 intent.putExtra("prevDonationPoints", prevAmount);
                                 intent.putExtra("currentCarrots", currentNumOfCarrots);
                                 intent.putExtra("currentDonationPoints", currentAmount);
+                                intent.putExtra("level", (int) ParseUser.getCurrentUser().get("rankPoints"));
                                 startActivity(intent);
                             } else {
                                 e.printStackTrace();

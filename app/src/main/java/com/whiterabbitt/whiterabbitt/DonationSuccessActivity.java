@@ -12,10 +12,12 @@ public class DonationSuccessActivity extends AppCompatActivity {
     Integer prevAmount;
     Integer currCarrots;
     Integer currAmount;
+    Integer level;
 
     TextView headerView;
     TextView currCarrotView;
     TextView currAmountView;
+    TextView levelView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,6 +31,7 @@ public class DonationSuccessActivity extends AppCompatActivity {
         headerView = (TextView) findViewById(R.id.header);
         currCarrotView = (TextView) findViewById(R.id.carrots_value);
         currAmountView = (TextView) findViewById(R.id.donation_value);
+        levelView = (TextView) findViewById(R.id.level_value);
 
         Intent intent = getIntent();
 
@@ -39,9 +42,12 @@ public class DonationSuccessActivity extends AppCompatActivity {
         currCarrots = (Integer) intent.getExtras().get("currentCarrots");
         currAmount = (Integer) intent.getExtras().get("currentDonationPoints");
 
+        level = (Integer) intent.getExtras().get("level");
+
         headerView.setText(String.format("You donated $%d.", currAmount - prevAmount));
         currCarrotView.setText(currCarrots.toString());
         currAmountView.setText("$"+currAmount.toString());
+        levelView.setText(level.toString());
     }
 
     @Override
