@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 // Convert username field to String
-                textField1 = email.getText().toString();
+                textField1 = email.getText().toString().trim();
 
                 // Convert password field to String
                 textField2 = password.getText().toString();

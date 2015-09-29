@@ -142,10 +142,10 @@ public class CreateAccountActivity extends AppCompatActivity {
 
                         // Set up a new user
                         ParseUser user = new ParseUser();
-                        user.setUsername(email.getText().toString());
+                        user.setUsername(email.getText().toString().trim());
                         user.setPassword(password.getText().toString());
-                        user.put("firstName", firstName.getText().toString());
-                        user.put("lastName", lastName.getText().toString());
+                        user.put("firstName", firstName.getText().toString().trim());
+                        user.put("lastName", lastName.getText().toString().trim());
 
                         phoneNum = phoneNumber.getText().toString().replaceAll("[^0-9]", "");
 
@@ -153,7 +153,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                             phoneNum = phoneNum.substring(1);
                         }
 
-                        user.put("phoneNumber", phoneNum);
+                        user.put("phoneNumber", phoneNum.trim());
                         user.put("carrots", 30);
                         user.put("rankPoints", 0);
                         user.put("attempts", 0);

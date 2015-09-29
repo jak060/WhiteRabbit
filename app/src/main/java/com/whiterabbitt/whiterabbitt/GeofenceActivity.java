@@ -77,8 +77,7 @@ public class GeofenceActivity extends IntentService implements
 
     @Override
     protected void onHandleIntent (Intent intent) {
-        GEOFENCE_LOCATIONS.clear();
-        //Intent intent = getIntent();
+            GEOFENCE_LOCATIONS.clear();
 
             double lat = intent.getExtras().getDouble("lat");
             double lng = intent.getExtras().getDouble("lng");

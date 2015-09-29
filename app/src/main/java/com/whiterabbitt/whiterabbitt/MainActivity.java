@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        fragmentPageAdapter= new FragmentPageAdapter(getSupportFragmentManager());
         viewPager.setAdapter(fragmentPageAdapter);
     }
 
