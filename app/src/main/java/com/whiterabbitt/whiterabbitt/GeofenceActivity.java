@@ -62,6 +62,8 @@ public class GeofenceActivity extends IntentService implements
 
     public static final HashMap<String, LatLng> GEOFENCE_LOCATIONS = new HashMap<String, LatLng>();
 
+    private String objectId;
+
     public GeofenceActivity() {
         super("geofence-activity");
     }
@@ -81,6 +83,8 @@ public class GeofenceActivity extends IntentService implements
 
             double lat = intent.getExtras().getDouble("lat");
             double lng = intent.getExtras().getDouble("lng");
+
+            objectId = intent.getAction();
 
             Log.v(TAG, "GEOFENCE LAT: " + lat);
             Log.v(TAG, "GEOFENCE LNG: " + lng);
@@ -199,8 +203,10 @@ public class GeofenceActivity extends IntentService implements
             return geofencePendingIntent;
         }
         Intent intent = new Intent(this, GeofenceTransitionsIntentService.class);
-
-        return PendingIntent.getService(this, 0 , intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        if(objectId != null) {
+            intent.setAction(objectId);
+        }
+        return PendingIntent.getService(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     public void onResult(Status status) {
