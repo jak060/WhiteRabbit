@@ -60,14 +60,18 @@
         android:layout_alignParentBottom="true">
         <Button android:id="@+id/acceptBtn"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
             android:layout_weight="1"
-            android:text="Accept" />
+            android:layout_height="wrap_content"
+            android:text="Accept"
+            android:layout_margin="4dp"
+            style="@style/ButtonPrimary" />
 
         <Button android:id="@+id/declineBtn"
             android:layout_width="fill_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Decline" />
+            android:text="Decline"
+            android:layout_margin="4dp"
+            android:background="@drawable/button_plain" />
     </LinearLayout>
 </RelativeLayout>
