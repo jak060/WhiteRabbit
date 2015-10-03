@@ -100,8 +100,8 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 ParsePush push = new ParsePush();
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("title", "From: " + ParseUser.getCurrentUser().get("firstName"));
-                    data.put("alert", "Accepted :)");
+                    data.put("title", ParseUser.getCurrentUser().get("firstName") + " replies...");
+                    data.put("alert", "I would love to meet up with you :)");
 
                 } catch(JSONException e) {
                     e.printStackTrace();
@@ -175,8 +175,8 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                 ParsePush push = new ParsePush();
                 JSONObject data = new JSONObject();
                 try {
-                    data.put("title", "From: " + ParseUser.getCurrentUser().get("firstName"));
-                    data.put("alert", "Declined :(");
+                    data.put("title", ParseUser.getCurrentUser().get("firstName") + " replies...");
+                    data.put("alert", "Sorry! Definitely next time :(");
 
                 } catch(JSONException e) {
                     e.printStackTrace();

@@ -114,8 +114,8 @@ public class GeofenceTransitionsIntentService extends IntentService{
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
-        builder.setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
+        builder.setSmallIcon(R.mipmap.wr_logo)
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.wr_logo))
                 .setContentTitle(notificationDetails)
                 .setContentText("Click notification to return to app")
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})

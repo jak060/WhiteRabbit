@@ -247,7 +247,7 @@ public class CustomListViewAdapter extends BaseAdapter{
 
                                 // We need it to trigger the geofence 10 minutes before the actual event
                                 // But currenly 1 min before the actual event only for debugging purposes
-                                long geofenceTriggerTime = 1 * 1000 * 60;
+                                long geofenceTriggerTime = 10 * 1000 * 60;
 
                                 // Set the date to the calendar
                                 calendar.setTime(myDate);

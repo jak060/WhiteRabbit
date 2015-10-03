@@ -31,7 +31,7 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
 
             // If the json string was "You have an invitation!!!", then to go the
             // RespondInvitationActivity.class
-            if(json.getString("alert").equals("You have an invitation!!!")) {
+            if(json.getString("alert").equals("Let's get together :)")) {
                 myIntent = new Intent(context, RespondInvitationActivity.class);
             }
 
@@ -45,7 +45,7 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
             Log.v(TAG, "DO I HAVE AN: " + test);
 
             // Pass these invitation information to the RespondInvitationActivity.class
-            if(json.getString("alert").equals("You have an invitation!!!")) {
+            if(json.getString("alert").equals("Let's get together :)")) {
                 String invitationInfo = "Title: " + json.getString("title") + "\n" + "Time: " + json.getString("time") + "\n" + "Date: " +
                         json.getString("date") + "\n" + "Location: " + json.getString("location") + "\n" + "From - " + json.getString("fromName") +
                         ": " + Utility.phoneNumberFormat(json.getString("fromNumber")) + "\n" + "Rewards: " + json.getString("carrots");
@@ -80,7 +80,7 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
             // If the json string was "You have an invitation!!!", then . . .
-            if(json.getString("alert").equals("You have an invitation!!!")) {
+            if(json.getString("alert").equals("Let's get together :)")) {
 
                 // This is to change the invitation information
                 ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");

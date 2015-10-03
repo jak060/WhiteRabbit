@@ -291,7 +291,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                 // Using JSON to send more information along with the push notification
                                 JSONObject data = new JSONObject();
                                 try {
-                                    data.put("alert", "You have an invitation!!!");
+                                    data.put("alert", "Let's get together :)");
                                     data.put("title", title.getText().toString());
                                     data.put("time", showTime.getText().toString());
                                     data.put("date", showDate.getText().toString());
