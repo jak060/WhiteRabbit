@@ -3,7 +3,7 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">#ff8000</item>
+        <item name="colorPrimary">#FF8100</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
 
