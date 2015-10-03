@@ -34,8 +34,8 @@
     <string name="level_placeholder">(Level)</string>
     <string name="carrots">Carrots</string>
     <string name="carrots_placeholder">(Carrots)</string>
-    <string name="donation">Donation</string>
-    <string name="donation_placeholder">(Donation)</string>
+    <string name="donations">Donations</string>
+    <string name="donations_placeholder">(Donations)</string>
     <string name="name">Name</string>
     <string name="phone">Phone</string>
     <string name="email">Email</string>
