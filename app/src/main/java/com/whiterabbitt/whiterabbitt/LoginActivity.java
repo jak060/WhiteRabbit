@@ -11,7 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,6 +21,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String ERROR_EMPTY_FIELD = "Field cannot be left blank.";
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
@@ -54,20 +55,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         // Button initialization for Logging in
-        Button loginBtn = (Button) findViewById(R.id.loginBtn2);
+        Button loginBtn = (Button) findViewById(R.id.loginBtn);
 
         // Initialization of email and password text fields
         email = (EditText) findViewById(R.id.email);
         password = (EditText) findViewById(R.id.password);
 
-        req1 = (TextView) findViewById(R.id.reqField1);
-        req2 = (TextView) findViewById(R.id.reqField2);
-
         // Button initialization for Creating an Account
-        ImageButton createAccount = (ImageButton) findViewById(R.id.createAccountBtn);
-
-        // Button initialization for Forgot Password?
-        ImageButton forgotPass = (ImageButton) findViewById(R.id.passwordBtn);
+        Button createAccount = (Button) findViewById(R.id.createAccountBtn);
 
         // Hides the keyboard when the user touches something other then the edit text fields
         Utility.hideKeyboard(this, email);
@@ -87,20 +82,19 @@ public class LoginActivity extends AppCompatActivity {
                 textField2 = password.getText().toString();
 
                 // To check whether the input is empty or not
-                if (textField1.length() > 0) {
-                    isEmpty1 = false;
-                    req1.setText("");
-                } else {
+                // To check whether the input is empty or not
+                if (email.getText().length() == 0) {
+                    email.setError(ERROR_EMPTY_FIELD);
                     isEmpty1 = true;
-                    req1.setText("Required Field!");
+                } else {
+                    isEmpty1 = false;
                 }
 
-                if (textField2.length() > 0) {
-                    isEmpty2 = false;
-                    req2.setText("");
-                } else {
+                if (password.getText().length() == 0) {
+                    password.setError(ERROR_EMPTY_FIELD);
                     isEmpty2 = true;
-                    req2.setText("Required Field!");
+                } else {
+                    isEmpty2 = false;
                 }
 
                 // Makes sure that each field is not empty
