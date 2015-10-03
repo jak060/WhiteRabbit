@@ -10,23 +10,20 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <Button
+        <Button android:id="@+id/createBtn"
             android:layout_width="fill_parent"
-            android:layout_height="144px"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Create An Account"
-            android:id="@+id/createBtn"
-            android:textColor="#ffffff"
-            android:background="#ff7f00" />
+            android:text="Create Account"
+            android:layout_margin="4dp"
+            style="@style/ButtonPrimary" />
 
-        <Button
-            android:layout_marginLeft="3dp"
+        <Button android:id="@+id/loginBtn"
             android:layout_width="fill_parent"
-            android:layout_height="144px"
+            android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Log In"
-            android:id="@+id/loginBtn"
-            android:textColor="#ffffff"
-            android:background="#ff7f00"/>
+            android:layout_margin="4dp"
+            style="@style/ButtonPrimary" />
     </LinearLayout>
 </RelativeLayout>
