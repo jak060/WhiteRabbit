@@ -55,6 +55,18 @@ public class RewardLoserActivity extends AppCompatActivity{
         currRankView = (TextView) findViewById(R.id.rank_value2);
         //resultTextView = (TextView) findViewById(R.id.resultText);
 
+        // Reset the boolean value of GEOFENCES_REGISTERED_KEY
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
+        editor.commit();
+
+        // Reset the boolean value of GEOFENCES_TRANSITION_INTENT_ENTERED_KEY
+        SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor2 = prefs2.edit();
+        editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
+        editor2.commit();
+
         updateParse();
     }
 
@@ -74,7 +86,7 @@ public class RewardLoserActivity extends AppCompatActivity{
 
         if(id == R.id.action_close) {
             if(intent != null) {
-
+                /*
                 // Reset the boolean value of GEOFENCES_REGISTERED_KEY
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
@@ -85,7 +97,7 @@ public class RewardLoserActivity extends AppCompatActivity{
                 SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor2 = prefs2.edit();
                 editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
-                editor2.commit();
+                editor2.commit();*/
 
                 startActivity(intent);
             }
@@ -98,6 +110,7 @@ public class RewardLoserActivity extends AppCompatActivity{
     @Override
     public void onBackPressed() {
 
+        /*
         // Reset the boolean value of GEOFENCES_REGISTERED_KEY
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = prefs.edit();
@@ -108,7 +121,7 @@ public class RewardLoserActivity extends AppCompatActivity{
         SharedPreferences prefs2 = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor2 = prefs2.edit();
         editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
-        editor2.commit();
+        editor2.commit();*/
 
         if(intent != null) {
             startActivity(intent);

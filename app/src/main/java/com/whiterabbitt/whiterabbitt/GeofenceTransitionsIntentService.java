@@ -102,15 +102,9 @@ public class GeofenceTransitionsIntentService extends IntentService{
     }
 
     private void sendNotification(String notificationDetails) {
-        Intent notificationIntent = new Intent(getApplicationContext(), MainActivity.class);
-
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-
-        stackBuilder.addParentStack(MainActivity.class);
-
-        stackBuilder.addNextIntent(notificationIntent);
-
-        PendingIntent notificationPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent notificationIntent = new Intent(Constants.NOTIFICATION_CLICKED);
+        notificationIntent.putExtra("requestCode", 3);
+        PendingIntent notificationPendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 3, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 
@@ -121,11 +115,11 @@ public class GeofenceTransitionsIntentService extends IntentService{
                 .setVibrate(new long[] { 1000, 1000, 1000, 1000, 1000})
                 .setContentIntent(notificationPendingIntent);
 
+
         builder.setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(0, builder.build());
-
     }
 
     private String getTransitionString(int transitionType) {
@@ -135,7 +129,7 @@ public class GeofenceTransitionsIntentService extends IntentService{
             case Geofence.GEOFENCE_TRANSITION_EXIT:
                 return "You just left the destination.";
             case Geofence.GEOFENCE_TRANSITION_DWELL:
-                return "You've arrived!";
+                return "Dwelling...";
             default:
                 return "Unknown Transition";
         }

@@ -140,16 +140,82 @@ public class CustomListViewAdapter extends BaseAdapter{
             Log.v(TAG, "position: " + position);
             //Log.v(TAG, "currPosition: " + currPosition);
 
-            // If not registered yet, then. . .
-            if(myGeofenceStatus.equals("F")) {
+            Intent intent = new Intent(context, GeofenceActivity.class);
+            intent.setAction(infoList.get(position).getObjectId());
 
-                // Make the geofence flag to be T (true)
-                updatedMyGeofenceStatus = new StringBuilder(geofenceFlag);
-                updatedMyGeofenceStatus.setCharAt(geofenceFlag.indexOf(":", geofenceFlag.indexOf(myObjectId)) + 1, 'T');
+            // Intent for the reward activity
+            Intent intent2 = new Intent(context, RewardPreparationService.class);
+            intent2.setAction(infoList.get(position).getObjectId());
 
-                registerPendingIntents(position, updatedMyGeofenceStatus.toString());
+            // Intent for the reward activity
+            Intent intent3 = new Intent(context, ThirtyMinNotificationService.class);
+            intent3.setAction(infoList.get(position).getObjectId());
 
+            // Pass latitude and longitude for the geofence
+            intent.putExtra("lat", infoList.get(position).getLatitude());
+            intent.putExtra("lng", infoList.get(position).getLongitude());
+
+            // Pass objectId of the event to reward activity
+            intent2.putExtra("objectId", infoList.get(position).getObjectId());
+
+            Log.v(TAG, "ObjectId for CustomListViewAdapter: " + infoList.get(position).getObjectId());
+
+            String time = infoList.get(position).getTime(); // Time holder
+            String date = Utility.parseDate2(infoList.get(position).getDate()); // Date holder
+
+            // Combine the date and time
+            String dateTime = date + " " + time;
+
+            Log.v(TAG, "dateTime: " + dateTime.toString());
+
+            // The format for the date and time (ex. Aug 25, 2015 11:50 PM)
+            DateFormat inFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm aa");
+
+            Date myDate = null;
+
+            try {
+                // Convert the string format of date to actual Date object
+                myDate = inFormat.parse(dateTime);
+                Log.v(TAG, "myDate: " + myDate.toString());
+            } catch (ParseException e1) {
+                e1.printStackTrace();
             }
+
+            Log.v(TAG, "calendar before: " + calendar.getTimeInMillis());
+            long currTimeInMillis = calendar.getTimeInMillis();
+
+            // We need it to trigger the geofence 10 minutes before the actual event
+            // But currenly 1 min before the actual event only for debugging purposes
+            long geofenceTriggerTime = 5 * 1000 * 60;
+            long notificationTriggerTime = 30 * 1000 * 60;
+
+            // Set the date to the calendar
+            calendar.setTime(myDate);
+
+            Log.v(TAG, "calendar after: " + calendar.getTimeInMillis());
+            long eventTime = calendar.getTimeInMillis();
+
+            if((eventTime - currTimeInMillis) >= geofenceTriggerTime) {
+                // Schedule the geofence activity at 5 mins before the actualy event
+                PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_ONE_SHOT);
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
+            }
+
+            if(eventTime >= currTimeInMillis) {
+                // Schedule the reward activity at the actual event time
+                PendingIntent pendingIntent2 = PendingIntent.getService(context, 2, intent2, PendingIntent.FLAG_ONE_SHOT);
+                AlarmManager alarmManager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
+            }
+
+            if((eventTime - currTimeInMillis) >= notificationTriggerTime) {
+                // Schedule the thirty-minute notification before
+                PendingIntent pendingIntent3 = PendingIntent.getService(context, 3, intent3, PendingIntent.FLAG_ONE_SHOT);
+                AlarmManager alarmManager3 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+                alarmManager3.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - notificationTriggerTime, pendingIntent3);
+            }
+
         }
 
         else if(infoList.get(position).getNumOfAccepted() == 0) {
@@ -206,63 +272,7 @@ public class CustomListViewAdapter extends BaseAdapter{
                             if(e == null) {
                                 Log.v(TAG, "currPosition: " + position);
                                 // Intent for the geofence
-                                Intent intent = new Intent(context, GeofenceActivity.class);
-                                intent.setAction(infoList.get(position).getObjectId());
 
-                                // Intent for the reward activity
-                                Intent intent2 = new Intent(context, RewardPreparationService.class);
-                                intent2.setAction(infoList.get(position).getObjectId());
-
-                                // Pass latitude and longitude for the geofence
-                                intent.putExtra("lat", infoList.get(position).getLatitude());
-                                intent.putExtra("lng", infoList.get(position).getLongitude());
-
-                                // Pass objectId of the event to reward activity
-                                intent2.putExtra("objectId", infoList.get(position).getObjectId());
-
-                                Log.v(TAG, "ObjectId for CustomListViewAdapter: " + infoList.get(position).getObjectId());
-
-                                String time = infoList.get(position).getTime(); // Time holder
-                                String date = Utility.parseDate2(infoList.get(position).getDate()); // Date holder
-
-                                // Combine the date and time
-                                String dateTime = date + " " + time;
-
-                                Log.v(TAG, "dateTime: " + dateTime.toString());
-
-                                // The format for the date and time (ex. Aug 25, 2015 11:50 PM)
-                                DateFormat inFormat = new SimpleDateFormat("MMM dd, yyyy hh:mm aa");
-
-                                Date myDate = null;
-
-                                try {
-                                    // Convert the string format of date to actual Date object
-                                    myDate = inFormat.parse(dateTime);
-                                    Log.v(TAG, "myDate: " + myDate.toString());
-                                } catch (ParseException e1) {
-                                    e1.printStackTrace();
-                                }
-
-                                Log.v(TAG, "calendar before: " + calendar.getTimeInMillis());
-
-                                // We need it to trigger the geofence 10 minutes before the actual event
-                                // But currenly 1 min before the actual event only for debugging purposes
-                                long geofenceTriggerTime = 10 * 1000 * 60;
-
-                                // Set the date to the calendar
-                                calendar.setTime(myDate);
-
-                                Log.v(TAG, "calendar after: " + calendar.getTimeInMillis());
-
-                                // Schedule the geofence activity at 10 mins before the actualy event
-                                PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                                AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
-
-                                // Schedule the reward activity at the actual event time
-                                PendingIntent pendingIntent2 = PendingIntent.getService(context, 2, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
-                                AlarmManager alarmManager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                                alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
                             } else {
                                 e.printStackTrace();
                             }

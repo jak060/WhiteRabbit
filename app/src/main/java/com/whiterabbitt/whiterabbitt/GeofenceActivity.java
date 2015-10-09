@@ -88,7 +88,7 @@ public class GeofenceActivity extends IntentService implements
 
             Log.v(TAG, "GEOFENCE LAT: " + lat);
             Log.v(TAG, "GEOFENCE LNG: " + lng);
-
+            Log.v(TAG, "OBJECTID: " + objectId);
             LatLng currentLocation = new LatLng(lat, lng);
 
             geofenceList = new ArrayList<Geofence>();
@@ -102,7 +102,7 @@ public class GeofenceActivity extends IntentService implements
             editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, true);
             editor.commit();
 
-            GEOFENCE_LOCATIONS.put("WhiteRabbit", currentLocation);
+            GEOFENCE_LOCATIONS.put(objectId, currentLocation);
 
             populateGeofenceList();
 

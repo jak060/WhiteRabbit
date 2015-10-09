@@ -24,7 +24,7 @@ public final class Constants {
     private Constants() {
     }
 
-    public static final String PACKAGE_NAME = "com.example.whiterabbit";
+    public static final String PACKAGE_NAME = "com.whiterabbitt.whiterabbitt";
 
     public static final String SHARED_PREFERENCES_NAME = PACKAGE_NAME + ".SHARED_PREFERENCES_NAME";
 
@@ -33,10 +33,15 @@ public final class Constants {
     public static final String GEOFENCES_REGISTERED_KEY = PACKAGE_NAME + ".GEOFENCES_REGISTERED_KEY";
 
     public static final String GEOFENCES_TRANSITION_INTENT_ENTERED_KEY = PACKAGE_NAME + ".GEOFENCES_TRANSITION_INTENT_ENTERED_KEY";
+
+    public static final String NOTIFICATION_CLICKED = PACKAGE_NAME + ".NOTIFICATION_CLICKED";
+
+    public static final String NOTIFICATION_DISMISSED = PACKAGE_NAME + ".NOTIFICATION_DISMISSED";
+
     /**
      * For this sample, geofences expire after 1 minutes for debugging purposes.
      */
-    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = 10 * 60 * 1000;
-    public static final float GEOFENCE_RADIUS_IN_METERS = 1609 / 10; // 0.25 mile, 0.4 km
+    public static final long GEOFENCE_EXPIRATION_IN_MILLISECONDS = 5 * 60 * 1000;
+    public static final float GEOFENCE_RADIUS_IN_METERS = 1609 / 5; // 0.25 mile, 0.4 km
 
 }

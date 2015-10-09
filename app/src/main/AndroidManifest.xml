@@ -194,6 +194,7 @@
         <service android:name="com.whiterabbitt.whiterabbitt.GeofenceTransitionsIntentService" />
         <service android:name="com.whiterabbitt.whiterabbitt.RewardPreparationService" />
         <service android:name="com.parse.PushService" />
+        <service android:name="com.whiterabbitt.whiterabbitt.ThirtyMinNotificationService" />
 
         <receiver android:name="com.parse.ParseBroadcastReceiver" >
             <intent-filter>
@@ -219,6 +220,14 @@
                 <action android:name="com.parse.push.intent.RECEIVE" />
                 <action android:name="com.parse.push.intent.DELETE" />
                 <action android:name="com.parse.push.intent.OPEN" />
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name="com.whiterabbitt.whiterabbitt.OnPushHandlingBroadcastReceiver">
+            <intent-filter>
+                <action android:name="com.whiterabbitt.whiterabbitt.NOTIFICATION_CLICKED" />
+                <action android:name="com.whiterabbitt.whiterabbitt.NOTIFICATION_DISMISSED" />
             </intent-filter>
         </receiver>
 
