@@ -23,24 +23,14 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Thank you!" />
 
-    <TextView android:id="@+id/text_stats"
+    <LinearLayout
         android:layout_below="@id/subtitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:layout_marginBottom="8dp"
-        android:layout_centerHorizontal="true"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Here are your updated stats:"/>
-
-    <LinearLayout
-        android:layout_below="@id/text_stats"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout">
-        <!-- TODO: It would be nice to include your updated level too -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -54,6 +44,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/level" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_rank_48dp"/>
             <TextView android:id="@+id/level_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -73,6 +67,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/carrots" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_carrot_48dp"/>
             <TextView android:id="@+id/carrots_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -93,6 +91,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/donations" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_donation_48dp"/>
             <TextView android:id="@+id/donation_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
