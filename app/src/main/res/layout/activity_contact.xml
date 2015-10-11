@@ -61,6 +61,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/level" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_rank_48dp" />
             <TextView android:id="@+id/level_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -81,6 +85,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/carrots" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_carrot_48dp" />
             <TextView android:id="@+id/carrots_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -100,6 +108,10 @@
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:text="@string/donations" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_donation_48dp" />
             <TextView android:id="@+id/donation_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
