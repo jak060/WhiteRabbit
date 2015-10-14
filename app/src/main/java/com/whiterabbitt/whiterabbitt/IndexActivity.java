@@ -7,8 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
 
 public class IndexActivity extends AppCompatActivity {
 
@@ -36,9 +39,17 @@ public class IndexActivity extends AppCompatActivity {
         if(ParseUser.getCurrentUser() != null) {
             Log.v(TAG, "I'm already logged in!");
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-            installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
-            installation.put("userName", ParseUser.getCurrentUser());
-            installation.saveInBackground();
+            if(installation.get("phoneNumber") == null) {
+                Log.v(TAG, "I'm setting up the phone number and user name!");
+                installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
+                installation.put("userName", ParseUser.getCurrentUser());
+                installation.saveInBackground();
+            }
+            if(ParseUser.getCurrentUser().get("eventList") == null) {
+                Log.v(TAG, "I'm setting up the eventList!");
+                ParseUser.getCurrentUser().put("eventList", new ArrayList<String>());
+                ParseUser.getCurrentUser().saveInBackground();
+            }
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }

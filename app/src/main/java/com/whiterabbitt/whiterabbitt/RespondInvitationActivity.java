@@ -126,6 +126,9 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                             // This is to subscribe this user for the geofence flag
                             parseObject.put("geofenceFlag", parseObject.get("geofenceFlag") + "-" + ParseUser.getCurrentUser().getObjectId() + ":F");
 
+                            ParseUser.getCurrentUser().add("eventList", objectId);
+                            ParseUser.getCurrentUser().saveInBackground();
+
                             parseObject.saveInBackground(new SaveCallback() {
                                 @Override
                                 public void done(ParseException e) {

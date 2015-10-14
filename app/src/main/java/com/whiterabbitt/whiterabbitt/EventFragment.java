@@ -25,6 +25,7 @@ import java.util.List;
 public class EventFragment extends Fragment {
     private String title;
     private int pageNum;
+    private ListView eventList;
 
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
@@ -55,14 +56,19 @@ public class EventFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup viewGroup, Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.activity_main, viewGroup, false);
 
-        final ListView eventList = (ListView) view.findViewById(R.id.listView);
+        eventList = (ListView) view.findViewById(R.id.listView);
 
         // Make sure to clear the list before using it
         infoList.clear();
 
+        ArrayList<String> myEventList = new ArrayList<String>((ArrayList) ParseUser.getCurrentUser().get("eventList"));
+        for(int i = 0; i < myEventList.size(); i++) {
+            Log.v(TAG, "Here are my list of event obejctIds:" + myEventList.get(i));
+        }
+
         // Make a query to the database to retrieve invitation information
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("invitationInfo");
-        query.whereContains("ownerID", ParseUser.getCurrentUser().getObjectId());
+        query.whereContainedIn("objectId", myEventList);
         query.addAscendingOrder("date");
         query.addAscendingOrder("parsedTime");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -116,13 +122,19 @@ public class EventFragment extends Fragment {
                                             + invitationInfoActivity.getWith().get(invitationInfoActivity.getWith().size() - 1)
                                             + "\n" + "Rewards: " + invitationInfoActivity.getCarrot();
 
-                                    String phoneNum = invitationInfoActivity.getWith().get(invitationInfoActivity.getWith().size() - 1);
-                                    phoneNum = phoneNum.substring(phoneNum.lastIndexOf(":") + 2);
+                                    String contact = invitationInfoActivity.getWith().get(invitationInfoActivity.getWith().size() - 1);
+                                    String name = contact.substring(0, contact.lastIndexOf(":"));
+                                    String phoneNum = contact.substring(contact.lastIndexOf(":") + 2);
                                     phoneNum = phoneNum.replaceAll("[^0-9]", "");
 
                                     intent.putExtra("phoneNumber", phoneNum);
-                                    intent.putExtra("info", invitationInfo);
                                     intent.putExtra("objectId", invitationInfoActivity.getObjectId());
+                                    intent.putExtra("name", name);
+                                    intent.putExtra("title", invitationInfoActivity.getTitle());
+                                    intent.putExtra("time", invitationInfoActivity.getTime());
+                                    intent.putExtra("date", Utility.parseDate2(invitationInfoActivity.getDate()));
+                                    intent.putExtra("location", invitationInfoActivity.getLocation());
+                                    intent.putExtra("reward", invitationInfoActivity.getCarrot());
 
                                     startActivity(intent);
                                 }

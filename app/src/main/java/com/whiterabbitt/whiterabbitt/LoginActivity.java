@@ -133,20 +133,9 @@ public class LoginActivity extends AppCompatActivity {
                                 Toast.makeText(LoginActivity.this, "Logged In Successfully :)",
                                         Toast.LENGTH_LONG).show();
 
-                                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                                installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
-                                installation.put("userName", ParseUser.getCurrentUser());
-                                installation.saveInBackground(new SaveCallback() {
-                                    @Override
-                                    public void done(ParseException e) {
-                                        if (e == null) {
-                                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                                            startActivity(intent);
-                                        } else {
-                                            e.printStackTrace();
-                                        }
-                                    }
-                                });
+                                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                startActivity(intent);
+
                             }
 
                         }

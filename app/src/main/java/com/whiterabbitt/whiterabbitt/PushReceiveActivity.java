@@ -82,15 +82,16 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
             // If the json string was "You have an invitation!!!", then . . .
             if(json.getString("alert").equals("Let's get together :)")) {
 
+                final String objectId = json.getString("objectId");
                 // This is to change the invitation information
                 ParseQuery<ParseObject> invitationInfo = ParseQuery.getQuery("invitationInfo");
-                invitationInfo.getInBackground(json.getString("objectId"), new GetCallback<ParseObject>() {
+                invitationInfo.getInBackground(objectId, new GetCallback<ParseObject>() {
                     @Override
                     public void done(ParseObject parseObject, ParseException e) {
                         if(e == null) {
                             // This is to subscribe this user the the invitation so that this user can display the received invitation on his main event page
-                            parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
-                            parseObject.saveInBackground();
+                            ParseUser.getCurrentUser().add("eventList", objectId);
+                            ParseUser.getCurrentUser().saveInBackground();
 
                         } else {
                             e.printStackTrace();

@@ -21,6 +21,8 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 import com.parse.SignUpCallback;
 
+import java.util.ArrayList;
+
 public class CreateAccountActivity extends AppCompatActivity {
 
     private static final String ERROR_EMPTY_FIELD = "Field cannot be left blank.";
@@ -40,6 +42,8 @@ public class CreateAccountActivity extends AppCompatActivity {
     private TextView agreeBoxReqMsg;
 
     private String phoneNum = "";
+
+    private ArrayList<String> eventList = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -158,6 +162,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         user.put("rankPoints", 0);
                         user.put("attempts", 0);
                         user.put("donationPoints", 0);
+                        user.put("eventList", eventList);
 
                         // Sign up in the background
                         user.signUpInBackground(new SignUpCallback() {

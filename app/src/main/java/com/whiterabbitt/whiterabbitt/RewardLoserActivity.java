@@ -18,6 +18,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+
 /**
  * This class deals with displaying and handling reward page for late comers
  */
@@ -67,7 +69,11 @@ public class RewardLoserActivity extends AppCompatActivity{
         editor2.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
         editor2.commit();
 
+        // Update the parse
         updateParse();
+
+        // Remove this event from the list
+        //Utility.removeEvent(objectId);
     }
 
     @Override
@@ -169,13 +175,14 @@ public class RewardLoserActivity extends AppCompatActivity{
 
                     // Update the total number of attempts
                     ParseUser.getCurrentUser().put("attempts", numOfAttempts);
-                    ParseUser.getCurrentUser().saveInBackground();
 
-                    // Unsubscribe the current user from the event
-                    String temp = (String) parseObject.get("ownerID");
-                    String myID = ParseUser.getCurrentUser().getObjectId();
-                    temp = temp.replace(myID, "");
-                    parseObject.put("ownerID", temp);
+                    // Unsubscribe yourself from this event
+                    ArrayList<String> eventList = new ArrayList<String>();
+                    eventList = (ArrayList) ParseUser.getCurrentUser().get("eventList");
+                    eventList.remove(objectId);
+                    ParseUser.getCurrentUser().put("eventList", eventList);
+
+                    ParseUser.getCurrentUser().saveInBackground();
 
                     // Save the change back to the db
                     parseObject.saveInBackground(new SaveCallback() {

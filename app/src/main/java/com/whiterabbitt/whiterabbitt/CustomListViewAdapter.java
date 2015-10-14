@@ -35,7 +35,7 @@ public class CustomListViewAdapter extends BaseAdapter{
     private ArrayList<InvitationInfoActivity> infoList;
     private Context context;
 
-    private Calendar calendar = Calendar.getInstance();
+    private Calendar calendar;
 
     StringBuilder updatedMyGeofenceStatus;
 
@@ -71,6 +71,7 @@ public class CustomListViewAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         Holder holder;
         String prevDate = "";
+        calendar = Calendar.getInstance();
         //currPosition = position;
 
         // If we haven't initialized this convertView, set it up
@@ -186,8 +187,8 @@ public class CustomListViewAdapter extends BaseAdapter{
 
             // We need it to trigger the geofence 10 minutes before the actual event
             // But currenly 1 min before the actual event only for debugging purposes
-            long geofenceTriggerTime = 5 * 1000 * 60;
-            long notificationTriggerTime = 30 * 1000 * 60;
+            long geofenceTriggerTime = 1 * 1000 * 60;
+            long notificationTriggerTime = 2 * 1000 * 60;
 
             // Set the date to the calendar
             calendar.setTime(myDate);

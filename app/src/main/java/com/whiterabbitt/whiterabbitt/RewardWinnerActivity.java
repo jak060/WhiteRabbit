@@ -18,6 +18,8 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+import java.util.ArrayList;
+
 /**
  * This class deals with displaying and handling reward page for winners
  */
@@ -69,6 +71,9 @@ public class RewardWinnerActivity extends AppCompatActivity{
 
         // Update the parse
         updateParse();
+
+        // Remove this event from the list
+       // Utility.removeEvent(objectId);
     }
 
     @Override
@@ -181,14 +186,14 @@ public class RewardWinnerActivity extends AppCompatActivity{
                     // Update the total number of attempts
                     ParseUser.getCurrentUser().put("rankPoints", rankPoints);
 
+                    // Unsubscribe yourself from this event
+                    ArrayList<String> eventList = new ArrayList<String>();
+                    eventList = (ArrayList) ParseUser.getCurrentUser().get("eventList");
+                    eventList.remove(objectId);
+                    ParseUser.getCurrentUser().put("eventList", eventList);
+
                     // Save
                     ParseUser.getCurrentUser().saveInBackground();
-
-                    // Unsubscribe the current user from the event
-                    String temp = (String) parseObject.get("ownerID");
-                    String myID = ParseUser.getCurrentUser().getObjectId();
-                    temp = temp.replace(myID, "");
-                    parseObject.put("ownerID", temp);
 
                     // Save the change back to the db
                     parseObject.saveInBackground(new SaveCallback() {
