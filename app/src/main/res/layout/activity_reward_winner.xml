@@ -14,7 +14,7 @@
         android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Congratulations!" />
+        android:text="Great job!" />
 
     <TextView android:id="@+id/subtitle"
         android:layout_below="@id/header"
@@ -22,17 +22,19 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="You won." />
+        android:text="You were on time." />
 
-    <ImageView android:id="@+id/placeholder"
+    <ImageView android:id="@+id/img_result"
         android:layout_below="@id/subtitle"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/smiling_emoji_160px" />
+        android:src="@drawable/img_thumbs_up" />
 
     <TextView android:id="@+id/resultText"
-        android:layout_below="@id/placeholder"
+        android:layout_below="@id/img_result"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
