@@ -270,7 +270,7 @@ public class CreateEventActivity extends AppCompatActivity {
                             Toast.LENGTH_SHORT).show();
 
                 } else {
-                    ParseUser.getCurrentUser().add("eventList", invitationInfo.getObjectId());
+                    ParseUser.getCurrentUser().addUnique("eventList", invitationInfo.getObjectId());
                     ParseUser.getCurrentUser().saveInBackground();
 
                     // Format looks like (123)456-7890 => 1234567890 saving only numbers

@@ -90,7 +90,7 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
                     public void done(ParseObject parseObject, ParseException e) {
                         if(e == null) {
                             // This is to subscribe this user the the invitation so that this user can display the received invitation on his main event page
-                            ParseUser.getCurrentUser().add("eventList", objectId);
+                            ParseUser.getCurrentUser().addUnique("eventList", objectId);
                             ParseUser.getCurrentUser().saveInBackground();
 
                         } else {
