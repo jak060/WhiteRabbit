@@ -46,7 +46,7 @@ public class ThirtyMinNotificationService extends IntentService {
         builder.setAutoCancel(true);
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(0, builder.build());
+        notificationManager.notify(1, builder.build());
 
     }
 }

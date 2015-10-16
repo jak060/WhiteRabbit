@@ -37,10 +37,6 @@ public class CustomListViewAdapter extends BaseAdapter{
 
     private Calendar calendar;
 
-    StringBuilder updatedMyGeofenceStatus;
-
-    //int currPosition;
-
     // For the debugging purpose
     public final String TAG = this.getClass().getSimpleName();
 
@@ -128,16 +124,6 @@ public class CustomListViewAdapter extends BaseAdapter{
             Boolean isGeofenceRegistered = prefs.getBoolean(Constants.GEOFENCES_REGISTERED_KEY, false);
             Log.v(TAG, "isGeofenceRegistered? " + isGeofenceRegistered);
 
-            String geofenceFlag = infoList.get(position).getGeofenceFlag();
-            String myObjectId = ParseUser.getCurrentUser().getObjectId();
-
-            // This should get F or T
-            // F = False, which means user hasn't registered in geofence
-            // T = True, which means user has registered in geofence
-            String myGeofenceStatus = geofenceFlag.
-                    substring(geofenceFlag.indexOf(":", geofenceFlag.indexOf(myObjectId)) + 1,
-                            geofenceFlag.indexOf(":", geofenceFlag.indexOf(myObjectId)) + 2);
-
             Log.v(TAG, "position: " + position);
             //Log.v(TAG, "currPosition: " + currPosition);
 
@@ -187,8 +173,8 @@ public class CustomListViewAdapter extends BaseAdapter{
 
             // We need it to trigger the geofence 10 minutes before the actual event
             // But currenly 1 min before the actual event only for debugging purposes
-            long geofenceTriggerTime = 5 * 1000 * 60;
-            long notificationTriggerTime = 30 * 1000 * 60;
+            long geofenceTriggerTime = 1 * 1000 * 60;
+            long notificationTriggerTime = 2 * 1000 * 60;
 
             // Set the date to the calendar
             calendar.setTime(myDate);

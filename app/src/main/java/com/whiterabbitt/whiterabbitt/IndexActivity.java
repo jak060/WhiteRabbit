@@ -50,6 +50,11 @@ public class IndexActivity extends AppCompatActivity {
                 ParseUser.getCurrentUser().put("eventList", new ArrayList<String>());
                 ParseUser.getCurrentUser().saveInBackground();
             }
+            if(ParseUser.getCurrentUser().get("eventHistory") == null) {
+                Log.v(TAG, "I'm setting up the eventHistory!");
+                ParseUser.getCurrentUser().put("eventHistory", new ArrayList<String>());
+                ParseUser.getCurrentUser().saveInBackground();
+            }
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }

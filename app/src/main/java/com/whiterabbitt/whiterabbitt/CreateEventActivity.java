@@ -255,8 +255,8 @@ public class CreateEventActivity extends AppCompatActivity {
         // Save the number of carrots
         invitationInfo.put("carrots", numberOfCarrots);
 
-        // Put the flag of myself for geofence
-        invitationInfo.put("geofenceFlag", myObjectId + ":F");
+        invitationInfo.put("winners", new ArrayList<String>());
+        invitationInfo.put("losers", new ArrayList<String>());
 
         // Save those info into the Parse
         invitationInfo.saveInBackground(new SaveCallback() {

@@ -30,6 +30,8 @@
     <string name="accepted">Accepted</string>
     <string name="declined">Declined</string>
     <string name="pending">Pending</string>
+    <string name="won">Won</string>
+    <string name="lost">Lost</string>
     <string name="level">Level</string>
     <string name="level_placeholder">(Level)</string>
     <string name="carrots">Carrots</string>

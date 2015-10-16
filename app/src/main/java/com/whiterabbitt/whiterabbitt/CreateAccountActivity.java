@@ -45,6 +45,8 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     private ArrayList<String> eventList = new ArrayList<String>();
 
+    private ArrayList<String> eventHistory = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -163,6 +165,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         user.put("attempts", 0);
                         user.put("donationPoints", 0);
                         user.put("eventList", eventList);
+                        user.put("eventHistory", eventHistory);
 
                         // Sign up in the background
                         user.signUpInBackground(new SignUpCallback() {

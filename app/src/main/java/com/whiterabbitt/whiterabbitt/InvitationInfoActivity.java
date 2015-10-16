@@ -23,6 +23,10 @@ public class InvitationInfoActivity {
 
     private String geofenceFlag; // To hold the flag for the geofence of current event
 
+    private ArrayList<String> winners; // To hold objectIds of winners
+
+    private ArrayList<String> losers; // To hold objectIds of loser;
+
     public void setTitle(String title) {
         this.title = title;
     }
@@ -67,6 +71,14 @@ public class InvitationInfoActivity {
 
     public void setGeofenceFlag(String geofenceFlag) {
         this.geofenceFlag = geofenceFlag;
+    }
+
+    public void setWinners(ArrayList<String> winners) {
+        this.winners = winners;
+    }
+
+    public void setLosers(ArrayList<String> losers) {
+        this.losers = losers;
     }
 
     public String getTitle() {
@@ -119,4 +131,11 @@ public class InvitationInfoActivity {
 
     public String getGeofenceFlag() { return geofenceFlag; }
 
+    public ArrayList<String> getWinners() {
+        return winners;
+    }
+
+    public ArrayList<String> getLosers() {
+        return losers;
+    }
 }

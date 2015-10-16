@@ -4,6 +4,7 @@
     <color name="event_pending">#E4BB3F</color>
     <color name="event_accepted">#0fa91a</color>
     <color name="event_declined">#CCCCCC</color>
+    <color name="event_won">#777777</color>
 
     <drawable name="divider">#CCCCCC</drawable>
     <drawable name="textview_pressed">#CCCCCC</drawable>

@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Use your carrots for donations or coupons." />
+        android:text="Use your carrots for donations." />
 
     <LinearLayout
         android:layout_below="@id/content"

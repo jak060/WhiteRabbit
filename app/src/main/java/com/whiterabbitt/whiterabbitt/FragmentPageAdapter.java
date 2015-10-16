@@ -20,6 +20,8 @@ public class FragmentPageAdapter extends FragmentPagerAdapter{
                 return ContactListFragment.newInstance("Page # 2", 1);
             case 2:
                 return MyProfileFragment.newInstance("Page # 3", 2);
+            case 3:
+                return HistoryFragment.newInstance("Page # 4", 3);
             default:
                 break;
         }
@@ -29,7 +31,7 @@ public class FragmentPageAdapter extends FragmentPagerAdapter{
 
     @Override
     public int getCount() {
-        return 3;
+        return 4;
     }
 
     // Returns the page title for the top indicator
@@ -42,6 +44,8 @@ public class FragmentPageAdapter extends FragmentPagerAdapter{
                 return "Friends";
             case 2:
                 return "My Profile";
+            case 3:
+                return "History";
         }
         return "";
     }

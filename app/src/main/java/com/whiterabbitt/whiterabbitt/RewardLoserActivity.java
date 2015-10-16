@@ -150,6 +150,8 @@ public class RewardLoserActivity extends AppCompatActivity{
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
 
+                    parseObject.addUnique("losers", ParseUser.getCurrentUser().getObjectId());
+
                     // Subtract the number of carrots, which user has predefined (half of the reward)
                     String stringCarrots = (String) parseObject.get("carrots");
                     Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
@@ -181,6 +183,8 @@ public class RewardLoserActivity extends AppCompatActivity{
                     eventList = (ArrayList) ParseUser.getCurrentUser().get("eventList");
                     eventList.remove(objectId);
                     ParseUser.getCurrentUser().put("eventList", eventList);
+
+                    ParseUser.getCurrentUser().addUnique("eventHistory", objectId);
 
                     ParseUser.getCurrentUser().saveInBackground();
 

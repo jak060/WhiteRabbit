@@ -152,6 +152,8 @@ public class RewardWinnerActivity extends AppCompatActivity{
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
 
+                    parseObject.addUnique("winners", ParseUser.getCurrentUser().getObjectId());
+
                     // Add the number of carrots, which user has predefined
                     String stringCarrots = (String) parseObject.get("carrots");
                     String numberOfCarrots = (String) stringCarrots.substring(0, 2);
@@ -191,6 +193,8 @@ public class RewardWinnerActivity extends AppCompatActivity{
                     eventList = (ArrayList) ParseUser.getCurrentUser().get("eventList");
                     eventList.remove(objectId);
                     ParseUser.getCurrentUser().put("eventList", eventList);
+
+                    ParseUser.getCurrentUser().addUnique("eventHistory", objectId);
 
                     // Save
                     ParseUser.getCurrentUser().saveInBackground();

@@ -123,9 +123,6 @@ public class RespondInvitationActivity  extends AppCompatActivity{
                             // This is to subscribe this user for the invitation so that this user can display the received invitation on his main event page
                             parseObject.put("ownerID", parseObject.get("ownerID") + ":" + ParseUser.getCurrentUser().getObjectId());
 
-                            // This is to subscribe this user for the geofence flag
-                            parseObject.put("geofenceFlag", parseObject.get("geofenceFlag") + "-" + ParseUser.getCurrentUser().getObjectId() + ":F");
-
                             ParseUser.getCurrentUser().addUnique("eventList", objectId);
                             ParseUser.getCurrentUser().saveInBackground();
 
