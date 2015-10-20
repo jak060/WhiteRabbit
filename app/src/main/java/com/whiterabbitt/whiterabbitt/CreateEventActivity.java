@@ -232,6 +232,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         // These are needed to perform a sorting later when we fetch events
         String time = Utility.parseTimeTo24HourFormat(showTime.getText().toString());
+        Log.v(TAG, "Time that will sort later: " + time);
         invitationInfo.put("parsedTime", time);
         String date = Utility.parseDate(showDate.getText().toString());
         invitationInfo.put("date", date);

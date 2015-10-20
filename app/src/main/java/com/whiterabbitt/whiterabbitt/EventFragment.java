@@ -57,6 +57,7 @@ public class EventFragment extends Fragment {
         final View view = inflater.inflate(R.layout.activity_main, viewGroup, false);
 
         eventList = (ListView) view.findViewById(R.id.listView);
+        //parseTimeUpdate();
 
         // Make sure to clear the list before using it
         infoList.clear();
@@ -184,4 +185,22 @@ public class EventFragment extends Fragment {
 
         return view;
     }
+/*
+    public void parseTimeUpdate() {
+        // Make a query to the database to retrieve invitation information
+        ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("invitationInfo");
+        query.addAscendingOrder("parsedTime");
+        query.setLimit(20);
+        query.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                for(int i = 0; i < objects.size(); i ++) {
+                    String temp = (String) objects.get(i).get("parsedTime");
+                    String temp1 = Utility.parseTimeTo24HourFormat(temp);
+                    objects.get(i).put("parsedTime", temp1);
+                    objects.get(i).saveInBackground();
+                }
+            }
+        });
+    }*/
 }

@@ -65,7 +65,7 @@ public class HistoryFragment extends Fragment{
         // Make a query to the database to retrieve invitation information
         ParseQuery<ParseObject> query = new ParseQuery<ParseObject>("invitationInfo");
         query.whereContainedIn("objectId", myEventHistory);
-        query.addAscendingOrder("date");
+        query.addDescendingOrder("date");
         query.addAscendingOrder("parsedTime");
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

@@ -5,6 +5,7 @@
     <color name="event_accepted">#0fa91a</color>
     <color name="event_declined">#CCCCCC</color>
     <color name="event_won">#777777</color>
+    <color name="default_color">#000000</color>
 
     <drawable name="divider">#CCCCCC</drawable>
     <drawable name="textview_pressed">#CCCCCC</drawable>

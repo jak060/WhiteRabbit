@@ -201,6 +201,10 @@ public class Utility {
             Log.v("Utility.java", "Current parsed time is: " + hour + time.substring(time.indexOf(":")));
         }
 
+        if(hour.length() == 1) {
+            hour = 0 + hour;
+        }
+
         // Return the string (It should look like something 12:59 PM)
         return hour + time.substring(time.indexOf(":"));
     }

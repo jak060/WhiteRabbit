@@ -94,9 +94,6 @@ public class CustomListViewAdapter2 extends BaseAdapter {
         holder.time.setText(infoList.get(position).getTime() + " / " + (Utility.parseDate2(infoList.get(position).getDate()).toUpperCase()));
         holder.title.setText(infoList.get(position).getTitle());
         holder.location.setText(infoList.get(position).getLocationShort());
-        holder.title.setTextColor(holder.title.getTextColors().getDefaultColor());
-        holder.time.setTextColor(holder.time.getTextColors().getDefaultColor());
-        holder.location.setTextColor(holder.location.getTextColors().getDefaultColor());
 
         // This is to case of won event
         if(infoList.get(position).getWinners().contains(ParseUser.getCurrentUser().getObjectId())) {
@@ -104,7 +101,11 @@ public class CustomListViewAdapter2 extends BaseAdapter {
             holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_won));
             holder.status.setText(context.getResources().getString(R.string.won));
             holder.status.setTextColor(context.getResources().getColor(R.color.event_won));
-
+            holder.title.setTextColor(context.getResources().getColor(R.color.default_color));
+            holder.time.setTextColor(context.getResources().getColor(R.color.event_won));
+            holder.location.setTextColor(context.getResources().getColor(R.color.event_won));
+            holder.iconDate.setImageResource(R.drawable.icon_date);
+            holder.iconLocation.setImageResource(R.drawable.icon_location);
         }
 
         // Lost event case
