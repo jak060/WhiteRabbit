@@ -28,7 +28,7 @@ public class DonationSuccessActivity extends AppCompatActivity {
         getSupportActionBar().setElevation(0);
 
         // Initializing Views
-        headerView = (TextView) findViewById(R.id.header);
+        headerView = (TextView) findViewById(R.id.subtitle_donated);
         currCarrotView = (TextView) findViewById(R.id.carrots_value);
         currAmountView = (TextView) findViewById(R.id.donation_value);
         levelView = (TextView) findViewById(R.id.level_value);

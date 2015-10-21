@@ -7,16 +7,27 @@
     android:gravity="center"
     tools:context="com.whiterabbitt.whiterabbitt.DonationSuccessActivity">
 
+
+
     <TextView android:id="@+id/header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:layout_centerHorizontal="true"
         android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="You are awesome!" />
+
+    <TextView android:id="@+id/subtitle_donated"
+        android:layout_below="@id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="You donated ($)." />
 
     <ImageView android:id="@+id/img_thank_you"
-        android:layout_below="@id/header"
+        android:layout_below="@id/subtitle_donated"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:src="@drawable/img_thank_you"/>
