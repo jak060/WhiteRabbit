@@ -43,71 +43,13 @@
 
     <LinearLayout
         android:layout_below="@id/content"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="30dp"
-        android:orientation="horizontal"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/content"
-            android:text="Previous Status:"
-            android:id="@+id/label_previous_status" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:layout_marginEnd="40dp"
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_rank_48dp" />
-            <TextView android:id="@+id/rank_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="rank" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-
-            android:orientation="vertical">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/ic_carrot_48dp" />
-            <TextView android:id="@+id/carrots_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="# carrots" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_below="@id/linearLayout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="30dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal"
         android:layout_centerHorizontal="true"
         android:id="@+id/linearLayout2">
 
-        <TextView
-            android:layout_width="150dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/linearLayout"
-            android:text="Current Status:"
-            android:id="@+id/label_current_status" />
-
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -115,6 +57,12 @@
             android:layout_marginEnd="40dp"
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/level" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -122,16 +70,22 @@
             <TextView android:id="@+id/rank_value2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rank" />
+                android:textSize="20sp"
+                android:text="@string/level_placeholder" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-
             android:orientation="vertical">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:text="@string/carrots" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -139,7 +93,8 @@
             <TextView android:id="@+id/carrots_value2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="# carrots" />
+                android:textSize="20sp"
+                android:text="@string/carrots_placeholder" />
         </LinearLayout>
     </LinearLayout>
 </RelativeLayout>

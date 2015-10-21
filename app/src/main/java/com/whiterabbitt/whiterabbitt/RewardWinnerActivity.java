@@ -30,8 +30,6 @@ public class RewardWinnerActivity extends AppCompatActivity{
     String objectId = "";
     ProgressDialog dialog;
 
-    TextView prevCarrotView;
-    TextView prevRankView;
     TextView currCarrotView;
     TextView currRankView;
     TextView resultTextView;
@@ -51,8 +49,6 @@ public class RewardWinnerActivity extends AppCompatActivity{
         }
 
         // Initializing Views
-        prevCarrotView = (TextView) findViewById(R.id.carrots_value);
-        prevRankView = (TextView) findViewById(R.id.rank_value);
         currCarrotView = (TextView) findViewById(R.id.carrots_value2);
         currRankView = (TextView) findViewById(R.id.rank_value2);
         resultTextView = (TextView) findViewById(R.id.resultText);
@@ -158,7 +154,6 @@ public class RewardWinnerActivity extends AppCompatActivity{
                     String stringCarrots = (String) parseObject.get("carrots");
                     String numberOfCarrots = (String) stringCarrots.substring(0, 2);
                     Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
-                    prevCarrotView.setText(totalCarrots.toString());
 
                     totalCarrots = totalCarrots + Integer.parseInt(numberOfCarrots);
                     currCarrotView.setText(totalCarrots.toString());
@@ -171,7 +166,6 @@ public class RewardWinnerActivity extends AppCompatActivity{
 
                     // Increment the rank points
                     Integer rankPoints = (Integer) ParseUser.getCurrentUser().get("rankPoints");
-                    prevRankView.setText(rankPoints.toString());
 
                     rankPoints = rankPoints + 1;
                     currRankView.setText(rankPoints.toString());

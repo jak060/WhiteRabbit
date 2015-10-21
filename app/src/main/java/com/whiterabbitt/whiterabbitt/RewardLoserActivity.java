@@ -30,8 +30,6 @@ public class RewardLoserActivity extends AppCompatActivity{
     String objectId = "";
     ProgressDialog dialog;
 
-    TextView prevCarrotView;
-    TextView prevRankView;
     TextView currCarrotView;
     TextView currRankView;
     //TextView resultTextView;
@@ -51,8 +49,6 @@ public class RewardLoserActivity extends AppCompatActivity{
         }
 
         // Initializing Views
-        prevCarrotView = (TextView) findViewById(R.id.carrots_value);
-        prevRankView = (TextView) findViewById(R.id.rank_value);
         currCarrotView = (TextView) findViewById(R.id.carrots_value2);
         currRankView = (TextView) findViewById(R.id.rank_value2);
         //resultTextView = (TextView) findViewById(R.id.resultText);
@@ -155,7 +151,6 @@ public class RewardLoserActivity extends AppCompatActivity{
                     // Subtract the number of carrots, which user has predefined (half of the reward)
                     String stringCarrots = (String) parseObject.get("carrots");
                     Integer totalCarrots = (Integer) ParseUser.getCurrentUser().get("carrots");
-                    prevCarrotView.setText(totalCarrots.toString());
                     //Integer carrotsToLose = Integer.parseInt(stringCarrots.substring(0, 2));
                     //totalCarrots = totalCarrots - (carrotsToLose / 2);
                     currCarrotView.setText(totalCarrots.toString());
@@ -169,7 +164,6 @@ public class RewardLoserActivity extends AppCompatActivity{
                     // Get the rank point from the parse
                     Integer rankPoints = (Integer) ParseUser.getCurrentUser().get("rankPoints");
                     Log.v(TAG, "RankPoints: " + rankPoints);
-                    prevRankView.setText(rankPoints.toString());
                     currRankView.setText(rankPoints.toString());
 
                     // Update the number of carrots
