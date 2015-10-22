@@ -78,13 +78,13 @@
             <TextView android:id="@+id/label_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Donation amount: " />
 
             <TextView android:id="@+id/amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="18sp"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textColor="#000000"
                 android:textStyle="bold"
                 android:text="$0" />
@@ -96,14 +96,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="8dp"
-            android:text="1 carrot per 1 dollar" />
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="10 carrots per 1 dollar" />
 
         <TextView
             android:layout_below="@id/dollars_per_carrot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:padding="16dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
             android:text="@string/donation_disclaimer"/>
 

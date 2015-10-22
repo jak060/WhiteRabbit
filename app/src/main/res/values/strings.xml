@@ -42,7 +42,7 @@
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="punctuality_percentage">Punctuality (%)</string>
-    <string name="donation_disclaimer">You will be donating to one of the carefully selected charities at www.charitynavigator.org.\n\nSee www.whiterabbit.com/charity for more details.</string>
+    <string name="donation_disclaimer">The amount will be charged to your PayPal account.\n\nYou will be donating to one of the carefully selected charities at www.charitynavigator.org.\n\nSee www.whiterabbit.com/charity for more details.</string>
 
     <string name="btn_donate_carrots">Donate carrots</string>
 
