@@ -29,6 +29,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * This adapter deals with laying out currents events that are either accepted, pending, or declined
+ */
+
 public class CustomListViewAdapter extends BaseAdapter{
 
     private LayoutInflater layoutInflater;
@@ -68,7 +72,6 @@ public class CustomListViewAdapter extends BaseAdapter{
         Holder holder;
         String prevDate = "";
         calendar = Calendar.getInstance();
-        //currPosition = position;
 
         // If we haven't initialized this convertView, set it up
         if(convertView == null) {
@@ -77,9 +80,11 @@ public class CustomListViewAdapter extends BaseAdapter{
             holder.container = (RelativeLayout) convertView.findViewById(R.id.event_container);
             holder.iconDate = (ImageView) convertView.findViewById(R.id.icon_date);
             holder.iconLocation = (ImageView) convertView.findViewById(R.id.icon_location);
+            holder.iconCarrot = (ImageView) convertView.findViewById(R.id.icon_carrot);
             holder.date = (TextView) convertView.findViewById(R.id.event_row_date);
             holder.time = (TextView) convertView.findViewById(R.id.event_row_time);
             holder.title = (TextView) convertView.findViewById(R.id.event_row_title);
+            holder.carrots = (TextView) convertView.findViewById(R.id.number_of_carrots);
             holder.location = (TextView) convertView.findViewById(R.id.event_row_location);
             holder.status = (TextView) convertView.findViewById(R.id.event_status);
             holder.statusBar = convertView.findViewById(R.id.event_status_bar);
@@ -108,9 +113,7 @@ public class CustomListViewAdapter extends BaseAdapter{
         holder.time.setText(infoList.get(position).getTime() + " / " + (Utility.parseDate2(infoList.get(position).getDate()).toUpperCase()));
         holder.title.setText(infoList.get(position).getTitle());
         holder.location.setText(infoList.get(position).getLocationShort());
-        holder.title.setTextColor(holder.title.getTextColors().getDefaultColor());
-        holder.time.setTextColor(holder.time.getTextColors().getDefaultColor());
-        holder.location.setTextColor(holder.location.getTextColors().getDefaultColor());
+        holder.carrots.setText(infoList.get(position).getCarrot().substring(0, 2));
 
         // This is to show indication light for events
         if(infoList.get(position).getNumOfAccepted() > 0) {
@@ -118,6 +121,13 @@ public class CustomListViewAdapter extends BaseAdapter{
             holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_accepted));
             holder.status.setText(context.getResources().getString(R.string.accepted));
             holder.status.setTextColor(context.getResources().getColor(R.color.event_accepted));
+
+            holder.title.setTextColor(context.getResources().getColor(R.color.default_color));
+            holder.time.setTextColor(context.getResources().getColor(R.color.event_won));
+            holder.location.setTextColor(context.getResources().getColor(R.color.event_won));
+            holder.carrots.setTextColor(context.getResources().getColor(R.color.event_won));
+            holder.iconDate.setImageResource(R.drawable.icon_date);
+            holder.iconLocation.setImageResource(R.drawable.icon_location);
 
             // To see whether geofence has been registered or not
             SharedPreferences prefs =  PreferenceManager.getDefaultSharedPreferences(context);
@@ -173,8 +183,8 @@ public class CustomListViewAdapter extends BaseAdapter{
 
             // We need it to trigger the geofence 10 minutes before the actual event
             // But currenly 1 min before the actual event only for debugging purposes
-            long geofenceTriggerTime = 1 * 1000 * 60;
-            long notificationTriggerTime = 2 * 1000 * 60;
+            long geofenceTriggerTime = 5 * 1000 * 60;
+            long notificationTriggerTime = 30 * 1000 * 60;
 
             // Set the date to the calendar
             calendar.setTime(myDate);
@@ -217,6 +227,7 @@ public class CustomListViewAdapter extends BaseAdapter{
                 holder.location.setTextColor(context.getResources().getColor(R.color.event_declined));
                 holder.status.setText(context.getResources().getString(R.string.declined));
                 holder.status.setTextColor(context.getResources().getColor(R.color.event_declined));
+                holder.carrots.setTextColor(context.getResources().getColor(R.color.event_declined));
             }
 
             // Pending case
@@ -225,6 +236,13 @@ public class CustomListViewAdapter extends BaseAdapter{
                 holder.container.setBackground(ContextCompat.getDrawable(context, R.drawable.border_event_pending));
                 holder.status.setText(context.getResources().getString(R.string.pending));
                 holder.status.setTextColor(context.getResources().getColor(R.color.event_pending));
+
+                holder.title.setTextColor(context.getResources().getColor(R.color.default_color));
+                holder.time.setTextColor(context.getResources().getColor(R.color.event_won));
+                holder.location.setTextColor(context.getResources().getColor(R.color.event_won));
+                holder.carrots.setTextColor(context.getResources().getColor(R.color.event_won));
+                holder.iconDate.setImageResource(R.drawable.icon_date);
+                holder.iconLocation.setImageResource(R.drawable.icon_location);
             }
         }
 
@@ -236,11 +254,13 @@ public class CustomListViewAdapter extends BaseAdapter{
         RelativeLayout container;
         ImageView iconDate;
         ImageView iconLocation;
+        ImageView iconCarrot;
         TextView date;
         TextView time;
         TextView title;
         TextView location;
         TextView status;
+        TextView carrots;
         View statusBar;
     }
 

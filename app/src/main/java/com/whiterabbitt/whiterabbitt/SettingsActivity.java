@@ -3,6 +3,9 @@ package com.whiterabbitt.whiterabbitt;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+/**
+ * This class deals with handling and displaying setting page
+ */
 public class SettingsActivity extends AppCompatActivity {
 
     @Override

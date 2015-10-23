@@ -23,6 +23,10 @@ import com.parse.SignUpCallback;
 
 import java.util.ArrayList;
 
+/**
+ * This class deals with creating account of the user
+ */
+
 public class CreateAccountActivity extends AppCompatActivity {
 
     private static final String ERROR_EMPTY_FIELD = "Field cannot be left blank.";
@@ -84,6 +88,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         Utility.hideKeyboard(this, passwordConfirm);
         Utility.hideKeyboard(this, phoneNumber);
 
+        // Disable the error message when user starts to type
         disableErrorWhenUserTypes(firstName);
         disableErrorWhenUserTypes(lastName);
         disableErrorWhenUserTypes(email);
@@ -221,7 +226,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         });
     }
 
-    // This method is to diable the error message when the user tries to re-type each field
+    // This method is to disable the error message when the user tries to re-type each field
     public void disableErrorWhenUserTypes(final EditText editText) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override

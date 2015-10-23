@@ -13,6 +13,9 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
+/**
+ * This class deals with displaying necessary contents for the index page
+ */
 public class IndexActivity extends AppCompatActivity {
 
     // For the debugging purpose
@@ -23,21 +26,18 @@ public class IndexActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
 
-        //ParseInstallation.getCurrentInstallation().saveInBackground();
-
-        /* For the test purposes */
-        ////ParseObject testObject = new ParseObject("TestObject");
-        ////testObject.put("foo", "bar");
-        ////testObject.saveInBackground();
-
         // Button initialization for Create An Account
         Button createBtn = (Button) findViewById(R.id.createBtn);
 
         // Button initialization for Logging in
         Button loginBtn = (Button) findViewById(R.id.loginBtn);
 
+        // This is the case when the user is already logged in
         if(ParseUser.getCurrentUser() != null) {
             Log.v(TAG, "I'm already logged in!");
+
+            // This sets up the phone number and the user to the ParseInstallation
+            // so that you can receive notification from parse
             ParseInstallation installation = ParseInstallation.getCurrentInstallation();
             if(installation.get("phoneNumber") == null) {
                 Log.v(TAG, "I'm setting up the phone number and user name!");
@@ -45,6 +45,9 @@ public class IndexActivity extends AppCompatActivity {
                 installation.put("userName", ParseUser.getCurrentUser());
                 installation.saveInBackground();
             }
+
+            // These are necessary to set up the new columns from the parse for users who used to
+            // not have these fields
             if(ParseUser.getCurrentUser().get("eventList") == null) {
                 Log.v(TAG, "I'm setting up the eventList!");
                 ParseUser.getCurrentUser().put("eventList", new ArrayList<String>());
@@ -55,6 +58,8 @@ public class IndexActivity extends AppCompatActivity {
                 ParseUser.getCurrentUser().put("eventHistory", new ArrayList<String>());
                 ParseUser.getCurrentUser().saveInBackground();
             }
+
+            // Start the main activity
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
         }
@@ -78,16 +83,5 @@ public class IndexActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-/*
-        ParsePush.subscribeInBackground("", new SaveCallback() {
-            @Override
-            public void done(ParseException e) {
-                if (e == null) {
-                    Log.d("com.parse.push", "successfully subscribed to the broadcast channel.");
-                } else {
-                    Log.e("com.parse.push", "failed to subscribe for push", e);
-                }
-            }
-        });*/
     }
 }

@@ -71,45 +71,49 @@ public class GeofenceActivity extends IntentService implements
     @Override
     public void onCreate() {
         super.onCreate();
-
-        // Make sure to empty the list before using it
-
-        //setContentView(R.layout.activity_geofence);
     }
 
     @Override
     protected void onHandleIntent (Intent intent) {
-            GEOFENCE_LOCATIONS.clear();
 
-            double lat = intent.getExtras().getDouble("lat");
-            double lng = intent.getExtras().getDouble("lng");
+        // Clear the list before using it
+        GEOFENCE_LOCATIONS.clear();
 
-            objectId = intent.getAction();
+        // Get the latitude and longitude from the last intent
+        double lat = intent.getExtras().getDouble("lat");
+        double lng = intent.getExtras().getDouble("lng");
 
-            Log.v(TAG, "GEOFENCE LAT: " + lat);
-            Log.v(TAG, "GEOFENCE LNG: " + lng);
-            Log.v(TAG, "OBJECTID: " + objectId);
-            LatLng currentLocation = new LatLng(lat, lng);
+        // Get the objectId of the current event
+        objectId = intent.getAction();
 
-            geofenceList = new ArrayList<Geofence>();
-            geofencePendingIntent = null;
-            sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
-            geofencesAdded = sharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
+        Log.v(TAG, "GEOFENCE LAT: " + lat);
+        Log.v(TAG, "GEOFENCE LNG: " + lng);
+        Log.v(TAG, "OBJECTID: " + objectId);
 
-            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        // Make a LatLng object with the passed latitude and longitude
+        LatLng currentLocation = new LatLng(lat, lng);
 
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, true);
-            editor.commit();
+        geofenceList = new ArrayList<Geofence>();
+        geofencePendingIntent = null;
 
-            GEOFENCE_LOCATIONS.put(objectId, currentLocation);
+        sharedPreferences = getSharedPreferences(Constants.SHARED_PREFERENCES_NAME, MODE_PRIVATE);
+        geofencesAdded = sharedPreferences.getBoolean(Constants.GEOFENCES_ADDED_KEY, false);
 
-            populateGeofenceList();
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Constants.GEOFENCES_REGISTERED_KEY, true);
+        editor.commit();
 
-            buildGoogleApiClient();
+        // Put the location to the HashMap
+        GEOFENCE_LOCATIONS.put(objectId, currentLocation);
+
+        populateGeofenceList();
+
+        buildGoogleApiClient();
 
     }
 
+    // Builds a GoogleApiClient. Uses the {@code #addApi} method to request the LocationServices API.
     protected synchronized void buildGoogleApiClient() {
         googleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
@@ -119,6 +123,7 @@ public class GeofenceActivity extends IntentService implements
         googleApiClient.connect();
     }
 
+    // Runs when a GoogleApiClient object successfully connects.
     @Override
     public void onConnected(Bundle connectionHint) {
         Log.v(TAG, "Connected to GoogleApiClient");
@@ -135,6 +140,7 @@ public class GeofenceActivity extends IntentService implements
         Log.v(TAG, "Connection suspended");
     }
 
+    // This method dynamically create geofences based on the user's chosen location.
     public void populateGeofenceList() {
         for(Map.Entry<String, LatLng> entry : GEOFENCE_LOCATIONS.entrySet()) {
             geofenceList.add(new Geofence.Builder()
@@ -152,6 +158,9 @@ public class GeofenceActivity extends IntentService implements
 
     }
 
+
+    // Builds and returns a GeofencingRequest. Specifies the list of geofences to be monitored.
+    // Also specifies how the geofence notifications are initially triggered.
     private GeofencingRequest getGeofecingRequest() {
         GeofencingRequest.Builder builder = new GeofencingRequest.Builder();
 
@@ -161,6 +170,9 @@ public class GeofenceActivity extends IntentService implements
         return builder.build();
     }
 
+
+    // Adds geofences, which sets alerts to be notified when the device enters or exits one of the
+    // specified geofences. Handles the success or failure results returned by addGeofences().
     public void addGeofencesHandler() {
         if(!googleApiClient.isConnected()) {
             Toast.makeText(this, "Not Connected!", Toast.LENGTH_SHORT).show();
@@ -178,6 +190,8 @@ public class GeofenceActivity extends IntentService implements
         }
     }
 
+    // Removes geofences, which stops further notifications when the device enters or exits
+    // previously registered geofences.
     public void removeGeofencesHandler() {
         if(!googleApiClient.isConnected()) {
             Toast.makeText(this, "Not Connected!", Toast.LENGTH_SHORT).show();
@@ -198,6 +212,13 @@ public class GeofenceActivity extends IntentService implements
             "You need to user ACCESS_FINE_LOCATION with geofences", securityException);
     }
 
+    /**
+     * Gets a PendingIntent to send with the request to add or remove Geofences. Location Services
+     * issues the Intent inside this PendingIntent whenever a geofence transition occurs for the
+     * current list of geofences.
+     *
+     * @return A PendingIntent for the IntentService that handles geofence transitions.
+     */
     private PendingIntent getGeofencePendingIntent() {
         if(geofencePendingIntent != null) {
             return geofencePendingIntent;

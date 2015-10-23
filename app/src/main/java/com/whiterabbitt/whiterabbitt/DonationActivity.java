@@ -17,15 +17,19 @@ import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+/**
+ * This class deals with getting donations from the user
+ */
+
 public class DonationActivity extends AppCompatActivity {
 
     private static final String ERROR_INVALID_NUMBER = "Number cannot be zero";
     private static final String ERROR_TOO_MUCH_CARROT = "Donating too many carrot!";
 
-    Integer currentNumOfCarrots = 0;
-    Integer numOfCarrots = 0;
-    EditText numCarrotsView;
-    Integer amount = 0;
+    Integer currentNumOfCarrots = 0; // To hold the current number of carrots of the user
+    Integer numOfCarrots = 0; // To hold the number of carrots that user chooses
+    EditText numCarrotsView; // To display the number of carrots that user chooses
+    Integer amount = 0; // To hold the total amount of donation money
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +41,18 @@ public class DonationActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
+        // Get the current number for carrots of the user from the last activity
         currentNumOfCarrots = (Integer) intent.getExtras().get("carrots");
 
+        // To display the total amount of donation money
         final TextView amountView = (TextView) findViewById(R.id.amount);
         numCarrotsView = (EditText) findViewById(R.id.num_carrots);
-        final TextView showCurrentNumOfCarrots = (TextView) findViewById(R.id.current_num_carrots);
 
+        // To display the current number of carrots of the user
+        final TextView showCurrentNumOfCarrots = (TextView) findViewById(R.id.current_num_carrots);
         showCurrentNumOfCarrots.setText(currentNumOfCarrots.toString());
 
+        // When the user types the number of carrots that he/she wants to donate. . .
         numCarrotsView.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -58,11 +66,17 @@ public class DonationActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                // Disable the error message if there is any error
                 numCarrotsView.setError(null);
+
+                // Convert the string to integer
                 numOfCarrots = convertStringToInt(numCarrotsView.getText().toString());
                 int dollarsPerCarrot = 1;
+
+                // Calculate the total amount of donation money
                 amount = calculateAmount(numOfCarrots, dollarsPerCarrot);
 
+                // Finally, display the total amount of donation money
                 amountView.setText(String.format("$%d", amount));
             }
         });
@@ -101,6 +115,7 @@ public class DonationActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    // This method converts string to integer
     private int convertStringToInt(String string) {
         int value;
 
@@ -114,6 +129,7 @@ public class DonationActivity extends AppCompatActivity {
         return value;
     }
 
+    // This method calculates the total amount of the donation money
     private int calculateAmount(int numCarrots, int dollarsPerCarrot) {
         return numCarrots * dollarsPerCarrot;
     }

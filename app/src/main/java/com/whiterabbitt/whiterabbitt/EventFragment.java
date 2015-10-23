@@ -22,6 +22,10 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * This fragment deals with handling and displaying current events
+ */
+
 public class EventFragment extends Fragment {
     private String title;
     private int pageNum;

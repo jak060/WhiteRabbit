@@ -14,6 +14,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * This class deals with having utility methods that are necessary for our app
+ */
 public class Utility {
 
     // For the debugging purpose
@@ -35,6 +38,8 @@ public class Utility {
             }
         });
     }
+
+    // This method creates the contact list from users phone
     public static void createContactList(Activity activity, ArrayList<String> myList)
     {
         Cursor cursor = activity.getContentResolver().query(
@@ -52,6 +57,7 @@ public class Utility {
             myList.add(name + ": " + phoneNumber);
         }
     }
+
     // This method takes a contact list which has a name and phone number and saves only
     // phone number to the ArrayList
     public static void saveOnlyNumbers(ArrayList<String> src, ArrayList<String> dest) {

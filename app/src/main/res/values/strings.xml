@@ -12,6 +12,7 @@
     <string name="title_activity_contact">Contact Details</string>
     <string name="title_activity_donation">Donate Carrots</string>
     <string name="title_activity_donation_success">Donation Received</string>
+    <string name="title_activity_redeem_carrots">Redeem Carrots</string>
 
     <!-- Action bar item strings -->
     <string name="action_invitations">Invitations</string>
@@ -45,6 +46,7 @@
     <string name="donation_disclaimer">The amount will be charged to your PayPal account.\n\nYou will be donating to one of the carefully selected charities at www.charitynavigator.org.\n\nSee www.whiterabbit.com/charity for more details.</string>
 
     <string name="btn_donate_carrots">Donate carrots</string>
+    <string name="btn_redeem_carrots">Redeem carrots</string>
 
     <!-- Create account strings -->
     <string name="label_first_name">First name</string>

@@ -5,20 +5,25 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
 
+/**
+ * This class deals with bringing and showing friend's information on the page
+ */
+
 public class ContactActivity extends AppCompatActivity {
 
-    TextView nameHolder;
-    TextView phoneNumberHolder;
-    TextView usernameHolder;
-    TextView carrotsHolder;
-    TextView rankPointsHolder;
-    TextView donationHolder;
+    TextView nameHolder; // To hold the name of the user
+    TextView phoneNumberHolder; // To hold the phone number of the user
+    TextView usernameHolder; // To hold the user name of the user
+    TextView carrotsHolder; // To hold the # of carrots that user currently has
+    TextView rankPointsHolder; // To hold the current rank points of the user
+    TextView donationHolder; // To hold the amount of donation money that he has donated
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contact);
 
+        // This animates page to slide up as if it's a new pop-up
         overridePendingTransition(R.anim.slide_up, R.anim.no_change);
 
         // Initialize TextViews
@@ -50,10 +55,12 @@ public class ContactActivity extends AppCompatActivity {
 
     }
 
+    // When user presses back button. . .
     @Override
     public void onBackPressed() {
         super.onBackPressed();
 
+        // This animates page to slide down
         overridePendingTransition(R.anim.no_change, R.anim.slide_down);
     }
 

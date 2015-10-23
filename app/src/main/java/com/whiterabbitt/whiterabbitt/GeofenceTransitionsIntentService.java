@@ -33,11 +33,19 @@ import com.google.android.gms.location.GeofencingEvent;
 
 import java.util.List;
 
+/**
+ * This service deals with issuing notification based on user's status with gefence
+ */
+
 public class GeofenceTransitionsIntentService extends IntentService{
 
     // For the debugging purpose
     protected final String TAG = this.getClass().getSimpleName();
 
+    /**
+     * This constructor is required, and calls the super IntentService(String)
+     * constructor with the name for a worker thread.
+     */
     public GeofenceTransitionsIntentService() {
         super("geofence-transitions-service");
     }
@@ -47,6 +55,11 @@ public class GeofenceTransitionsIntentService extends IntentService{
         super.onCreate();
     }
 
+    /**
+     * Handles incoming intents.
+     * @param intent sent by Location Services. This Intent is provided to Location
+     *               Services (inside a PendingIntent) when addGeofences() is called.
+     */
     @Override
     protected void onHandleIntent(Intent intent) {
         GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
@@ -55,8 +68,10 @@ public class GeofenceTransitionsIntentService extends IntentService{
             return;
         }
 
+        // Get the transition type.
         int geofenceTransition = geofencingEvent.getGeofenceTransition();
 
+        // Test that the reported transition was of interest.
         if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER || geofenceTransition == Geofence.GEOFENCE_TRANSITION_DWELL ||
                 geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
             List<Geofence> triggeringGeofences = geofencingEvent.getTriggeringGeofences();
@@ -67,21 +82,26 @@ public class GeofenceTransitionsIntentService extends IntentService{
                     triggeringGeofences
             );
 
+            // Send notification and log the transition details.
             sendNotification(geofenceTransitionDetails);
             Log.v(TAG, geofenceTransitionDetails);
 
             if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_ENTER) {
                 Log.v(TAG, "I've entered!");
-                // This is to share this friends list with other activities
+                // This is to share this flag with other activities
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
+
+                // This is winning condition when the result comes
                 editor.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, true);
                 editor.commit();
             } else if(geofenceTransition == Geofence.GEOFENCE_TRANSITION_EXIT) {
                 Log.v(TAG, "I've exited!");
-                // This is to share this friends list with other activities
+                // This is to share this flag with other activities
                 SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                 SharedPreferences.Editor editor = prefs.edit();
+
+                // This is losing condition when the result comes
                 editor.putBoolean(Constants.GEOFENCES_TRANSITION_INTENT_ENTERED_KEY, false);
                 editor.commit();
             }
@@ -91,6 +111,14 @@ public class GeofenceTransitionsIntentService extends IntentService{
         }
     }
 
+    /**
+     * Gets transition details and returns them as a formatted string.
+     *
+     * @param context               The app context.
+     * @param geofenceTransition    The ID of the geofence transition.
+     * @param triggeringGeofences   The geofence(s) triggered.
+     * @return                      The transition details formatted as String.
+     */
     private String getGeofenceTransitionDetails(
             Context context,
             int geofenceTransition,
@@ -101,6 +129,9 @@ public class GeofenceTransitionsIntentService extends IntentService{
         return geofenceTransitionString;
     }
 
+    /**
+     * Posts a notification in the notification bar when a transition is detected.
+     */
     private void sendNotification(String notificationDetails) {
         Intent notificationIntent = new Intent(Constants.NOTIFICATION_CLICKED);
         notificationIntent.putExtra("requestCode", 3);
@@ -122,6 +153,12 @@ public class GeofenceTransitionsIntentService extends IntentService{
         notificationManager.notify(0, builder.build());
     }
 
+    /**
+     * Maps geofence transition types to their human-readable equivalents.
+     *
+     * @param transitionType    A transition type constant defined in Geofence
+     * @return                  A String indicating the type of transition
+     */
     private String getTransitionString(int transitionType) {
         switch (transitionType) {
             case Geofence.GEOFENCE_TRANSITION_ENTER:

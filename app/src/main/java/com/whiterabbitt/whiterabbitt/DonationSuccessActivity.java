@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+/**
+ * This method displays the result page of the donation activity
+ */
+
 public class DonationSuccessActivity extends AppCompatActivity {
     Integer prevCarrots;
     Integer prevAmount;

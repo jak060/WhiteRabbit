@@ -26,6 +26,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * This fragment deals with bringing and showing friends as a list view
+ */
+
 public class ContactListFragment extends Fragment {
     private String title;
     private int pageNum;

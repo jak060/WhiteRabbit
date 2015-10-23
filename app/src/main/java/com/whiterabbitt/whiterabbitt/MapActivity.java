@@ -1,6 +1,7 @@
 package com.whiterabbitt.whiterabbitt;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -89,39 +90,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             onLocationChanged(globalLocation);
         }
 
-        /*
-        locationManager.requestLocationUpdates(bestProvider, 20000, 0, new android.location.LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                double latitude = location.getLatitude();
-                double longitude = location.getLongitude();
-                LatLng startLocation = new LatLng(latitude, longitude);
-                // This makes the button when the user clicks, brings the
-                // map to the current position
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startLocation, 13));
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-
-            }
-        });*/
-
-
         // When the user long clicks the map, add the marker
         googleMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(final LatLng latLng) {
+
+                // Create a Progress dialog to buy some time to talk to the server
+                ProgressDialog dialog = new ProgressDialog(MapActivity.this);
+                dialog.setTitle("Thank You For Your Patience");
+                dialog.setMessage("Finding Location. . .");
+                dialog.setCancelable(false);
+                dialog.setCanceledOnTouchOutside(false);
+                dialog.show();
 
                 // Hide the soft keyboard so that the user can see the map
                 hideKeyboard(locationText);
@@ -160,6 +140,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
                     }
 
                     Toast.makeText(getApplicationContext(), strAddress, Toast.LENGTH_LONG).show();
+                    dialog.dismiss();
                 } catch(IOException e) {
                     e.printStackTrace();
                 }
@@ -231,6 +212,14 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
 
     public void locate(final GoogleMap map) {
 
+        // Create a Progress dialog to buy some time to talk to the server
+        ProgressDialog dialog = new ProgressDialog(MapActivity.this);
+        dialog.setTitle("Thank You For Your Patience");
+        dialog.setMessage("Finding Location. . .");
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
         // Hide the soft keyboard so that the user can see the map
         hideKeyboard(locationText);
 
@@ -272,8 +261,9 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback,
             e.printStackTrace();
         }
 
-
+        dialog.dismiss();
         if(address != null) {
+
             // Get the latitude and longitude of the user-typed address
             lat = address.getLatitude();
             lng = address.getLongitude();

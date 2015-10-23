@@ -20,6 +20,9 @@ import com.parse.ParseInstallation;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
+/**
+ * This class deals with handling user's login
+ */
 public class LoginActivity extends AppCompatActivity {
 
     private static final String ERROR_EMPTY_FIELD = "Field cannot be left blank.";
@@ -132,6 +135,14 @@ public class LoginActivity extends AppCompatActivity {
                             else {
                                 Toast.makeText(LoginActivity.this, "Logged In Successfully :)",
                                         Toast.LENGTH_LONG).show();
+
+                                ParseInstallation installation = ParseInstallation.getCurrentInstallation();
+                                if(installation.get("phoneNumber") == null) {
+                                    Log.v(TAG, "I'm setting up the phone number and user name!");
+                                    installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
+                                    installation.put("userName", ParseUser.getCurrentUser());
+                                    installation.saveInBackground();
+                                }
 
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 startActivity(intent);

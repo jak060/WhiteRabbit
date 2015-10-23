@@ -1,13 +1,7 @@
 package com.whiterabbitt.whiterabbitt;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,15 +9,12 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.parse.ParseUser;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
+
+/**
+ * This adapter deals with laying out past events that are either won or lost
+ */
 
 public class CustomListViewAdapter2 extends BaseAdapter {
 
@@ -63,10 +54,12 @@ public class CustomListViewAdapter2 extends BaseAdapter {
             holder.container = (RelativeLayout) convertView.findViewById(R.id.event_container);
             holder.iconDate = (ImageView) convertView.findViewById(R.id.icon_date);
             holder.iconLocation = (ImageView) convertView.findViewById(R.id.icon_location);
+            holder.iconCarrot = (ImageView) convertView.findViewById(R.id.icon_carrot);
             holder.date = (TextView) convertView.findViewById(R.id.event_row_date);
             holder.time = (TextView) convertView.findViewById(R.id.event_row_time);
             holder.title = (TextView) convertView.findViewById(R.id.event_row_title);
             holder.location = (TextView) convertView.findViewById(R.id.event_row_location);
+            holder.carrots = (TextView) convertView.findViewById(R.id.number_of_carrots);
             holder.status = (TextView) convertView.findViewById(R.id.event_status);
             holder.statusBar = convertView.findViewById(R.id.event_status_bar);
             convertView.setTag(holder);
@@ -104,8 +97,10 @@ public class CustomListViewAdapter2 extends BaseAdapter {
             holder.title.setTextColor(context.getResources().getColor(R.color.default_color));
             holder.time.setTextColor(context.getResources().getColor(R.color.event_won));
             holder.location.setTextColor(context.getResources().getColor(R.color.event_won));
+            holder.carrots.setTextColor(context.getResources().getColor(R.color.event_won));
             holder.iconDate.setImageResource(R.drawable.icon_date);
             holder.iconLocation.setImageResource(R.drawable.icon_location);
+            holder.carrots.setText("+" + infoList.get(position).getCarrot().substring(0, 2));
         }
 
         // Lost event case
@@ -119,6 +114,8 @@ public class CustomListViewAdapter2 extends BaseAdapter {
             holder.location.setTextColor(context.getResources().getColor(R.color.event_declined));
             holder.status.setText(context.getResources().getString(R.string.lost));
             holder.status.setTextColor(context.getResources().getColor(R.color.event_declined));
+            holder.carrots.setTextColor(context.getResources().getColor(R.color.event_declined));
+            holder.carrots.setText(0 + "");
         }
 
         return convertView;
@@ -129,10 +126,12 @@ public class CustomListViewAdapter2 extends BaseAdapter {
         RelativeLayout container;
         ImageView iconDate;
         ImageView iconLocation;
+        ImageView iconCarrot;
         TextView date;
         TextView time;
         TextView title;
         TextView location;
+        TextView carrots;
         TextView status;
         View statusBar;
     }

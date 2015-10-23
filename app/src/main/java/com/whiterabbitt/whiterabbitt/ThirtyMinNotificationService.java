@@ -30,6 +30,7 @@ public class ThirtyMinNotificationService extends IntentService {
         sendNotification(NOTIFICATION_TITLE);
     }
 
+    // This method sets up the necessary things to display the push notification
     private void sendNotification(String notificationDetails) {
         Intent notificationIntent = new Intent(Constants.NOTIFICATION_CLICKED);
         notificationIntent.putExtra("requestCode", 4);

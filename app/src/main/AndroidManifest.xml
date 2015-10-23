@@ -190,6 +190,14 @@
             android:label="@string/title_activity_donation_success" >
         </activity>
 
+        <activity
+            android:name="com.whiterabbitt.whiterabbitt.RedeemCarrotsActivity"
+            android:label="@string/title_activity_redeem_carrots" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
+        </activity>
+
         <service android:name="com.whiterabbitt.whiterabbitt.GeofenceActivity" />
         <service android:name="com.whiterabbitt.whiterabbitt.GeofenceTransitionsIntentService" />
         <service android:name="com.whiterabbitt.whiterabbitt.RewardPreparationService" />

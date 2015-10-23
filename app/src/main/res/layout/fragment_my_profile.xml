@@ -141,13 +141,26 @@
         android:textSize="16sp"
         android:text="@string/punctuality_percentage" />
 
-    <Button android:id="@+id/btn_donate_carrots"
-        android:layout_below="@+id/punctuality"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp"
-        android:text="@string/btn_donate_carrots"
-        style="@style/ButtonPrimary" />
+        android:layout_alignParentBottom="true">
 
+        <Button android:id="@+id/btn_donate_carrots"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_donate_carrots"
+            android:layout_margin="4dp"
+            style="@style/ButtonPrimary" />
+
+        <Button android:id="@+id/btn_redeem_carrots"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/btn_redeem_carrots"
+            android:layout_margin="4dp"
+            style="@style/ButtonPrimary" />
+    </LinearLayout>
 </RelativeLayout>
