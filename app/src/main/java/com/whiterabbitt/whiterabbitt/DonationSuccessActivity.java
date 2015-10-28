@@ -12,10 +12,9 @@ import android.widget.TextView;
  */
 
 public class DonationSuccessActivity extends AppCompatActivity {
-    Integer prevCarrots;
-    Integer prevAmount;
-    Integer currCarrots;
-    Integer currAmount;
+    Integer donatedAmount;
+    Integer updatedNumberOfCarrots;
+    Integer currentDonationPoints;
     Integer level;
 
     TextView headerView;
@@ -40,17 +39,15 @@ public class DonationSuccessActivity extends AppCompatActivity {
         Intent intent = getIntent();
 
         // TODO: Probably want to change this to only save / retrieve amount donated.
-        prevCarrots = (Integer) intent.getExtras().get("prevCarrots");
-        prevAmount = (Integer) intent.getExtras().get("prevDonationPoints");
-        
-        currCarrots = (Integer) intent.getExtras().get("currentCarrots");
-        currAmount = (Integer) intent.getExtras().get("currentDonationPoints");
+        donatedAmount = (Integer) intent.getExtras().get("donatedAmount");
+        updatedNumberOfCarrots = (Integer) intent.getExtras().get("updatedNumberOfCarrots");
 
+        currentDonationPoints = (Integer) intent.getExtras().get("currentDonationPoints");
         level = (Integer) intent.getExtras().get("level");
 
-        headerView.setText(String.format("You donated $%d.", currAmount - prevAmount));
-        currCarrotView.setText(currCarrots.toString());
-        currAmountView.setText("$"+currAmount.toString());
+        headerView.setText(String.format("You donated $%d.", donatedAmount));
+        currCarrotView.setText(updatedNumberOfCarrots.toString());
+        currAmountView.setText("$"+currentDonationPoints.toString());
         levelView.setText(level.toString());
     }
 

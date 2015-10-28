@@ -3,17 +3,153 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:fillViewport="true"
-    tools:context="com.whiterabbitt.whiterabbitt.s">
-
+    tools:context="com.whiterabbitt.whiterabbitt.DonationActivity">
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/donation_info"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:background="@color/event_accepted"
+            android:id="@+id/donation_info"
+            android:gravity="center" />
+
+        <LinearLayout android:id="@+id/donation_container"
+            android:layout_below="@id/donation_info"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This is Redeem Carrots Page :)"
-            android:id="@+id/textView" />
-    </RelativeLayout>
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="40dp"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:text="Current carrots" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_carrot_48dp" />
+                <TextView android:id="@+id/current_num_carrots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="20sp"
+                    android:text="##" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textSize="16sp"
+                    android:text="Carrots to donate" />
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_carrot_48dp" />
+                <TextView android:id="@+id/num_carrots"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textSize="20sp"
+                    android:text="##"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/donation_amount_container"
+            android:layout_below="@id/donation_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true">
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginRight="20dp"
+                android:text="-"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/minus_button"
+                android:background="@drawable/button_plain"/>
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom">
+
+                <TextView android:id="@+id/label_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:text="Donation amount: " />
+
+                <TextView android:id="@+id/amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#000000"
+                    android:textStyle="bold"
+                    android:text="$0"
+                    android:layout_gravity="center" />
+            </LinearLayout>
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:text="+"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:id="@+id/plus_button"
+                android:background="@drawable/button_primary"/>
+        </LinearLayout>
+
+        <TextView android:id="@+id/dollars_per_carrot"
+            android:layout_below="@id/donation_amount_container"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="1000 carrots per 1 dollar" />
+
+        <TextView
+            android:layout_below="@id/dollars_per_carrot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="16dp"
+            android:gravity="center_horizontal"
+            android:text="@string/redeem_disclaimer"/>
+
+    </RelativeLayout>
 </ScrollView>

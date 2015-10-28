@@ -2,13 +2,14 @@ package com.whiterabbitt.whiterabbitt;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.parse.GetCallback;
@@ -18,66 +19,113 @@ import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 /**
- * This class deals with getting donations from the user
+ * This class deals with redeeming user's carrots
  */
-
-public class DonationActivity extends AppCompatActivity {
+public class DonationActivity extends AppCompatActivity{
 
     private static final String ERROR_INVALID_NUMBER = "Number cannot be zero";
-    private static final String ERROR_TOO_MUCH_CARROT = "Donating too many carrot!";
+    private static final String ERROR_TOO_MANY_CARROTS = "Donating too many carrots!";
 
-    Integer currentNumOfCarrots = 0; // To hold the current number of carrots of the user
-    Integer numOfCarrots = 0; // To hold the number of carrots that user chooses
-    EditText numCarrotsView; // To display the number of carrots that user chooses
-    Integer amount = 0; // To hold the total amount of donation money
+    TextView current_carrots_label; // To hold the current number of carrots that user has
+    TextView carrots_to_donate_label; // To hold the number of carrots that user wants to donate
+    TextView amount_of_donate_label; // To hold the amount of $ to donate
+    Button plus_button; // This button increments the amount of $ to donate
+    Button minus_button; // This button decrements the amount of $ to donate
+    Integer amount_counter = 0; // To count the amount of $ to donate
+    Integer carrot_counter = 0; // To count the number of carrots that user wants to donate
+    Integer num_of_current_carrots = 0;// To count the number of carrots that user currently has
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_donation);
+        setContentView(R.layout.activity_redeem_carrots);
 
-        // Remove drop shadow from action bar on Lollipop
-        getSupportActionBar().setElevation(0);
+        // Initialization of variables
+        current_carrots_label = (TextView) findViewById(R.id.current_num_carrots);
+        carrots_to_donate_label = (TextView) findViewById(R.id.num_carrots);
+        amount_of_donate_label = (TextView) findViewById(R.id.amount);
+        plus_button = (Button) findViewById(R.id.plus_button);
+        minus_button = (Button) findViewById(R.id.minus_button);
 
         Intent intent = getIntent();
 
-        // Get the current number for carrots of the user from the last activity
-        currentNumOfCarrots = (Integer) intent.getExtras().get("carrots");
+        // Set the initial values
+        num_of_current_carrots = intent.getIntExtra("carrots", 0);
+        current_carrots_label.setText(num_of_current_carrots.toString());
+        carrots_to_donate_label.setText("0");
+        amount_of_donate_label.setText("$0");
 
-        // To display the total amount of donation money
-        final TextView amountView = (TextView) findViewById(R.id.amount);
-        numCarrotsView = (EditText) findViewById(R.id.num_carrots);
-
-        // To display the current number of carrots of the user
-        final TextView showCurrentNumOfCarrots = (TextView) findViewById(R.id.current_num_carrots);
-        showCurrentNumOfCarrots.setText(currentNumOfCarrots.toString());
-
-        // When the user types the number of carrots that he/she wants to donate. . .
-        numCarrotsView.addTextChangedListener(new TextWatcher() {
+        // When the user clicks plus button. . .
+        plus_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void onClick(View v) {
 
+                carrots_to_donate_label.setError(null);
+
+                // Increment the amount by 1
+                amount_counter ++;
+
+                // Increment the carrots by 1000
+                carrot_counter = carrot_counter + 1000;
+
+                // If the number of carrots you have is greater than or equal to the
+                // number of carrots you want to donate, set the text color to be green
+                if((num_of_current_carrots - carrot_counter) >= 0) {
+                    carrots_to_donate_label.setTextColor(getResources().getColor(R.color.event_accepted));
+                }
+
+                // Otherwise, set it to red
+                else {
+                    carrots_to_donate_label.setTextColor(Color.parseColor("#CC0000"));
+                }
+
+                // Set those updated numbers to each TextView
+                carrots_to_donate_label.setText(carrot_counter.toString());
+                amount_of_donate_label.setText("$" + amount_counter.toString());
             }
+        });
 
+        // When the user clicks minus button. . .
+        minus_button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onClick(View v) {
 
-            }
+                carrots_to_donate_label.setError(null);
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                // Disable the error message if there is any error
-                numCarrotsView.setError(null);
+                // Decrement the amount by 1
+                amount_counter --;
 
-                // Convert the string to integer
-                numOfCarrots = convertStringToInt(numCarrotsView.getText().toString());
-                int dollarsPerCarrot = 1;
+                // Decrement the carrots by 1000
+                carrot_counter = carrot_counter - 1000;
 
-                // Calculate the total amount of donation money
-                amount = calculateAmount(numOfCarrots, dollarsPerCarrot);
+                // To block the case that it goes to the negative number
+                if(amount_counter < 0) {
+                    amount_counter = 0;
+                }
+                if(carrot_counter < 0) {
+                    carrot_counter = 0;
+                }
 
-                // Finally, display the total amount of donation money
-                amountView.setText(String.format("$%d", amount));
+                // If the number of carrots you have is greater than
+                // number of carrots you want to donate, set the text color to be green
+                if((num_of_current_carrots - carrot_counter) > 0 && carrot_counter != 0) {
+                    carrots_to_donate_label.setTextColor(getResources().getColor(R.color.event_accepted));
+                }
+
+                // Else if the number of carrots you have is equal to the number of carrots
+                // you want to donate, set the text color to be black
+                else if (carrot_counter == 0) {
+                    carrots_to_donate_label.setTextColor(getResources().getColor(R.color.event_won));
+                }
+
+                // Otherwise, set it to red
+                else {
+                    carrots_to_donate_label.setTextColor(Color.parseColor("#CC0000"));
+                }
+
+                // Set those updated numbers to each TextView
+                carrots_to_donate_label.setText(carrot_counter.toString());
+                amount_of_donate_label.setText("$" + amount_counter.toString());
             }
         });
 
@@ -98,40 +146,21 @@ public class DonationActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         if(id == R.id.action_donate) {
-            if(numOfCarrots <= 0) {
-                numCarrotsView.setError(ERROR_INVALID_NUMBER);
-            }
-
-            if(currentNumOfCarrots < numOfCarrots) {
-                numCarrotsView.setError(ERROR_TOO_MUCH_CARROT);
-            }
-
-            if(currentNumOfCarrots >= numOfCarrots && numOfCarrots > 0){
+            if((num_of_current_carrots - carrot_counter) > 0 && carrot_counter != 0) {
                 updateParseUser();
+            }
+
+            else if(carrot_counter == 0) {
+                carrots_to_donate_label.setError(ERROR_INVALID_NUMBER);
+            }
+
+            else{
+                carrots_to_donate_label.setError(ERROR_TOO_MANY_CARROTS);
             }
             return true;
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    // This method converts string to integer
-    private int convertStringToInt(String string) {
-        int value;
-
-        if(string.equals("")) {
-            value = 0;
-        }
-        else {
-            value = Integer.parseInt(string);
-        }
-
-        return value;
-    }
-
-    // This method calculates the total amount of the donation money
-    private int calculateAmount(int numCarrots, int dollarsPerCarrot) {
-        return numCarrots * dollarsPerCarrot;
     }
 
     // This method updates user's number of carrots and donation amount
@@ -148,11 +177,10 @@ public class DonationActivity extends AppCompatActivity {
             @Override
             public void done(ParseObject parseObject, ParseException e) {
                 if (e == null) {
-                    final Integer prevNumOfCarrots = currentNumOfCarrots;
-                    currentNumOfCarrots = currentNumOfCarrots - numOfCarrots;
-                    ParseUser.getCurrentUser().put("carrots", currentNumOfCarrots);
+                    final Integer updated_number_of_carrots = num_of_current_carrots - carrot_counter;
+                    ParseUser.getCurrentUser().put("carrots", updated_number_of_carrots);
                     final Integer prevAmount = (Integer) ParseUser.getCurrentUser().get("donationPoints");
-                    final Integer currentAmount = prevAmount + amount;
+                    final Integer currentAmount = prevAmount + amount_counter;
                     ParseUser.getCurrentUser().put("donationPoints", currentAmount);
 
                     ParseUser.getCurrentUser().saveInBackground(new SaveCallback() {
@@ -161,9 +189,8 @@ public class DonationActivity extends AppCompatActivity {
                             if(e == null) {
                                 dialog.dismiss();
                                 Intent intent = new Intent(getApplicationContext(), DonationSuccessActivity.class);
-                                intent.putExtra("prevCarrots", prevNumOfCarrots);
-                                intent.putExtra("prevDonationPoints", prevAmount);
-                                intent.putExtra("currentCarrots", currentNumOfCarrots);
+                                intent.putExtra("donatedAmount", amount_counter);
+                                intent.putExtra("updatedNumberOfCarrots", updated_number_of_carrots);
                                 intent.putExtra("currentDonationPoints", currentAmount);
                                 intent.putExtra("level", (int) ParseUser.getCurrentUser().get("rankPoints"));
                                 startActivity(intent);
@@ -179,4 +206,5 @@ public class DonationActivity extends AppCompatActivity {
             }
         });
     }
+
 }

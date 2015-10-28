@@ -165,7 +165,7 @@ public class CreateAccountActivity extends AppCompatActivity {
                         }
 
                         user.put("phoneNumber", phoneNum.trim());
-                        user.put("carrots", 30);
+                        user.put("carrots", 0);
                         user.put("rankPoints", 0);
                         user.put("attempts", 0);
                         user.put("donationPoints", 0);

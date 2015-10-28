@@ -88,16 +88,17 @@ public class MyProfileFragment extends Fragment {
                 startActivity(intent);
             }
         });
-
+        /*
         // If user clicks the redeem carrot button, then start that activity
         Button btnRedeemCarrots = (Button) view.findViewById(R.id.btn_redeem_carrots);
         btnRedeemCarrots.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), RedeemCarrotsActivity.class);
+                intent.putExtra("carrots", numOfCarrots);
                 startActivity(intent);
             }
-        });
+        });*/
 
         return view;
     }
