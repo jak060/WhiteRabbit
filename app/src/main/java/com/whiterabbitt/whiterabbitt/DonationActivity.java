@@ -38,7 +38,7 @@ public class DonationActivity extends AppCompatActivity{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_redeem_carrots);
+        setContentView(R.layout.activity_donation);
 
         // Initialization of variables
         current_carrots_label = (TextView) findViewById(R.id.current_num_carrots);
@@ -66,7 +66,7 @@ public class DonationActivity extends AppCompatActivity{
                 amount_counter ++;
 
                 // Increment the carrots by 1000
-                carrot_counter = carrot_counter + 1000;
+                carrot_counter = carrot_counter + 500;
 
                 // If the number of carrots you have is greater than or equal to the
                 // number of carrots you want to donate, set the text color to be green
@@ -96,7 +96,7 @@ public class DonationActivity extends AppCompatActivity{
                 amount_counter --;
 
                 // Decrement the carrots by 1000
-                carrot_counter = carrot_counter - 1000;
+                carrot_counter = carrot_counter - 500;
 
                 // To block the case that it goes to the negative number
                 if(amount_counter < 0) {
@@ -146,14 +146,19 @@ public class DonationActivity extends AppCompatActivity{
         int id = item.getItemId();
 
         if(id == R.id.action_donate) {
+
+            // If these conditions are met, then save data into the database
             if((num_of_current_carrots - carrot_counter) > 0 && carrot_counter != 0) {
                 updateParseUser();
             }
 
+            // If carrots to donate is 0, then set the error
             else if(carrot_counter == 0) {
                 carrots_to_donate_label.setError(ERROR_INVALID_NUMBER);
             }
 
+            // If the carrots to donate is greater than the number of carrots you have, then
+            // set the error
             else{
                 carrots_to_donate_label.setError(ERROR_TOO_MANY_CARROTS);
             }

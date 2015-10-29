@@ -137,7 +137,7 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="1000 carrots per 1 dollar" />
+            android:text="($1 = 1,000 carrots)" />
 
         <TextView
             android:layout_below="@id/dollars_per_carrot"
@@ -149,7 +149,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginBottom="16dp"
             android:gravity="center_horizontal"
-            android:text="@string/redeem_disclaimer"/>
+            android:text="@string/donation_disclaimer"/>
 
     </RelativeLayout>
 </ScrollView>

@@ -53,13 +53,13 @@ public class RespondInvitationActivity  extends AppCompatActivity{
         reward_label = (TextView) findViewById(R.id.reward_label);
 
         Intent intent = getIntent();
-        final String phoneNumber;
+        final String username;
         final String objectId;
-        String temp = ""; // To hold the phoneNumber
+        String temp = ""; // To hold the username
         String temp2 = ""; // To hold the objectId
 
         if(intent != null) {
-            temp = intent.getStringExtra("phoneNumber");
+            temp = intent.getStringExtra("username");
             temp2 = intent.getStringExtra("objectId");
 
             // Get all the necessary fields from the previous activity
@@ -76,7 +76,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
         Button acceptBtn = (Button) findViewById(R.id.acceptBtn);
         Button declineBtn = (Button) findViewById(R.id.declineBtn);
 
-        phoneNumber = temp;
+        username = temp;
         objectId = temp2;
 
         // Handle the case when the user accepts the invitation
@@ -94,7 +94,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
 
                 // Use this query to get the sender's information
                 ParseQuery pushQuery = ParseInstallation.getQuery();
-                pushQuery.whereEqualTo("user", phoneNumber);
+                pushQuery.whereEqualTo("user", username);
 
                 // Send push notification back to the sender, who has sent the invitation
                 ParsePush push = new ParsePush();
@@ -169,7 +169,7 @@ public class RespondInvitationActivity  extends AppCompatActivity{
 
                 // Use this query to get the sender's information
                 ParseQuery pushQuery = ParseInstallation.getQuery();
-                pushQuery.whereEqualTo("user", phoneNumber);
+                pushQuery.whereEqualTo("user", username);
 
                 // Send push notification back to the sender, who has sent the invitation
                 ParsePush push = new ParsePush();

@@ -54,34 +54,56 @@ public class SelectInviteeActivity extends AppCompatActivity {
 
         final SparseBooleanArray selectedItem = new SparseBooleanArray();
 
-        // These lines of code handles the case with checkbox
-        // If checkbox is selected => put that phone number into the ArrayList
-        // Else => remove it or do nothing if that phone number hasn't been selected before
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, contacts);
-        invitees.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-        invitees.setAdapter(arrayAdapter);
-        invitees.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        // Case of choosing multiple friends from user's friends list
+        if(getIntent().getAction().equals("Multiple"))
+        {
+            // These lines of code handles the case with checkbox
+            // If checkbox is selected => put that phone number into the ArrayList
+            // Else => remove it or do nothing if that phone number hasn't been selected before
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, contacts);
+            invitees.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+            invitees.setAdapter(arrayAdapter);
+            invitees.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                String selected = (String) adapterView.getItemAtPosition(i);
+                    String selected = (String) adapterView.getItemAtPosition(i);
 
-                if (!selectedItem.get(i)) {
-                    invitees.setItemChecked(i, true);
-                    selectedItem.put(i, true);
+                    if (!selectedItem.get(i)) {
+                        invitees.setItemChecked(i, true);
+                        selectedItem.put(i, true);
 
-                    if (phoneNums.contains(selected) == false)
-                        phoneNums.add(selected);
+                        if (phoneNums.contains(selected) == false)
+                            phoneNums.add(selected);
 
-                } else {
-                    selectedItem.delete(i);
-                    invitees.setItemChecked(i, false);
-                    phoneNums.remove(selected);
+                    } else {
+                        selectedItem.delete(i);
+                        invitees.setItemChecked(i, false);
+                        phoneNums.remove(selected);
+
+                    }
 
                 }
+            });
+        }
 
-            }
-        });
+        // Case of choosing single friend from user's friends list
+        else if(getIntent().getAction().equals("Single")) {
+            ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_single_choice, contacts);
+            invitees.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            invitees.setAdapter(arrayAdapter);
+            invitees.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                    String selected = (String) adapterView.getItemAtPosition(i);
+                    phoneNums.clear();
+                    phoneNums.add(selected);
+
+                }
+            });
+        }
+
 
         // Put this result back to the CreateEventActivity
         submit.setOnClickListener(new View.OnClickListener() {

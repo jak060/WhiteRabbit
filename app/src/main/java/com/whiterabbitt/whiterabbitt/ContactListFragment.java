@@ -119,18 +119,10 @@ public class ContactListFragment extends Fragment {
                 // This string only saves the number to check from the database to see
                 // if that phone number exists. . .
                 String temp = (String) friends.getItemAtPosition(position);
-                temp = temp.substring(temp.indexOf(":") + 2);
-                temp = temp.replaceAll("[^0-9]", "");
-                Log.v(TAG, "temp: " + temp);
-
-                // Case where the phone number has 1 in front of it
-                if(temp.length() == 11 && temp.substring(0, 1).equals("1")) {
-                    Log.v(TAG, "Phone number has 1 in front of it");
-                    temp = temp.substring(1);
-                }
+                temp = temp.substring(temp.indexOf("(") + 1, temp.lastIndexOf(")"));
 
                 ParseQuery<ParseUser> query = ParseUser.getQuery();
-                query.whereEqualTo("phoneNumber", temp);
+                query.whereEqualTo("username", temp);
 
                 // Find that user from the database
                 query.findInBackground(new FindCallback<ParseUser>() {
@@ -175,10 +167,19 @@ public class ContactListFragment extends Fragment {
                         // Save the user name and the phone numbers from the database to the look-up table
                         String username = user.getUsername();
                         String phoneNum = user.get("phoneNumber").toString();
+                        String firstName = user.get("firstName").toString();
+                        String lastName = user.get("lastName").toString();
                         phoneNum = phoneNum.replaceAll("[^0-9]", "");
 
                         Log.v(TAG, "In lookUpTables: " + phoneNum);
-                        lookUpTable.put(phoneNum, username);
+
+                        // It would look like Jacob Lee(JacobLG3)
+                        String formattedUser = firstName + " " + lastName + " (" + username + ")";
+
+                        if(!username.equals(ParseUser.getCurrentUser().get("username"))) {
+                            lookUpTable.put(phoneNum, formattedUser);
+                        }
+
 
                     }
 
@@ -189,7 +190,7 @@ public class ContactListFragment extends Fragment {
                         // If yes, put it into the finalFriendList
                         if (lookUpTable.containsKey(phoneNums.get(i))) {
                             //Log.v(TAG, "HashMap Working!");
-                            finalFriendList.add(contacts.get(i));
+                            finalFriendList.add(lookUpTable.get(phoneNums.get(i)));
                         }
                     }
 

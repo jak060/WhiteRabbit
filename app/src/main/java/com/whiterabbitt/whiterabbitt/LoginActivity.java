@@ -137,9 +137,9 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.LENGTH_LONG).show();
 
                                 ParseInstallation installation = ParseInstallation.getCurrentInstallation();
-                                if(installation.get("phoneNumber") == null) {
+                                if(installation.get("username") == null) {
                                     Log.v(TAG, "I'm setting up the phone number and user name!");
-                                    installation.put("user", ParseUser.getCurrentUser().get("phoneNumber"));
+                                    installation.put("user", ParseUser.getCurrentUser().get("username"));
                                     installation.put("userName", ParseUser.getCurrentUser());
                                     installation.saveInBackground();
                                 }

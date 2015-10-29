@@ -46,7 +46,7 @@ public class CreateEventActivity extends AppCompatActivity {
     public final String TAG = this.getClass().getSimpleName();
 
     ArrayList<String> friendList = new ArrayList<String>();
-    ArrayList<String> phoneNumbers = new ArrayList<String>();
+    ArrayList<String> usernames = new ArrayList<String>();
 
     EditText title;
 
@@ -119,7 +119,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
         // Clearing these lists before using them
         friendList.clear();
-        phoneNumbers.clear();
+        usernames.clear();
 
         // Initialization of variables
         title = (EditText) findViewById(R.id.title);
@@ -174,6 +174,7 @@ public class CreateEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), SelectInviteeActivity.class);
+                intent.setAction("Multiple");
                 startActivityForResult(intent, 2);
             }
         });
@@ -240,7 +241,8 @@ public class CreateEventActivity extends AppCompatActivity {
         invitationInfo.put("time", showTime.getText().toString());
         invitationInfo.put("location", showLocation.getText().toString());
         // This format looks like Jacob Kim: (111) 222-3333
-        String myself = ParseUser.getCurrentUser().get("firstName") + ": " + Utility.phoneNumberFormat((String) ParseUser.getCurrentUser().get("phoneNumber"));
+        String myself = ParseUser.getCurrentUser().get("firstName") + " " +
+                ParseUser.getCurrentUser().get("lastName") + " (" + ParseUser.getCurrentUser().get("username") + ")";
         friendList.add(myself);
         invitationInfo.put("invitees", friendList);
         final String myObjectId = ParseUser.getCurrentUser().getObjectId();
@@ -275,19 +277,19 @@ public class CreateEventActivity extends AppCompatActivity {
                     ParseUser.getCurrentUser().saveInBackground();
 
                     // Format looks like (123)456-7890 => 1234567890 saving only numbers
-                    Utility.saveOnlyNumbers(friendList, phoneNumbers);
+                    Utility.saveOnlyUsernames(friendList, usernames);
 
                     // For the testing purposes
-                    Log.v(TAG, phoneNumbers.get(0));
+                    Log.v(TAG, usernames.get(0));
 
                     // Create our Installation query
-                    if (phoneNumbers.isEmpty() == false) {
+                    if (usernames.isEmpty() == false) {
                         // Send push notifications to users
-                        for (int i = 0; i < phoneNumbers.size(); i++) {
+                        for (int i = 0; i < usernames.size(); i++) {
                             // If that user exists, send the push notification
-                            if(!phoneNumbers.get(i).equals(ParseUser.getCurrentUser().get("phoneNumber"))) {
+                            if(!usernames.get(i).equals(ParseUser.getCurrentUser().get("username"))) {
                                 ParseQuery pushQuery = ParseInstallation.getQuery();
-                                pushQuery.whereEqualTo("user", phoneNumbers.get(i));
+                                pushQuery.whereEqualTo("user", usernames.get(i));
 
                                 // Send push notification to query
                                 ParsePush push = new ParsePush();
@@ -301,7 +303,7 @@ public class CreateEventActivity extends AppCompatActivity {
                                     data.put("date", showDate.getText().toString());
                                     data.put("location", showLocation.getText().toString());
                                     data.put("fromName", ParseUser.getCurrentUser().get("firstName"));
-                                    data.put("fromNumber", ParseUser.getCurrentUser().get("phoneNumber"));
+                                    data.put("username", ParseUser.getCurrentUser().get("username"));
                                     Log.v(TAG, "MY OBJECT ID IS: " + invitationInfo.getObjectId());
                                     data.put("objectId", invitationInfo.getObjectId());
                                     data.put("carrots", numberOfCarrots);

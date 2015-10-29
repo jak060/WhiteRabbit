@@ -90,6 +90,32 @@ public class Utility {
 
     }
 
+    // This method takes a contact list which has a name and username and saves only
+    // username to the ArrayList
+    public static void saveOnlyUsernames(ArrayList<String> src, ArrayList<String> dest) {
+
+        int i = 0;
+
+        // Make sure that the list size is greater than 0
+        if(src.size() > 0) {
+            while(i < src.size()) {
+                String temp = src.get(i);
+                temp = temp.substring(temp.indexOf("(") + 1, temp.lastIndexOf(")"));
+
+                Log.v("Utility.java", "In usernames: " + temp);
+
+                // To avoid duplicates
+                if(!dest.contains(temp)) {
+                    dest.add(temp);
+                    i ++;
+                } else {
+                    src.remove(i);
+                }
+            }
+        }
+
+    }
+
     // This method changes 0001112222 to (000) 111-2222
     // Only to have a better readability
     public static String phoneNumberFormat(String phoneNumber) {

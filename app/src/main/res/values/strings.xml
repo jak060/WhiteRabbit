@@ -43,8 +43,8 @@
     <string name="phone">Phone</string>
     <string name="email">Email</string>
     <string name="punctuality_percentage">Punctuality (%)</string>
-    <string name="donation_disclaimer">The amount will be charged to your PayPal account.\n\nYou will be donating to one of the carefully selected charities at www.charitynavigator.org.\n\nSee www.whiterabbit.com/charity for more details.</string>
-    <string name="redeem_disclaimer"> WhiteRabbitt will donate the amount for you to one of the carefully selected charities from\n www.charitynavigator.com\n\nThe donation status is available at www.whiterabbitt.com/generosity  </string>
+    <string name="redeem_info"> Send a gift card to your friends with your carrots!</string>
+    <string name="donation_disclaimer"> WhiteRabbitt will donate the amount for you to one of the carefully selected charities from\n www.charitynavigator.com\n\nThe donation status is available at www.whiterabbitt.com/generosity  </string>
     <string name="donation_info"> When you donate carrots,\nWhiteRabbitt will donate for you in $ </string>
 
     <string name="btn_donate_carrots">Donate carrots</string>
