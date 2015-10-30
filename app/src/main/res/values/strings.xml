@@ -20,6 +20,7 @@
     <string name="action_settings">Settings</string>
     <string name="action_event_send">Send</string>
     <string name="action_close">Close</string>
+    <string name="action_send">Send</string>
     <string name="action_sync">Sync</string>
     <string name="action_donate">Donate</string>
 
@@ -102,4 +103,7 @@
     </string-array>
 
     <string name="dialog_title">Still pending. . .</string>
+    <string name="title_activity_app_link">Share App Link</string>
+    <string name="header_send_link">Share WhiteRabbitt with your friends! Copy the following link:</string>
+    <string name="url_app">https://play.google.com/apps/testing/com.whiterabbitt.whiterabbitt</string>
 </resources>

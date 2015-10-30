@@ -48,6 +48,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
             return true;
         }
+        else if(id == R.id.action_send) {
+            Intent intent = new Intent(getApplicationContext(), AppLinkActivity.class);
+            startActivity(intent);
+            return true;
+        }
         else if(id == R.id.action_settings) {
             Intent intent = new Intent(getApplicationContext(), SettingsActivity.class);
             startActivity(intent);
