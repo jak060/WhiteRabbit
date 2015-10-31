@@ -14,10 +14,15 @@ import android.widget.TextView;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseInstallation;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.SaveCallback;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -44,6 +49,7 @@ public class RedeemCarrotsActivity extends AppCompatActivity{
     Integer carrot_counter = 0; // To count the number of carrots that user wants to donate
     Integer num_of_current_carrots = 0;// To count the number of carrots that user currently has
     ArrayList<String> friendList = new ArrayList<String>();
+    String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -228,7 +234,7 @@ public class RedeemCarrotsActivity extends AppCompatActivity{
         String receiverInfo = receiver.getText().toString();
 
         // Get only phone number
-        String username = receiverInfo.substring(receiverInfo.indexOf("(") + 1, receiverInfo.lastIndexOf(")"));
+        username = receiverInfo.substring(receiverInfo.indexOf("(") + 1, receiverInfo.lastIndexOf(")"));
 
         Log.v(TAG, "Username for receiver: " + username);
 
@@ -244,6 +250,25 @@ public class RedeemCarrotsActivity extends AppCompatActivity{
                     giftCardInfo.put("sender", ParseUser.getCurrentUser());
                     giftCardInfo.put("amount", amount_counter);
                     giftCardInfo.put("receiver", object.getObjectId());
+
+                    // Send push notification back to the sender, who has sent the invitation
+                    ParsePush push = new ParsePush();
+                    JSONObject data = new JSONObject();
+                    try {
+                        data.put("title", "Wow! You got a gift!");
+                        data.put("alert", "What a happy day :)");
+
+                    } catch(JSONException e1) {
+                        e.printStackTrace();
+                    }
+
+                    // Use this query to get the sender's information
+                    ParseQuery pushQuery = ParseInstallation.getQuery();
+                    pushQuery.whereEqualTo("user", username);
+                    push.setQuery(pushQuery); // Set our Installation query
+                    push.setData(data);
+                    push.sendInBackground();
+
                     giftCardInfo.saveInBackground(new SaveCallback() {
                         @Override
                         public void done(ParseException e) {

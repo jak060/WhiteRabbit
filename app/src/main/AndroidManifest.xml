@@ -196,6 +196,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.whiterabbitt.whiterabbitt.MainActivity" />
         </activity>
+        <activity
+            android:name=".ReceiveGiftCardActivity"
+            android:label="@string/title_activity_receive_gift_card" >
+        </activity>
 
         <service android:name=".GeofenceActivity" />
         <service android:name=".GeofenceTransitionsIntentService" />

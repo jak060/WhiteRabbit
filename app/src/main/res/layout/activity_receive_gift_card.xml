@@ -1,0 +1,36 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:gravity="center"
+    tools:context="com.whiterabbitt.whiterabbitt.ReceiveGiftCardActivity">
+
+    <TextView android:id="@+id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:layout_centerHorizontal="true"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Who send you a gift card?"
+        android:textStyle="bold" />
+
+
+    <ImageView android:id="@+id/img_gift_card"
+        android:layout_below="@id/header"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:src="@drawable/img_gift_card"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_gift_card"
+        android:gravity="center"
+        android:text="No idea who sent it?\n\nYou'll find out soon!\n\nPlease check your email :)"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:id="@+id/message" />
+
+</RelativeLayout>

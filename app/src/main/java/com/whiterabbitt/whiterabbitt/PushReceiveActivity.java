@@ -29,10 +29,16 @@ public class PushReceiveActivity extends ParsePushBroadcastReceiver {
         try {
             JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
 
-            // If the json string was "You have an invitation!!!", then to go the
+            // If the json string was "Let's get together :)", then go to the
             // RespondInvitationActivity.class
             if(json.getString("alert").equals("Let's get together :)")) {
                 myIntent = new Intent(context, RespondInvitationActivity.class);
+            }
+
+            // Else if the json string was "Wow! You got a gift!", then go to the
+            // ReceiveGiftCardActivity.class
+            else if(json.getString("alert").equals("What a happy day :)")) {
+                myIntent = new Intent(context, ReceiveGiftCardActivity.class);
             }
 
             // Otherwise, go to main

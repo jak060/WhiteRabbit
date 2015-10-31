@@ -13,6 +13,7 @@
     <string name="title_activity_donation">Donate Carrots</string>
     <string name="title_activity_donation_success">Donation Received</string>
     <string name="title_activity_redeem_carrots">Redeem Carrots</string>
+    <string name="title_activity_receive_gift_card">Gift Card Received</string>
 
     <!-- Action bar item strings -->
     <string name="action_invitations">Invitations</string>

@@ -20,6 +20,7 @@
         android:layout_marginTop="20dp"
         android:gravity="center_horizontal"
         android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textIsSelectable="true"
         android:text="@string/url_app" />
 
 </RelativeLayout>
