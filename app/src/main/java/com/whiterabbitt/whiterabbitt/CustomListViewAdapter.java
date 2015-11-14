@@ -193,24 +193,54 @@ public class CustomListViewAdapter extends BaseAdapter{
             long eventTime = calendar.getTimeInMillis();
 
             if((eventTime - currTimeInMillis) >= geofenceTriggerTime) {
+                Log.v(TAG, "I've registered for geofence!");
+
                 // Schedule the geofence activity at 5 mins before the actualy event
                 PendingIntent pendingIntent = PendingIntent.getService(context, 1, intent, PendingIntent.FLAG_ONE_SHOT);
                 AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
+
+                // If the os is greater than or equal to Kitkat, then user setExact
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    Log.v(TAG, "First alarm one is set up as AlarmManager.setExact");
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
+                } else {
+                    Log.v(TAG, "First alarm one is set up as AlarmManager.set");
+                    alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - geofenceTriggerTime, pendingIntent);
+                }
             }
 
             if(eventTime >= currTimeInMillis) {
+                Log.v(TAG, "I've registered for reward!");
+
                 // Schedule the reward activity at the actual event time
                 PendingIntent pendingIntent2 = PendingIntent.getService(context, 2, intent2, PendingIntent.FLAG_ONE_SHOT);
                 AlarmManager alarmManager2 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
+
+                // If the os is greater than or equal to Kitkat, then user setExact
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    Log.v(TAG, "Second alarm one is set up as AlarmManager.setExact");
+                    alarmManager2.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
+                } else {
+                    Log.v(TAG, "Second alarm one is set up as AlarmManager.set");
+                    alarmManager2.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent2);
+                }
             }
 
             if((eventTime - currTimeInMillis) >= notificationTriggerTime) {
+                Log.v(TAG, "I've registered for 30 min notification!");
+
                 // Schedule the thirty-minute notification before
                 PendingIntent pendingIntent3 = PendingIntent.getService(context, 3, intent3, PendingIntent.FLAG_ONE_SHOT);
                 AlarmManager alarmManager3 = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-                alarmManager3.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - notificationTriggerTime, pendingIntent3);
+
+                // If the os is greater than or equal to Kitkat, then user setExact
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    Log.v(TAG, "Third alarm one is set up as AlarmManager.setExact");
+                    alarmManager3.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - notificationTriggerTime, pendingIntent3);
+                } else {
+                    Log.v(TAG, "Third alarm one is set up as AlarmManager.set");
+                    alarmManager3.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis() - notificationTriggerTime, pendingIntent3);
+                }
             }
 
         }
